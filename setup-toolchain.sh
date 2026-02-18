@@ -10,10 +10,10 @@ TARGET_ARCH="${1:-x86_64}"
 
 case "$TARGET_ARCH" in
 x86-64 | x86_64 | amd64 | x64)
-	TOOLCHAIN_FULL_URL="$TOOLCHAIN_URL/x86-64/tarballs/x86_64-${TOOLCHAIN_VER}.tar.xz"
+	TOOLCHAIN_FULL_URL="$TOOLCHAIN_URL/x86-64/tarballs/x86-64--${TOOLCHAIN_VER}.tar.xz"
 	;;
 arm64 | aarch64)
-	TOOLCHAIN_FULL_URL="$TOOLCHAIN_URL/aarch64/tarballs/aarch64-${TOOLCHAIN_VER}.tar.xz"
+	TOOLCHAIN_FULL_URL="$TOOLCHAIN_URL/aarch64/tarballs/aarch64--${TOOLCHAIN_VER}.tar.xz"
 	;;
 *)
 	echo "Unsupported target architecture: $TARGET_ARCH" >&2
