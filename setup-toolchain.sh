@@ -27,7 +27,7 @@ if [ -d "$TOOLCHAIN_EXTRACT_DIR" ]; then
 	echo "Toolchain already exists at $TOOLCHAIN_EXTRACT_DIR, skipping download and extraction."
 else
 	echo "Downloading toolchain from $TOOLCHAIN_FULL_URL..."
-	curl -L -o toolchain.tar.xz "$TOOLCHAIN_FULL_URL"
+	wget -nv -O toolchain.tar.xz "$TOOLCHAIN_FULL_URL"
 
 	echo "Extracting toolchain to $TOOLCHAIN_EXTRACT_DIR..."
 	mkdir -p "$TOOLCHAIN_EXTRACT_DIR"
