@@ -2,22 +2,27 @@
 
 set -e
 
-TOOLCHAIN_URL="${TOOLCHAIN_URL:-https://toolchains.bootlin.com/downloads/releases/toolchains}"
-TOOLCHAIN_VER="${TOOLCHAIN_VER:-glibc--bleeding-edge-2025.08-1}"
+TOOLCHAIN_DIR=$1
+TARGET_CPU_ARCH=${2:-x86_64}
+TARGET_ROOTFS=$3
 
-# Identify the target arch based on the first argument, defaulting to x86_64
-TARGET_CPU_ARCH="${1:-x86_64}"
+if [ -z "$TOOLCHAIN_DIR" ] || [ -z "$TARGET_ROOTFS" ]; then
+	echo "Usage: $0 <toolchain-directory> [target-cpu-arch] <target-rootfilesystem>" >&2
+	exit 1
+fi
 
+if [ ! -d "$TOOLCHAIN_DIR" ]; then
+	echo "Error: Toolchain directory '$TOOLCHAIN_DIR' does not exist." >&2
+	exit 1
+fi
+
+# Determine the sysroot directory based on the target CPU architecture
 case "$TARGET_CPU_ARCH" in
 x86-64 | x86_64 | amd64 | x64)
-	TOOLCHAIN_FULL_URL="$TOOLCHAIN_URL/x86-64/tarballs/x86_64-${TOOLCHAIN_VER}.tar.xz"
 	TOOLCHAIN_SYSROOT_DIR="x86_64-linux-gnu/sysroot"
-	TOOLCHAIN_EXTRACT_DIR="${INSTALL_DIR:-${PWD}/.toolchains}/x86_64-linux-gnu"
 	;;
 arm64 | aarch64)
-	TOOLCHAIN_FULL_URL="$TOOLCHAIN_URL/aarch64/tarballs/aarch64-${TOOLCHAIN_VER}.tar.xz"
 	TOOLCHAIN_SYSROOT_DIR="aarch64-linux-gnu/sysroot"
-	TOOLCHAIN_EXTRACT_DIR="${INSTALL_DIR:-${PWD}/.toolchains}/aarch64-linux-gnu"
 	;;
 *)
 	echo "Unsupported target architecture: $TARGET_CPU_ARCH" >&2
@@ -25,25 +30,19 @@ arm64 | aarch64)
 	;;
 esac
 
-# Check if the toolchain already exists before downloading and extracting
-if [ -d "$TOOLCHAIN_EXTRACT_DIR" ]; then
-	echo "Toolchain already exists at $TOOLCHAIN_EXTRACT_DIR, skipping download and extraction."
+export PATH="$TOOLCHAIN_DIR/bin:$PATH"
+
+# Setup the target root filesystem for the chroot environment
+if [ ! -d "$TARGET_ROOTFS" ]; then
+	# Create the target root filesystem directory if it doesn't exist
+	mkdir -p "$TARGET_ROOTFS"
+fi
+
+# Copy sysroot contents to the target root filesystem
+if [ -d "$TOOLCHAIN_DIR/$TOOLCHAIN_SYSROOT_DIR" ]; then
+	echo "Copying sysroot from $TOOLCHAIN_DIR/$TOOLCHAIN_SYSROOT_DIR to $TARGET_ROOTFS..."
+	rsync -a --exclude='*.o' --exclude='*.a' --exclude='*~' "$TOOLCHAIN_DIR/$TOOLCHAIN_SYSROOT_DIR/" "$TARGET_ROOTFS/"
 else
-	echo "Downloading toolchain from $TOOLCHAIN_FULL_URL..."
-	wget -nv -O toolchain.tar.xz "$TOOLCHAIN_FULL_URL"
-
-	echo "Extracting toolchain to $TOOLCHAIN_EXTRACT_DIR..."
-	mkdir -p "$TOOLCHAIN_EXTRACT_DIR"
-	tar -xf toolchain.tar.xz -C "$TOOLCHAIN_EXTRACT_DIR" --strip-components=1
-
-	echo "Cleaning up downloaded toolchain archive..."
-	rm toolchain.tar.xz
+	echo "Error: Sysroot directory '$TOOLCHAIN_DIR/$TOOLCHAIN_SYSROOT_DIR' does not exist." >&2
+	exit 1
 fi
-
-# Make sure to run the toolchain's setup script if it exists
-if [ -f "$TOOLCHAIN_EXTRACT_DIR/relocate-sdk" ]; then
-	echo "Running toolchain setup script..."
-	"$TOOLCHAIN_EXTRACT_DIR/relocate-sdk" "$TOOLCHAIN_EXTRACT_DIR" 
-fi
-
-echo "Toolchain setup complete. Toolchain is located at $TOOLCHAIN_EXTRACT_DIR"
