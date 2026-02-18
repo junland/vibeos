@@ -10,7 +10,7 @@ TARGET_CPU_ARCH="${1:-x86_64}"
 
 case "$TARGET_CPU_ARCH" in
 x86-64 | x86_64 | amd64 | x64)
-	TOOLCHAIN_FULL_URL="$TOOLCHAIN_URL/x86-64/tarballs/x86_64-${TOOLCHAIN_VER}.tar.xz"
+	TOOLCHAIN_FULL_URL="$TOOLCHAIN_URL/x86-64/tarballs/x86-64-${TOOLCHAIN_VER}.tar.xz"
 	TOOLCHAIN_SYSROOT_DIR="x86_64-linux-gnu/sysroot"
 	TOOLCHAIN_EXTRACT_DIR="${INSTALL_DIR:-${PWD}/.toolchains}/x86_64-linux-gnu"
 	;;
@@ -41,9 +41,9 @@ else
 fi
 
 # Make sure to run the toolchain's setup script if it exists
-if [ -f "$TOOLCHAIN_EXTRACT_DIR/relocate-sdk" ]; then
+if [ -f "$TOOLCHAIN_EXTRACT_DIR/relocate-sdk.sh" ]; then
 	echo "Running toolchain setup script..."
-	"$TOOLCHAIN_EXTRACT_DIR/relocate-sdk" "$TOOLCHAIN_EXTRACT_DIR" 
+	"$TOOLCHAIN_EXTRACT_DIR/relocate-sdk.sh" "$TOOLCHAIN_EXTRACT_DIR" 
 fi
 
 echo "Toolchain setup complete. Toolchain is located at $TOOLCHAIN_EXTRACT_DIR"
