@@ -38,9 +38,9 @@ else
 fi
 
 # Make sure to run the toolchain's setup script if it exists
-if [ -f "$TOOLCHAIN_EXTRACT_DIR/relocate-sdk" ]; then
+if [ -f "$TOOLCHAIN_EXTRACT_DIR/relocate-sdk.sh" ]; then
 	echo "Running toolchain setup script..."
-	"$TOOLCHAIN_EXTRACT_DIR/relocate-sdk" "$TOOLCHAIN_EXTRACT_DIR" 
+	"$TOOLCHAIN_EXTRACT_DIR/relocate-sdk.sh" "$TOOLCHAIN_EXTRACT_DIR" 
 fi
 
 echo "Toolchain setup complete. Toolchain is located at $TOOLCHAIN_EXTRACT_DIR"
