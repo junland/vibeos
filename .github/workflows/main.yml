@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - TARGET_ARCH: x86_64
+          - TARGET_CPU_ARCH: x86_64
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -23,4 +23,4 @@ jobs:
       - name: Setup toolchain
         run: |
           chmod +x setup-toolchain.sh
-          ./setup-toolchain.sh ${{ matrix.TARGET_ARCH }}
+          ./setup-toolchain.sh ${{ matrix.TARGET_CPU_ARCH }}
