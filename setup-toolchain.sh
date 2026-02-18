@@ -6,9 +6,9 @@ TOOLCHAIN_URL="${TOOLCHAIN_URL:-https://toolchains.bootlin.com/downloads/release
 TOOLCHAIN_VER="${TOOLCHAIN_VER:-glibc--bleeding-edge-2025.08-1}"
 
 # Identify the target arch based on the first argument, defaulting to x86_64
-TARGET_ARCH="${1:-x86_64}"
+TARGET_CPU_ARCH="${1:-x86_64}"
 
-case "$TARGET_ARCH" in
+case "$TARGET_CPU_ARCH" in
 x86-64 | x86_64 | amd64 | x64)
 	TOOLCHAIN_FULL_URL="$TOOLCHAIN_URL/x86-64/tarballs/x86-64--${TOOLCHAIN_VER}.tar.xz"
 	;;
@@ -16,7 +16,7 @@ arm64 | aarch64)
 	TOOLCHAIN_FULL_URL="$TOOLCHAIN_URL/aarch64/tarballs/aarch64--${TOOLCHAIN_VER}.tar.xz"
 	;;
 *)
-	echo "Unsupported target architecture: $TARGET_ARCH" >&2
+	echo "Unsupported target architecture: $TARGET_CPU_ARCH" >&2
 	exit 1
 	;;
 esac
