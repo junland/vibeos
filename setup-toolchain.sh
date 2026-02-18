@@ -12,12 +12,12 @@ case "$TARGET_CPU_ARCH" in
 x86-64 | x86_64 | amd64 | x64)
 	TOOLCHAIN_FULL_URL="$TOOLCHAIN_URL/x86-64/tarballs/x86-64--${TOOLCHAIN_VER}.tar.xz"
 	TOOLCHAIN_SYSROOT_DIR="x86_64-linux-gnu/sysroot"
-	TOOLCHAIN_EXTRACT_PATH="${INSTALL_DIR:-${PWD}/.toolchains}/x86_64-linux-gnu"
+	TOOLCHAIN_EXTRACT_PATH="${INSTALL_DIR:-${PWD}/.toolchains}/x86_64-tools"
 	;;
 arm64 | aarch64)
 	TOOLCHAIN_FULL_URL="$TOOLCHAIN_URL/aarch64/tarballs/aarch64--${TOOLCHAIN_VER}.tar.xz"
 	TOOLCHAIN_SYSROOT_DIR="aarch64-linux-gnu/sysroot"
-	TOOLCHAIN_EXTRACT_PATH="${INSTALL_DIR:-${PWD}/.toolchains}/aarch64-linux-gnu"
+	TOOLCHAIN_EXTRACT_PATH="${INSTALL_DIR:-${PWD}/.toolchains}/aarch64-tools"
 	;;
 *)
 	echo "Unsupported target architecture: $TARGET_CPU_ARCH" >&2
