@@ -19,10 +19,10 @@ fi
 # Determine the sysroot directory based on the target CPU architecture
 case "$TARGET_CPU_ARCH" in
 x86-64 | x86_64 | amd64 | x64)
-	TOOLCHAIN_SYSROOT_DIR="x86_64-linux-gnu/sysroot"
+	TOOLCHAIN_SYSROOT_DIR="x86_64-buildroot-linux-gnu/sysroot"
 	;;
 arm64 | aarch64)
-	TOOLCHAIN_SYSROOT_DIR="aarch64-linux-gnu/sysroot"
+	TOOLCHAIN_SYSROOT_DIR="aarch64-buildroot-linux-gnu/sysroot"
 	;;
 *)
 	echo "Unsupported target architecture: $TARGET_CPU_ARCH" >&2
