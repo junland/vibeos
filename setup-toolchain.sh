@@ -44,4 +44,3 @@ if [ -f "$TOOLCHAIN_EXTRACT_DIR/relocate-sdk" ]; then
 fi
 
 echo "Toolchain setup complete. Toolchain is located at $TOOLCHAIN_EXTRACT_DIR"
-
