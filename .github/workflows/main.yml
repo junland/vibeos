@@ -1,6 +1,10 @@
 name: Build on GitHub Hosted Runner
 
 on:
+  push:
+    branches:
+      - dev
+      - copilot/*
   workflow_dispatch:
 
 jobs:
