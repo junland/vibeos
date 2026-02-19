@@ -52,6 +52,24 @@ esac
 
 export PATH="$TOOLCHAIN_DIR/bin:$PATH"
 
+# Check if the required toolchain binaries are available
+REQUIRED_BINARIES=(
+	"${TARGET_CPU_ARCH}-buildroot-linux-gnu-gcc"
+	"${TARGET_CPU_ARCH}-buildroot-linux-gnu-g++"
+	"${TARGET_CPU_ARCH}-buildroot-linux-gnu-ar"
+	"${TARGET_CPU_ARCH}-buildroot-linux-gnu-as"
+	"${TARGET_CPU_ARCH}-buildroot-linux-gnu-ld"
+	"${TARGET_CPU_ARCH}-buildroot-linux-gnu-ranlib"
+	"${TARGET_CPU_ARCH}-buildroot-linux-gnu-strip"
+)
+
+for binary in "${REQUIRED_BINARIES[@]}"; do
+	if ! command -v "$binary" &> /dev/null; then
+		echo "Error: Required toolchain binary '$binary' not found in PATH." >&2
+		exit 1
+	fi
+done
+
 # Setup the target root filesystem for the chroot environment
 if [ ! -d "$TARGET_ROOTFS" ]; then
 	# Create the target root filesystem directory if it doesn't exist
