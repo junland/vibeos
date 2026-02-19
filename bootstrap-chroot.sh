@@ -81,3 +81,12 @@ export LDFLAGS="--sysroot=$TARGET_ROOTFS -L$TARGET_ROOTFS/usr/lib"
 export PKG_CONFIG_PATH="$TARGET_ROOTFS/usr/lib/pkgconfig:$TARGET_ROOTFS/usr/share/pkgconfig"
 export PKG_CONFIG_LIBDIR="$TARGET_ROOTFS/usr/lib/pkgconfig:$TARGET_ROOTFS/usr/share/pkgconfig"
 
+# Compile M4
+echo "Compiling M4 ${M4_VERSION}..."
+cd "$SOURCES_DIR"
+tar -xf m4-${M4_VERSION}.tar.xz
+cd m4-${M4_VERSION}
+./configure --host="${CHOST}" --prefix=/usr
+make
+make DESTDIR="${TARGET_ROOTFS}" install
+
