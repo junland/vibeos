@@ -61,7 +61,7 @@ fi
 # Copy sysroot contents to the target root filesystem
 if [ -d "$TOOLCHAIN_DIR/$TOOLCHAIN_SYSROOT_DIR" ]; then
 	echo "Copying sysroot from $TOOLCHAIN_DIR/$TOOLCHAIN_SYSROOT_DIR to $TARGET_ROOTFS..."
-	rsync -a --exclude='*.o' --exclude='*.a' --exclude='*~' "$TOOLCHAIN_DIR/$TOOLCHAIN_SYSROOT_DIR/" "$TARGET_ROOTFS/"
+	rsync -a "$TOOLCHAIN_DIR/$TOOLCHAIN_SYSROOT_DIR/" "$TARGET_ROOTFS/"
 else
 	echo "Error: Sysroot directory '$TOOLCHAIN_DIR/$TOOLCHAIN_SYSROOT_DIR' does not exist." >&2
 	exit 1
@@ -91,10 +91,7 @@ cd "$SOURCES_DIR/m4-${M4_VERSION}"
 ./configure \
     --host="${CHOST}" \
     --build=$(build-aux/config.guess) \
-    --prefix=/usr \
-    --disable-silent-rules \
-    CFLAGS="--sysroot=$TOOLCHAIN_DIR/$TOOLCHAIN_SYSROOT_DIR" \
-    LDFLAGS="--sysroot=$TOOLCHAIN_DIR/$TOOLCHAIN_SYSROOT_DIR"
+    --prefix=/usr
 
 make -j$(nproc)
 
