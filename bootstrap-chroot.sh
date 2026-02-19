@@ -23,8 +23,9 @@ SED_VERSION=4.9
 TAR_VERSION=1.35
 BINUTILS_VERSION=2.46
 GMP_VERSION=6.3.0
-MPFR_VERSION=4.2.1
+MPFR_VERSION=4.2.2
 MPC_VERSION=1.3.1
+
 if [ -z "$TOOLCHAIN_DIR" ] || [ -z "$TARGET_ROOTFS" ]; then
 	echo "Usage: $0 <toolchain-directory> [target-cpu-arch] <target-rootfilesystem>" >&2
 	exit 1
