@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+set +h
 
 TOOLCHAIN_DIR=$1
 TARGET_CPU_ARCH=${2:-x86_64}
