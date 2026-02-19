@@ -87,13 +87,6 @@ fi
 
 # Define variables
 export CHOST="${TARGET_CPU_ARCH}-buildroot-linux-gnu"
-export CC="${TARGET_CPU_ARCH}-buildroot-linux-gnu-gcc"
-export CXX="${TARGET_CPU_ARCH}-buildroot-linux-gnu-g++"
-export AR="${TARGET_CPU_ARCH}-buildroot-linux-gnu-ar"
-export AS="${TARGET_CPU_ARCH}-buildroot-linux-gnu-as"
-export LD="${TARGET_CPU_ARCH}-buildroot-linux-gnu-ld"
-export RANLIB="${TARGET_CPU_ARCH}-buildroot-linux-gnu-ranlib"
-export STRIP="${TARGET_CPU_ARCH}-buildroot-linux-gnu-strip"
 export CFLAGS="--sysroot=$TARGET_ROOTFS -I$TARGET_ROOTFS/usr/include"
 export LDFLAGS="--sysroot=$TARGET_ROOTFS -L$TARGET_ROOTFS/usr/lib"
 export PKG_CONFIG_PATH="$TARGET_ROOTFS/usr/lib/pkgconfig:$TARGET_ROOTFS/usr/share/pkgconfig"
