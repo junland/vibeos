@@ -36,4 +36,4 @@ jobs:
       - name: Bootstrap chroot
         run: |
           chmod +x bootstrap-chroot.sh
-          ./bootstrap-chroot.sh .toolchains/${{ matrix.TARGET_CPU_ARCH }}-tools ${{ matrix.TARGET_CPU_ARCH }} $PWD/rootfs
+          ./bootstrap-chroot.sh $PWD/.toolchains/${{ matrix.TARGET_CPU_ARCH }}-tools ${{ matrix.TARGET_CPU_ARCH }} $PWD/rootfs
