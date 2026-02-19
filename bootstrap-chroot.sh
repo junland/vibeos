@@ -92,7 +92,9 @@ cd "$SOURCES_DIR/m4-${M4_VERSION}"
     --host="${CHOST}" \
     --build=$(build-aux/config.guess) \
     --prefix=/usr \
-    --disable-silent-rules
+    --disable-silent-rules \
+    CFLAGS="--sysroot=$TOOLCHAIN_DIR/$TOOLCHAIN_SYSROOT_DIR" \
+    LDFLAGS="--sysroot=$TOOLCHAIN_DIR/$TOOLCHAIN_SYSROOT_DIR"
 
 make -j$(nproc)
 
