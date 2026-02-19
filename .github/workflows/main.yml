@@ -24,6 +24,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y unzip tree wget curl make m4 rsync
 
+      - name: Download files from bootstrap-sources.list
+        run: mkdir -p sources && wget -nv --tries=15 --waitretry=15 -i bootstrap-sources.list -P sources
+
       - name: Setup toolchain
         run: |
           chmod +x setup-toolchain.sh
