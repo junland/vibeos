@@ -61,7 +61,7 @@ fi
 # Copy sysroot contents to the target root filesystem
 if [ -d "$TOOLCHAIN_DIR/$TOOLCHAIN_SYSROOT_DIR" ]; then
 	echo "Copying sysroot from $TOOLCHAIN_DIR/$TOOLCHAIN_SYSROOT_DIR to $TARGET_ROOTFS..."
-	rsync -a --exclude='*.o' --exclude='*.a' --exclude='*~' "$TOOLCHAIN_DIR/$TOOLCHAIN_SYSROOT_DIR/" "$TARGET_ROOTFS/"
+	rsync -a "$TOOLCHAIN_DIR/$TOOLCHAIN_SYSROOT_DIR/" "$TARGET_ROOTFS/"
 else
 	echo "Error: Sysroot directory '$TOOLCHAIN_DIR/$TOOLCHAIN_SYSROOT_DIR' does not exist." >&2
 	exit 1
@@ -80,4 +80,20 @@ export CFLAGS="--sysroot=$TARGET_ROOTFS -I$TARGET_ROOTFS/usr/include"
 export LDFLAGS="--sysroot=$TARGET_ROOTFS -L$TARGET_ROOTFS/usr/lib"
 export PKG_CONFIG_PATH="$TARGET_ROOTFS/usr/lib/pkgconfig:$TARGET_ROOTFS/usr/share/pkgconfig"
 export PKG_CONFIG_LIBDIR="$TARGET_ROOTFS/usr/lib/pkgconfig:$TARGET_ROOTFS/usr/share/pkgconfig"
+
+# Compile M4
+echo "Compiling M4 ${M4_VERSION}..."
+
+tar -xf "$SOURCES_DIR/m4-${M4_VERSION}.tar.xz" -C "$SOURCES_DIR"
+
+cd "$SOURCES_DIR/m4-${M4_VERSION}"
+
+./configure \
+    --host="${CHOST}" \
+    --build=$(build-aux/config.guess) \
+    --prefix=/usr || cat config.log
+
+make -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
 
