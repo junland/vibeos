@@ -26,7 +26,7 @@ arm64 | aarch64)
 esac
 
 # Check if the toolchain already exists before downloading and extracting
-if [ -d "$TOOLCHAIN_EXTRACT_PATH" ]; then
+if [ -d "$TOOLCHAIN_EXTRACT_PATH" ] && [ -f "$TOOLCHAIN_EXTRACT_PATH/.toolchain_extracted" ]; then
 	echo "Toolchain already exists at $TOOLCHAIN_EXTRACT_PATH, skipping download and extraction."
 else
 	echo "Downloading toolchain from $TOOLCHAIN_FULL_URL..."
@@ -35,6 +35,8 @@ else
 	echo "Extracting toolchain to $TOOLCHAIN_EXTRACT_PATH..."
 	mkdir -p "$TOOLCHAIN_EXTRACT_PATH"
 	tar -xf toolchain.tar.xz -C "$TOOLCHAIN_EXTRACT_PATH" --strip-components=1
+
+	touch "$TOOLCHAIN_EXTRACT_PATH/.toolchain_extracted"
 
 	echo "Cleaning up downloaded toolchain archive..."
 	rm toolchain.tar.xz

@@ -58,3 +58,8 @@ dkms.conf
 sources/
 rootfs/
 .toolchains/
+Makefile
+Dockerfile
+*.log
+*.tmp
+*.bak
