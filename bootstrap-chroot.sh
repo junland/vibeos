@@ -91,7 +91,7 @@ cd "$SOURCES_DIR/m4-${M4_VERSION}"
 ./configure \
     --host="${CHOST}" \
     --build=$(build-aux/config.guess) \
-    --prefix=/usr
+    --prefix=/usr || cat config.log
 
 make -j$(nproc)
 
