@@ -67,7 +67,7 @@ REQUIRED_BINARIES=(
 )
 
 for binary in "${REQUIRED_BINARIES[@]}"; do
-	if ! command -v "$binary" &> /dev/null; then
+	if ! command -v "$binary" &>/dev/null; then
 		echo "Error: Required toolchain binary '$binary' not found in PATH." >&2
 		exit 1
 	fi
@@ -90,6 +90,7 @@ fi
 
 # Define variables
 export CHOST="${TARGET_CPU_ARCH}-buildroot-linux-gnu"
+export LFS_TGT="${TARGET_CPU_ARCH}-buildroot-linux-gnu"
 export CFLAGS="--sysroot=$TARGET_ROOTFS -I$TARGET_ROOTFS/usr/include"
 export LDFLAGS="--sysroot=$TARGET_ROOTFS -L$TARGET_ROOTFS/usr/lib"
 export PKG_CONFIG_PATH="$TARGET_ROOTFS/usr/lib/pkgconfig:$TARGET_ROOTFS/usr/share/pkgconfig"
@@ -103,11 +104,52 @@ tar -xf "$SOURCES_DIR/m4-${M4_VERSION}.tar.xz" -C "$SOURCES_DIR"
 cd "$SOURCES_DIR/m4-${M4_VERSION}"
 
 ./configure \
-    --host="${CHOST}" \
-    --build=$(build-aux/config.guess) \
-    --prefix=/usr || cat config.log
+	--host="${CHOST}" \
+	--build=$(build-aux/config.guess) \
+	--prefix=/usr || cat config.log
 
 make -j$(nproc)
 
 make DESTDIR="${TARGET_ROOTFS}" install
 
+# Compile GCC
+echo "Compiling GCC ${GCC_VERSION}..."
+
+tar -xf "$SOURCES_DIR/gcc-${GCC_VERSION}.tar.xz" -C "$SOURCES_DIR"
+tar -xf "$SOURCES_DIR/gmp-${GMP_VERSION}.tar.xz" -C "$SOURCES_DIR"
+tar -xf "$SOURCES_DIR/mpfr-${MPFR_VERSION}.tar.xz" -C "$SOURCES_DIR"
+tar -xf "$SOURCES_DIR/mpc-${MPC_VERSION}.tar.gz" -C "$SOURCES_DIR"
+
+cd "$SOURCES_DIR/gcc-${GCC_VERSION}"
+
+# Create symbolic links for GMP, MPFR, and MPC in the GCC source directory
+ln -sf "../gmp-${GMP_VERSION}" gmp
+ln -sf "../mpfr-${MPFR_VERSION}" mpfr
+ln -sf "../mpc-${MPC_VERSION}" mpc
+
+mkdir -p build
+
+cd build
+
+../configure \
+	--build=$(../config.guess) \
+	--host=$LFS_TGT \
+	--target=$LFS_TGT \
+	--prefix=/usr \
+	--with-build-sysroot=$TARGET_ROOTFS \
+	--enable-default-pie \
+	--enable-default-ssp \
+	--disable-nls \
+	--disable-multilib \
+	--disable-libatomic \
+	--disable-libgomp \
+	--disable-libquadmath \
+	--disable-libsanitizer \
+	--disable-libssp \
+	--disable-libvtv \
+	--enable-languages=c,c++ \
+	LDFLAGS_FOR_TARGET=-L$PWD/$LFS_TGT/libgcc || cat config.log
+
+make -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
