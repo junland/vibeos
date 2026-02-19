@@ -25,15 +25,16 @@ jobs:
           sudo apt-get install -y unzip tree wget curl make m4 rsync
 
       - name: Download files from bootstrap-sources.list
-        run: mkdir -p sources && wget -nv --tries=15 --waitretry=15 -i bootstrap-sources.list -P sources
+        run: mkdir -p sources && wget -nv --tries=15 --waitretry=15 -i data/bootstrap-sources.list -P sources
+
+      - name: Enable staging scripts
+        run: chmod +x stage*.sh
 
       - name: Setup toolchain
         run: |
-          chmod +x setup-toolchain.sh
-          ./setup-toolchain.sh ${{ matrix.TARGET_CPU_ARCH }}
+          ./stage1-setup-toolchain.sh ${{ matrix.TARGET_CPU_ARCH }}
           ls -la .toolchains/${{ matrix.TARGET_CPU_ARCH }}-tools
 
-      - name: Bootstrap chroot
+      - name: Build chroot
         run: |
-          chmod +x bootstrap-chroot.sh
-          ./bootstrap-chroot.sh $PWD/.toolchains/${{ matrix.TARGET_CPU_ARCH }}-tools ${{ matrix.TARGET_CPU_ARCH }} $PWD/rootfs
+          ./stage2-build-chroot.sh $PWD/.toolchains/${{ matrix.TARGET_CPU_ARCH }}-tools ${{ matrix.TARGET_CPU_ARCH }} $PWD/rootfs
