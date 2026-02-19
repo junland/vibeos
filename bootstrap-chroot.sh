@@ -26,6 +26,7 @@ BINUTILS_VERSION=2.46.0
 GMP_VERSION=6.3.0
 MPFR_VERSION=4.2.2
 MPC_VERSION=1.3.1
+GCC_VERSION=15.2.0
 
 if [ -z "$TOOLCHAIN_DIR" ] || [ -z "$TARGET_ROOTFS" ]; then
 	echo "Usage: $0 <toolchain-directory> [target-cpu-arch] <target-rootfilesystem>" >&2
