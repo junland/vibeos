@@ -83,10 +83,18 @@ export PKG_CONFIG_LIBDIR="$TARGET_ROOTFS/usr/lib/pkgconfig:$TARGET_ROOTFS/usr/sh
 
 # Compile M4
 echo "Compiling M4 ${M4_VERSION}..."
-cd "$SOURCES_DIR"
-tar -xf m4-${M4_VERSION}.tar.xz
-cd m4-${M4_VERSION}
-./configure --host="${CHOST}" --prefix=/usr
-make
+
+tar -xf "$SOURCES_DIR/m4-${M4_VERSION}.tar.xz" -C "$SOURCES_DIR"
+
+cd "$SOURCES_DIR/m4-${M4_VERSION}"
+
+./configure \
+    --host="${CHOST}" \
+    --build=$(build-aux/config.guess) \
+    --prefix=/usr \
+    --disable-silent-rules
+
+make -j$(nproc)
+
 make DESTDIR="${TARGET_ROOTFS}" install
 
