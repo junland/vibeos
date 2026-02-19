@@ -52,6 +52,8 @@ esac
 
 export PATH="$TOOLCHAIN_DIR/bin:$PATH"
 
+echo "PATH set to: $PATH"
+
 # Check if the required toolchain binaries are available
 REQUIRED_BINARIES=(
 	"${TARGET_CPU_ARCH}-buildroot-linux-gnu-gcc"
