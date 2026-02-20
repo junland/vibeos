@@ -3,11 +3,15 @@
 set -e
 set +h
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/_common.sh"
+
 TOOLCHAIN_DIR=$1
 TARGET_CPU_ARCH=${2:-x86_64}
 TARGET_ROOTFS=$3
 
 SOURCES_DIR=${SOURCES_DIR:-$(pwd)/sources}
+WORK_DIR=${WORK_DIR:-$(pwd)/work}
 
 M4_VERSION=1.4.21
 NCURSES_VERSION=6.6
@@ -29,12 +33,12 @@ MPC_VERSION=1.3.1
 GCC_VERSION=15.2.0
 
 if [ -z "$TOOLCHAIN_DIR" ] || [ -z "$TARGET_ROOTFS" ]; then
-	echo "Usage: $0 <toolchain-directory> [target-cpu-arch] <target-rootfilesystem>" >&2
+	msg "Usage: $0 <toolchain-directory> [target-cpu-arch] <target-rootfilesystem>" >&2
 	exit 1
 fi
 
 if [ ! -d "$TOOLCHAIN_DIR" ]; then
-	echo "Error: Toolchain directory '$TOOLCHAIN_DIR' does not exist." >&2
+	msg "Error: Toolchain directory '$TOOLCHAIN_DIR' does not exist." >&2
 	exit 1
 fi
 
@@ -47,14 +51,14 @@ arm64 | aarch64)
 	TOOLCHAIN_SYSROOT_DIR="aarch64-buildroot-linux-gnu/sysroot"
 	;;
 *)
-	echo "Unsupported target architecture: $TARGET_CPU_ARCH" >&2
+	msg "Unsupported target architecture: $TARGET_CPU_ARCH" >&2
 	exit 1
 	;;
 esac
 
 export PATH="$TOOLCHAIN_DIR/bin:$PATH"
 
-echo "PATH set to: $PATH"
+msg "PATH set to: $PATH"
 
 # Check if the required toolchain binaries are available
 REQUIRED_BINARIES=(
@@ -69,7 +73,7 @@ REQUIRED_BINARIES=(
 
 for binary in "${REQUIRED_BINARIES[@]}"; do
 	if ! command -v "$binary" &>/dev/null; then
-		echo "Error: Required toolchain binary '$binary' not found in PATH." >&2
+		msg "Error: Required toolchain binary '$binary' not found in PATH." >&2
 		exit 1
 	fi
 done
@@ -80,12 +84,21 @@ if [ ! -d "$TARGET_ROOTFS" ]; then
 	mkdir -p "$TARGET_ROOTFS"
 fi
 
+# Setup work and sources directories
+if [ ! -d "$WORK_DIR" ]; then
+	mkdir -p "$WORK_DIR"
+fi
+
+if [ ! -d "$SOURCES_DIR" ]; then
+	mkdir -p "$SOURCES_DIR"
+fi
+
 # Copy sysroot contents to the target root filesystem
 if [ -d "$TOOLCHAIN_DIR/$TOOLCHAIN_SYSROOT_DIR" ]; then
-	echo "Copying sysroot from $TOOLCHAIN_DIR/$TOOLCHAIN_SYSROOT_DIR to $TARGET_ROOTFS..."
+	msg "Copying sysroot from $TOOLCHAIN_DIR/$TOOLCHAIN_SYSROOT_DIR to $TARGET_ROOTFS..."
 	rsync -a "$TOOLCHAIN_DIR/$TOOLCHAIN_SYSROOT_DIR/" "$TARGET_ROOTFS/"
 else
-	echo "Error: Sysroot directory '$TOOLCHAIN_DIR/$TOOLCHAIN_SYSROOT_DIR' does not exist." >&2
+	msg "Error: Sysroot directory '$TOOLCHAIN_DIR/$TOOLCHAIN_SYSROOT_DIR' does not exist." >&2
 	exit 1
 fi
 
@@ -97,42 +110,44 @@ export LDFLAGS="--sysroot=$TARGET_ROOTFS -L$TARGET_ROOTFS/usr/lib"
 export PKG_CONFIG_PATH="$TARGET_ROOTFS/usr/lib/pkgconfig:$TARGET_ROOTFS/usr/share/pkgconfig"
 export PKG_CONFIG_LIBDIR="$TARGET_ROOTFS/usr/lib/pkgconfig:$TARGET_ROOTFS/usr/share/pkgconfig"
 
+#
+# Start building components in the for the chroot environment
+#
+
 # Compile M4
-echo "Compiling M4 ${M4_VERSION}..."
+msg "Compiling M4 ${M4_VERSION}..."
 
-tar -xf "$SOURCES_DIR/m4-${M4_VERSION}.tar.xz" -C "$SOURCES_DIR"
+extract_file "$SOURCES_DIR/m4-${M4_VERSION}.tar.xz" "$WORK_DIR"
 
-cd "$SOURCES_DIR/m4-${M4_VERSION}"
+cd "$WORK_DIR"
 
-./configure \
-	--host="${CHOST}" \
-	--build=$(build-aux/config.guess) \
-	--prefix=/usr || cat config.log
+run_configure \
+	--host=$LFS_TGT \
+	--prefix=/usr \
+	--with-sysroot="$TARGET_ROOTFS"
 
 make -j$(nproc)
 
 make DESTDIR="${TARGET_ROOTFS}" install
 
+clean_dir "$WORK_DIR"
+
 # Compile GCC
-echo "Compiling GCC ${GCC_VERSION}..."
+msg "Compiling GCC ${GCC_VERSION}..."
 
-tar -xf "$SOURCES_DIR/gcc-${GCC_VERSION}.tar.xz" -C "$SOURCES_DIR"
-tar -xf "$SOURCES_DIR/gmp-${GMP_VERSION}.tar.xz" -C "$SOURCES_DIR"
-tar -xf "$SOURCES_DIR/mpfr-${MPFR_VERSION}.tar.xz" -C "$SOURCES_DIR"
-tar -xf "$SOURCES_DIR/mpc-${MPC_VERSION}.tar.gz" -C "$SOURCES_DIR"
+extract_file "$SOURCES_DIR/gcc-${GCC_VERSION}.tar.xz" "$WORK_DIR"
+extract_file "$SOURCES_DIR/gmp-${GMP_VERSION}.tar.xz" "$WORK_DIR/gmp"
+extract_file "$SOURCES_DIR/mpfr-${MPFR_VERSION}.tar.xz" "$WORK_DIR/mpfr"
+extract_file "$SOURCES_DIR/mpc-${MPC_VERSION}.tar.gz" "$WORK_DIR/mpc"
 
-cd "$SOURCES_DIR/gcc-${GCC_VERSION}"
+cd "$WORK_DIR"
 
-# Create symbolic links for GMP, MPFR, and MPC in the GCC source directory
-ln -sf "../gmp-${GMP_VERSION}" gmp
-ln -sf "../mpfr-${MPFR_VERSION}" mpfr
-ln -sf "../mpc-${MPC_VERSION}" mpc
+mkdir -p build && cd build
 
-mkdir -p build
+# Link configure script from parent.
+ln -s ../configure configure
 
-cd build
-
-../configure \
+run_configure \
 	--build=$(../config.guess) \
 	--host=$LFS_TGT \
 	--target=$LFS_TGT \
@@ -149,7 +164,7 @@ cd build
 	--disable-libssp \
 	--disable-libvtv \
 	--enable-languages=c,c++ \
-	LDFLAGS_FOR_TARGET=-L$PWD/$LFS_TGT/libgcc || cat config.log
+	LDFLAGS_FOR_TARGET=-L$PWD/$LFS_TGT/libgcc
 
 make -j$(nproc)
 
