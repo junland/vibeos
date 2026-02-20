@@ -27,6 +27,9 @@ jobs:
       - name: Download files from bootstrap-sources.list
         run: mkdir -p sources && wget -nv --tries=15 --waitretry=15 -i data/bootstrap-sources.list -P sources
 
+      - name: Enable common functions
+        run: chmod +x _common.sh
+
       - name: Enable staging scripts
         run: chmod +x stage*.sh
 
