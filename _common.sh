@@ -42,7 +42,7 @@ extract_file() {
 		verbose_flag="-v"
 	fi
 
-	# Check to see if we have to strip components based on the archive file has a parent directory
+	# Check to see if we have to strip components based on whether the archive file has a parent directory
 	if [ "${strip_components}" -eq 0 ]; then
 		if tar -tf "${archive_file}" | head -1 | grep -q '/'; then
 			msg "Archive has a parent directory, setting strip_components to 1"
@@ -64,7 +64,20 @@ extract_file() {
 		tar -xzf "${archive_file}" -C "${dest_dir}" --strip-components="${strip_components}" "${verbose_flag}"
 		;;
 	*.zip)
-		unzip -q "${archive_file}" -d "${dest_dir}"
+		# Note: unzip does not support stripping leading path components like tar's --strip-components.
+		# When strip_components is non-zero, we currently extract as-is and document the limitation.
+		local unzip_flags=""
+		if [ "${verbose}" = true ] || [ "${verbose}" = "true" ]; then
+			unzip_flags="-v"
+		else
+			unzip_flags="-q"
+		fi
+
+		if [ "${strip_components}" -ne 0 ]; then
+			msg "strip_components=${strip_components} requested, but unzip cannot strip path components; extracting with original paths."
+		fi
+
+		unzip ${unzip_flags} "${archive_file}" -d "${dest_dir}"
 		;;
 	*)
 		msg "Unknown archive format: ${archive_file}"

@@ -14,7 +14,7 @@ SOURCES_DIR=${SOURCES_DIR:-$(pwd)/sources}
 WORK_DIR=${WORK_DIR:-$(pwd)/work}
 
 M4_VERSION=1.4.21
-NCURSES_VERSION=6.6
+NCURSES_VERSION=6.5-20250809
 BASH_VERSION=5.3
 COREUTILS_VERSION=9.10
 FILE_VERSION=5.46
@@ -129,6 +129,48 @@ run_configure \
 make -j$(nproc)
 
 make DESTDIR="${TARGET_ROOTFS}" install
+
+clean_dir "$WORK_DIR"
+
+# Compile Ncurses
+msg "Compiling Ncurses ${NCURSES_VERSION}..."
+
+extract_file "$SOURCES_DIR/ncurses-${NCURSES_VERSION}.tgz" "$WORK_DIR"
+
+cd "$WORK_DIR"
+
+mkdir -p build
+
+ln -s ../configure build/configure
+
+pushd build
+run_configure --prefix=$LFS/tools AWK=gawk
+make -C include
+make -C progs tic
+install progs/tic $TOOLCHAIN_DIR/bin
+popd
+
+run_configure \
+	--prefix=/usr \
+	--host=$LFS_TGT \
+	--build=$(./config.guess) \
+	--mandir=/usr/share/man \
+	--with-manpage-format=normal \
+	--with-shared \
+	--without-normal \
+	--with-cxx-shared \
+	--without-debug \
+	--without-ada \
+	--disable-stripping \
+	AWK=gawk
+
+make -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
+
+ln -sv libncursesw.so $TARGET_ROOTFS/usr/lib/libncurses.so
+
+sed -e 's/^#if.*XOPEN.*$/#if 1/' -i $TARGET_ROOTFS/usr/include/curses.h
 
 clean_dir "$WORK_DIR"
 

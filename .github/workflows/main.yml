@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies (Ubuntu/Debian)
         run: |
           sudo apt-get update
-          sudo apt-get install -y unzip tree wget curl make m4 rsync
+          sudo apt-get install -y unzip tree wget curl make m4 rsync gawk autoconf automake libtool pkg-config sudo xz-utils build-essential texinfo
 
       - name: Download files from bootstrap-sources.list
         run: mkdir -p sources && wget -nv --tries=15 --waitretry=15 -i data/bootstrap-sources.list -P sources
