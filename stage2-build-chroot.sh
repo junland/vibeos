@@ -124,7 +124,7 @@ cd "$WORK_DIR"
 run_configure \
 	--host=$LFS_TGT \
 	--prefix=/usr \
-	--with-sysroot="$TARGET_ROOTFS"
+	--build=$(build-aux/config.guess)
 
 make -j$(nproc)
 
