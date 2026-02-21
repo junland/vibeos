@@ -40,4 +40,31 @@ jobs:
 
       - name: Build chroot
         run: |
-          ./stage2-build-chroot.sh $PWD/.toolchains/${{ matrix.TARGET_CPU_ARCH }}-tools ${{ matrix.TARGET_CPU_ARCH }} $PWD/rootfs
+          set -o pipefail
+
+          LOG_FILE="$PWD/bootstrap.log"
+
+          # Start the build in the background and redirect output to a log file
+          ./stage2-build-chroot.sh $PWD/.toolchains/${{ matrix.TARGET_CPU_ARCH }}-tools ${{ matrix.TARGET_CPU_ARCH }} $PWD/rootfs \
+            >"$LOG_FILE" 2>&1 &
+          BOOTSTRAP_PID=$!
+
+          # Stream filtered output
+          tail -F "$LOG_FILE" | grep --line-buffered -E "^ ==>" &
+          TAIL_PID=$!
+
+          # Wait for the build to finish
+          wait $BOOTSTRAP_PID
+          BUILD_EXIT_CODE=$?
+
+          # Stop the tail process
+          kill $TAIL_PID
+          wait $TAIL_PID 2>/dev/null || true
+          exit $BUILD_EXIT_CODE
+
+          # If it failed, print last 150 lines of the log for debugging
+          if [ $BUILD_EXIT_CODE -ne 0 ]; then
+            echo "Build failed. Last 150 lines of the log:"
+            tail -n 150 "$LOG_FILE"
+            exit $BUILD_EXIT_CODE
+          fi
