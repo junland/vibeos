@@ -250,7 +250,7 @@ mkdir build
 ln -s ../configure build/configure
 
 pushd build
-run_configure \
+../configure \
 	--disable-bzlib \
 	--disable-libseccomp \
 	--disable-xzlib \
