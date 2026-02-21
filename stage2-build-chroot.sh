@@ -19,6 +19,7 @@ BASH_VERSION=5.3
 COREUTILS_VERSION=9.10
 FILE_VERSION=5.46
 FINDUTILS_VERSION=4.10.0
+DIFFUTILS_VERSION=3.12
 GAWK_VERSION=5.3.2
 GREP_VERSION=3.12
 GZIP_VERSION=1.14
@@ -31,6 +32,7 @@ GMP_VERSION=6.3.0
 MPFR_VERSION=4.2.2
 MPC_VERSION=1.3.1
 GCC_VERSION=15.2.0
+XZ_VERSION=5.8.1
 
 if [ -z "$TOOLCHAIN_DIR" ] || [ -z "$TARGET_ROOTFS" ]; then
 	msg "Usage: $0 <toolchain-directory> [target-cpu-arch] <target-rootfilesystem>" >&2
@@ -144,7 +146,7 @@ mkdir -p build
 ln -s ../configure build/configure
 
 pushd build
-run_configure --prefix=$LFS/tools AWK=gawk
+run_configure --prefix=$TOOLCHAIN_DIR AWK=gawk
 make -C include
 make -C progs tic
 install progs/tic $TOOLCHAIN_DIR/bin
@@ -195,6 +197,276 @@ ln -sv bash "${TARGET_ROOTFS}/usr/bin/sh"
 
 clean_dir "$WORK_DIR"
 
+# Compile Coreutils
+msg "Compiling Coreutils ${COREUTILS_VERSION}..."
+
+extract_file "$SOURCES_DIR/coreutils-${COREUTILS_VERSION}.tar.xz" "$WORK_DIR"
+
+cd "$WORK_DIR"
+
+run_configure \
+	--prefix=/usr \
+	--host=$LFS_TGT \
+	--build=$(build-aux/config.guess) \
+	--enable-install-program=hostname \
+	--enable-no-install-program=kill,uptime
+
+make -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
+
+mv -v $TARGET_ROOTFS/usr/bin/chroot $TARGET_ROOTFS/usr/sbin
+
+clean_dir "$WORK_DIR"
+
+# Compile Diffutils
+msg "Compiling Diffutils ${DIFFUTILS_VERSION}..."
+
+extract_file "$SOURCES_DIR/diffutils-${DIFFUTILS_VERSION}.tar.xz" "$WORK_DIR"
+
+cd "$WORK_DIR"
+
+run_configure \
+	--prefix=/usr \
+	--host=$LFS_TGT \
+	gl_cv_func_strcasecmp_works=y \
+	--build=$(./build-aux/config.guess)
+
+make -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
+
+clean_dir "$WORK_DIR"
+
+# Compile File
+msg "Compiling File ${FILE_VERSION}..."
+
+extract_file "$SOURCES_DIR/file-${FILE_VERSION}.tar.gz" "$WORK_DIR"
+
+cd "$WORK_DIR"
+
+mkdir build
+
+ln -s ../configure build/configure
+
+pushd build
+run_configure \
+	--disable-bzlib \
+	--disable-libseccomp \
+	--disable-xzlib \
+	--disable-zlib
+make
+popd
+
+run_configure --prefix=/usr --host=$LFS_TGT --build=$(./config.guess)
+
+make FILE_COMPILE=$(pwd)/build/src/file -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
+
+rm -v $TARGET_ROOTFS/usr/lib/libmagic.la
+
+clean_dir "$WORK_DIR"
+
+# Compile Findutils
+msg "Compiling Findutils ${FINDUTILS_VERSION}..."
+
+extract_file "$SOURCES_DIR/findutils-${FINDUTILS_VERSION}.tar.xz" "$WORK_DIR"
+
+cd "$WORK_DIR"
+
+run_configure \
+	--prefix=/usr \
+	--localstatedir=/var/lib/locate \
+	--host=$LFS_TGT \
+	--build=$(build-aux/config.guess)
+
+make -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
+
+clean_dir "$WORK_DIR"
+
+# Compile Gawk
+msg "Compiling Gawk ${GAWK_VERSION}..."
+
+extract_file "$SOURCES_DIR/gawk-${GAWK_VERSION}.tar.xz" "$WORK_DIR"
+
+cd "$WORK_DIR"
+
+sed -i 's/extras//' Makefile.in
+
+run_configure \
+	--prefix=/usr \
+	--host=$LFS_TGT \
+	--build=$(build-aux/config.guess)
+
+make -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
+
+clean_dir "$WORK_DIR"
+
+# Compile Grep
+msg "Compiling Grep ${GREP_VERSION}..."
+
+extract_file "$SOURCES_DIR/grep-${GREP_VERSION}.tar.xz" "$WORK_DIR"
+
+cd "$WORK_DIR"
+
+run_configure \
+	--prefix=/usr \
+	--host=$LFS_TGT \
+	--build=$(build-aux/config.guess)
+
+make -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
+
+clean_dir "$WORK_DIR"
+
+# Compile Gzip
+msg "Compiling Gzip ${GZIP_VERSION}..."
+
+extract_file "$SOURCES_DIR/gzip-${GZIP_VERSION}.tar.xz" "$WORK_DIR"
+
+cd "$WORK_DIR"
+
+run_configure --prefix=/usr --host=$LFS_TGT
+
+make -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
+
+clean_dir "$WORK_DIR"
+
+# Compile Make
+msg "Compiling Make ${MAKE_VERSION}..."
+
+extract_file "$SOURCES_DIR/make-${MAKE_VERSION}.tar.gz" "$WORK_DIR"
+
+cd "$WORK_DIR"
+
+run_configure \
+	--prefix=/usr \
+	--host=$LFS_TGT \
+	--build=$(build-aux/config.guess)
+
+make -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
+
+clean_dir "$WORK_DIR"
+
+# Compile Patch
+msg "Compiling Patch ${PATCH_VERSION}..."
+
+extract_file "$SOURCES_DIR/patch-${PATCH_VERSION}.tar.xz" "$WORK_DIR"
+
+cd "$WORK_DIR"
+
+run_configure \
+	--prefix=/usr \
+	--host=$LFS_TGT \
+	--build=$(build-aux/config.guess)
+
+make -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
+
+clean_dir "$WORK_DIR"
+
+# Compile Sed
+msg "Compiling Sed ${SED_VERSION}..."
+
+extract_file "$SOURCES_DIR/sed-${SED_VERSION}.tar.xz" "$WORK_DIR"
+
+cd "$WORK_DIR"
+
+run_configure \
+	--prefix=/usr \
+	--host=$LFS_TGT \
+	--build=$(build-aux/config.guess)
+
+make -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
+
+clean_dir "$WORK_DIR"
+
+# Compile Tar
+msg "Compiling Tar ${TAR_VERSION}..."
+
+extract_file "$SOURCES_DIR/tar-${TAR_VERSION}.tar.xz" "$WORK_DIR"
+
+cd "$WORK_DIR"
+
+run_configure \
+	--prefix=/usr \
+	--host=$LFS_TGT \
+	--build=$(build-aux/config.guess)
+
+make -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
+
+clean_dir "$WORK_DIR"
+
+# Compile Xz
+msg "Compiling Xz ${XZ_VERSION}..."
+
+extract_file "$SOURCES_DIR/xz-${XZ_VERSION}.tar.xz" "$WORK_DIR"
+
+cd "$WORK_DIR"
+
+run_configure \
+	--prefix=/usr \
+	--host=$LFS_TGT \
+	--build=$(build-aux/config.guess) \
+	--disable-static \
+	--docdir=/usr/share/doc/xz-${XZ_VERSION}
+
+make -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
+
+rm -v $TARGET_ROOTFS/usr/lib/liblzma.la
+
+clean_dir "$WORK_DIR"
+
+# Compile Binutils
+msg "Compiling Binutils ${BINUTILS_VERSION}..."
+
+extract_file "$SOURCES_DIR/binutils-${BINUTILS_VERSION}.tar.xz" "$WORK_DIR"
+
+cd "$WORK_DIR"
+
+sed '6031s/$add_dir//' -i ltmain.sh
+
+mkdir -p build && cd build
+
+ln -s ../configure configure
+
+run_configure \
+	--prefix=/usr \
+	--build=$(../config.guess) \
+	--host=$LFS_TGT \
+	--disable-nls \
+	--enable-shared \
+	--enable-gprofng=no \
+	--disable-werror \
+	--enable-64-bit-bfd \
+	--enable-new-dtags \
+	--enable-default-hash-style=gnu
+
+make -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
+
+rm -v $TARGET_ROOTFS/usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes}.la
+
+clean_dir "$WORK_DIR"
+
 # Compile GCC
 msg "Compiling GCC ${GCC_VERSION}..."
 
@@ -232,3 +504,5 @@ run_configure \
 make -j$(nproc)
 
 make DESTDIR="${TARGET_ROOTFS}" install
+
+clean_dir "$WORK_DIR"
