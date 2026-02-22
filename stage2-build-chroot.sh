@@ -104,6 +104,21 @@ else
 	exit 1
 fi
 
+# Create lib64 compatibility symlinks required by glibc linker scripts on x86_64.
+# The buildroot sysroot places libraries under usr/lib/, but glibc linker scripts
+# (e.g. usr/lib/libc.so) reference /lib64/libc.so.6 and /usr/lib64/libc_nonshared.a.
+# Without these symlinks the cross-linker (with --sysroot) cannot find those paths.
+case "$TARGET_CPU_ARCH" in
+x86-64 | x86_64 | amd64 | x64)
+	if [ ! -e "$TARGET_ROOTFS/lib64" ]; then
+		ln -sv usr/lib "$TARGET_ROOTFS/lib64"
+	fi
+	if [ ! -e "$TARGET_ROOTFS/usr/lib64" ]; then
+		ln -sv lib "$TARGET_ROOTFS/usr/lib64"
+	fi
+	;;
+esac
+
 # Define variables
 export CHOST="${TARGET_CPU_ARCH}-buildroot-linux-gnu"
 export LFS_TGT="${TARGET_CPU_ARCH}-buildroot-linux-gnu"
