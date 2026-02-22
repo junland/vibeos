@@ -44,4 +44,4 @@ jobs:
           ./stage2-build-chroot.sh \
             "$GITHUB_WORKSPACE/.toolchains/${{ matrix.TARGET_CPU_ARCH }}-tools" \
             "${{ matrix.TARGET_CPU_ARCH }}" \
-            "$GITHUB_WORKSPACE/rootfs
+            "$GITHUB_WORKSPACE/rootfs"
