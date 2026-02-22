@@ -41,21 +41,7 @@ jobs:
       - name: Build chroot
         shell: bash
         run: |
-          set -o pipefail
-          LOG_FILE="${GITHUB_WORKSPACE}/bootstrap.log"
-          
-          echo "Starting build for ${{ matrix.TARGET_CPU_ARCH }}..."
-
-          # Run the build in a subshell and process output in real-time
-          # This avoids background PIDs and manual 'kill' commands
-          if ! ./stage2-build-chroot.sh \
+          ./stage2-build-chroot.sh \
             "$GITHUB_WORKSPACE/.toolchains/${{ matrix.TARGET_CPU_ARCH }}-tools" \
             "${{ matrix.TARGET_CPU_ARCH }}" \
-            "$GITHUB_WORKSPACE/rootfs" 2>&1 | tee "$LOG_FILE" | grep --line-buffered -E "^ ==>"; then
-            
-            echo "::error::Build failed! Printing last 150 lines of log..."
-            echo "--------------------------------------------------------"
-            tail -n 150 "$LOG_FILE"
-            echo "--------------------------------------------------------"
-            exit 1
-          fi
+            "$GITHUB_WORKSPACE/rootfs
