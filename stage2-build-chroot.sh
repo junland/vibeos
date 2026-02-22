@@ -104,6 +104,25 @@ else
 	exit 1
 fi
 
+# Fix absolute paths in GNU ld linker scripts from the toolchain's sysroot.
+# These scripts (e.g. libc.so) contain hardcoded absolute paths like
+# /lib64/libc.so.6 which break when libtool does not pass --sysroot to the
+# linker.  Converting them to bare filenames lets the linker resolve them
+# through its search path instead.
+msg "Fixing absolute paths in sysroot linker scripts..."
+for f in "$TARGET_ROOTFS"/usr/lib/*.so "$TARGET_ROOTFS"/usr/lib64/*.so "$TARGET_ROOTFS"/lib/*.so "$TARGET_ROOTFS"/lib64/*.so; do
+	[ -f "$f" ] || continue
+	if grep -qE 'GROUP|INPUT|AS_NEEDED' "$f" 2>/dev/null; then
+		msg "Fixing linker script: $f"
+		sed -i \
+			-e 's|/usr/lib64/||g' \
+			-e 's|/usr/lib/||g' \
+			-e 's|/lib64/||g' \
+			-e 's|/lib/||g' \
+			"$f"
+	fi
+done
+
 # Define variables
 export CHOST="${TARGET_CPU_ARCH}-buildroot-linux-gnu"
 export LFS_TGT="${TARGET_CPU_ARCH}-buildroot-linux-gnu"
