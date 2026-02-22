@@ -133,7 +133,6 @@ run_configure \
 	--prefix=/usr \
 	--build=$(../config.guess) \
 	--host=$LFS_TGT \
-	--sysroot=$TARGET_ROOTFS \
 	--disable-nls \
 	--enable-shared \
 	--enable-gprofng=no \
