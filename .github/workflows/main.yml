@@ -60,11 +60,11 @@ jobs:
           # Stop the tail process
           kill $TAIL_PID
           wait $TAIL_PID 2>/dev/null || true
-          exit $BUILD_EXIT_CODE
 
           # If it failed, print last 150 lines of the log for debugging
           if [ $BUILD_EXIT_CODE -ne 0 ]; then
             echo "Build failed. Last 150 lines of the log:"
             tail -n 150 "$LOG_FILE"
-            exit $BUILD_EXIT_CODE
           fi
+
+          exit $BUILD_EXIT_CODE

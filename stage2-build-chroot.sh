@@ -149,7 +149,7 @@ run_configure \
 	--build=$(../config.guess) \
 	--host=$LFS_TGT \
 	--disable-nls \
-	--enable-shared \
+	--disable-shared \
 	--enable-gprofng=no \
 	--disable-werror \
 	--enable-64-bit-bfd \
@@ -160,7 +160,7 @@ make -j$(nproc)
 
 make DESTDIR="${TARGET_ROOTFS}" install
 
-rm -v $TARGET_ROOTFS/usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes}.la
+rm -fv $TARGET_ROOTFS/usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes,sframe}.la
 
 clean_dir "$WORK_DIR"
 
