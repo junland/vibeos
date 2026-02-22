@@ -116,6 +116,11 @@ export PKG_CONFIG_LIBDIR="$TARGET_ROOTFS/usr/lib/pkgconfig:$TARGET_ROOTFS/usr/sh
 # Start building components in the for the chroot environment
 #
 
+msg "Create compatibility for lib64..."
+
+ln -sv usr/lib "$TARGET_ROOTFS/lib64"
+ln -sv lib "$TARGET_ROOTFS/usr/lib64"
+
 # Compile Binutils
 msg "Compiling Binutils ${BINUTILS_VERSION}..."
 
