@@ -17,7 +17,7 @@ jobs:
           - TARGET_CPU_ARCH: x86_64
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Install dependencies (Ubuntu/Debian)
         run: |
@@ -45,3 +45,12 @@ jobs:
             "$GITHUB_WORKSPACE/.toolchains/${{ matrix.TARGET_CPU_ARCH }}-tools" \
             "${{ matrix.TARGET_CPU_ARCH }}" \
             "$GITHUB_WORKSPACE/rootfs"
+
+      - name: Compress rootfs
+        run: tar -C rootfs -cvJf rootfs-stage2-${{ matrix.TARGET_CPU_ARCH }}-${{ github.run_id }}.tar.xz .
+
+      - name: Upload rootfs artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: rootfs-stage2-${{ matrix.TARGET_CPU_ARCH }}-${{ github.run_id }}.tar.xz
+          path: rootfs-stage2-${{ matrix.TARGET_CPU_ARCH }}-${{ github.run_id }}.tar.xz
