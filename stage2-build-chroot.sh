@@ -140,7 +140,357 @@ msg "Create compatibility for lib64..."
 ln -sv usr/lib "$TARGET_ROOTFS/lib64"
 ln -sv lib "$TARGET_ROOTFS/usr/lib64"
 
+#
+# Compile M4
+#
+msg "Compiling M4 ${M4_VERSION}..."
+
+extract_file "$SOURCES_DIR/m4-${M4_VERSION}.tar.xz" "$WORK_DIR"
+
+cd "$WORK_DIR"
+
+run_configure \
+	--host=$LFS_TGT \
+	--prefix=/usr \
+	--build=$(build-aux/config.guess)
+
+make -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
+
+clean_dir "$WORK_DIR"
+
+#
+# Compile Ncurses
+#
+msg "Compiling Ncurses ${NCURSES_VERSION}..."
+
+extract_file "$SOURCES_DIR/ncurses-${NCURSES_VERSION}.tgz" "$WORK_DIR"
+
+cd "$WORK_DIR"
+
+mkdir -p build
+
+ln -s ../configure build/configure
+
+pushd build
+run_configure --prefix=$TOOLCHAIN_DIR AWK=gawk
+make -C include
+make -C progs tic
+install progs/tic $TOOLCHAIN_DIR/bin
+popd
+
+run_configure \
+	--prefix=/usr \
+	--host=$LFS_TGT \
+	--build=$(./config.guess) \
+	--mandir=/usr/share/man \
+	--with-manpage-format=normal \
+	--with-shared \
+	--without-normal \
+	--with-cxx-shared \
+	--without-debug \
+ --without-ada \
+	--disable-stripping \
+	AWK=gawk
+
+make -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
+
+ln -sv libncursesw.so $TARGET_ROOTFS/usr/lib/libncurses.so
+
+sed -e 's/^#if.*XOPEN.*$/#if 1/' -i $TARGET_ROOTFS/usr/include/curses.h
+
+clean_dir "$WORK_DIR"
+
+#
+# Compile Bash
+#
+msg "Compiling Bash ${BASH_VERSION}..."
+
+extract_file "$SOURCES_DIR/bash-${BASH_VERSION}.tar.gz" "$WORK_DIR"
+
+cd "$WORK_DIR"
+
+run_configure \
+	--host=$LFS_TGT \
+	--prefix=/usr \
+	--build=$(sh support/config.guess) \
+	--without-bash-malloc
+
+make -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
+
+ln -sv bash "${TARGET_ROOTFS}/usr/bin/sh"
+
+clean_dir "$WORK_DIR"
+
+#
+# Compile Coreutils
+#
+msg "Compiling Coreutils ${COREUTILS_VERSION}..."
+
+extract_file "$SOURCES_DIR/coreutils-${COREUTILS_VERSION}.tar.xz" "$WORK_DIR"
+
+cd "$WORK_DIR"
+
+run_configure \
+	--prefix=/usr \
+	--host=$LFS_TGT \
+	--build=$(build-aux/config.guess) \
+	--enable-install-program=hostname \
+	--enable-no-install-program=kill,uptime
+
+make -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
+
+mv -v $TARGET_ROOTFS/usr/bin/chroot $TARGET_ROOTFS/usr/sbin
+
+clean_dir "$WORK_DIR"
+
+#
+# Compile Diffutils
+#
+msg "Compiling Diffutils ${DIFFUTILS_VERSION}..."
+
+extract_file "$SOURCES_DIR/diffutils-${DIFFUTILS_VERSION}.tar.xz" "$WORK_DIR"
+
+cd "$WORK_DIR"
+
+run_configure \
+	--prefix=/usr \
+	--host=$LFS_TGT \
+	gl_cv_func_strcasecmp_works=y \
+	--build=$(./build-aux/config.guess)
+
+make -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
+
+clean_dir "$WORK_DIR"
+
+#
+# Compile File
+#
+msg "Compiling File ${FILE_VERSION}..."
+
+extract_file "$SOURCES_DIR/file-${FILE_VERSION}.tar.gz" "$WORK_DIR"
+
+cd "$WORK_DIR"
+
+mkdir build
+
+ln -s ../configure build/configure
+
+pushd build
+../configure \
+	--disable-bzlib \
+	--disable-libseccomp \
+	--disable-xzlib \
+	--disable-zlib
+make
+popd
+
+run_configure --prefix=/usr --host=$LFS_TGT --build=$(./config.guess)
+
+make FILE_COMPILE=$(pwd)/build/src/file -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
+
+rm -v $TARGET_ROOTFS/usr/lib/libmagic.la
+
+clean_dir "$WORK_DIR"
+
+#
+# Compile Findutils
+#
+msg "Compiling Findutils ${FINDUTILS_VERSION}..."
+
+extract_file "$SOURCES_DIR/findutils-${FINDUTILS_VERSION}.tar.xz" "$WORK_DIR"
+
+cd "$WORK_DIR"
+
+run_configure \
+	--prefix=/usr \
+	--localstatedir=/var/lib/locate \
+	--host=$LFS_TGT \
+	--build=$(build-aux/config.guess)
+
+make -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
+
+clean_dir "$WORK_DIR"
+
+#
+# Compile Gawk
+#
+msg "Compiling Gawk ${GAWK_VERSION}..."
+
+extract_file "$SOURCES_DIR/gawk-${GAWK_VERSION}.tar.xz" "$WORK_DIR"
+
+cd "$WORK_DIR"
+
+sed -i 's/extras//' Makefile.in
+
+run_configure \
+	--prefix=/usr \
+	--host=$LFS_TGT \
+	--build=$(build-aux/config.guess)
+
+make -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
+
+clean_dir "$WORK_DIR"
+
+#
+# Compile Grep
+#
+msg "Compiling Grep ${GREP_VERSION}..."
+
+extract_file "$SOURCES_DIR/grep-${GREP_VERSION}.tar.xz" "$WORK_DIR"
+
+cd "$WORK_DIR"
+
+run_configure \
+	--prefix=/usr \
+	--host=$LFS_TGT \
+	--build=$(build-aux/config.guess)
+
+make -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
+
+clean_dir "$WORK_DIR"
+
+#
+# Compile Gzip
+#
+msg "Compiling Gzip ${GZIP_VERSION}..."
+
+extract_file "$SOURCES_DIR/gzip-${GZIP_VERSION}.tar.xz" "$WORK_DIR"
+
+cd "$WORK_DIR"
+
+run_configure --prefix=/usr --host=$LFS_TGT
+
+make -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
+
+clean_dir "$WORK_DIR"
+
+#
+# Compile Make
+#
+msg "Compiling Make ${MAKE_VERSION}..."
+
+extract_file "$SOURCES_DIR/make-${MAKE_VERSION}.tar.gz" "$WORK_DIR"
+
+cd "$WORK_DIR"
+
+run_configure \
+	--prefix=/usr \
+	--host=$LFS_TGT \
+	--build=$(build-aux/config.guess)
+
+make -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
+
+clean_dir "$WORK_DIR"
+
+#
+# Compile Patch
+#
+msg "Compiling Patch ${PATCH_VERSION}..."
+
+extract_file "$SOURCES_DIR/patch-${PATCH_VERSION}.tar.xz" "$WORK_DIR"
+
+cd "$WORK_DIR"
+
+run_configure \
+	--prefix=/usr \
+	--host=$LFS_TGT \
+	--build=$(build-aux/config.guess)
+
+make -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
+
+clean_dir "$WORK_DIR"
+
+#
+# Compile Sed
+#
+msg "Compiling Sed ${SED_VERSION}..."
+
+extract_file "$SOURCES_DIR/sed-${SED_VERSION}.tar.xz" "$WORK_DIR"
+
+cd "$WORK_DIR"
+
+run_configure \
+	--prefix=/usr \
+	--host=$LFS_TGT \
+	--build=$(build-aux/config.guess)
+
+make -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
+
+clean_dir "$WORK_DIR"
+
+#
+# Compile Tar
+#
+msg "Compiling Tar ${TAR_VERSION}..."
+
+extract_file "$SOURCES_DIR/tar-${TAR_VERSION}.tar.xz" "$WORK_DIR"
+
+cd "$WORK_DIR"
+
+run_configure \
+	--prefix=/usr \
+	--host=$LFS_TGT \
+	--build=$(build-aux/config.guess)
+
+make -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
+
+clean_dir "$WORK_DIR"
+
+#
+# Compile Xz
+#
+msg "Compiling Xz ${XZ_VERSION}..."
+
+extract_file "$SOURCES_DIR/xz-${XZ_VERSION}.tar.xz" "$WORK_DIR"
+
+cd "$WORK_DIR"
+
+run_configure \
+	--prefix=/usr \
+	--host=$LFS_TGT \
+	--build=$(build-aux/config.guess) \
+	--disable-static \
+	--docdir=/usr/share/doc/xz-${XZ_VERSION}
+
+make -j$(nproc)
+
+make DESTDIR="${TARGET_ROOTFS}" install
+
+rm -v $TARGET_ROOTFS/usr/lib/liblzma.la
+
+clean_dir "$WORK_DIR"
+
+#
 # Compile Binutils
+#
 msg "Compiling Binutils ${BINUTILS_VERSION}..."
 
 extract_file "$SOURCES_DIR/binutils-${BINUTILS_VERSION}.tar.xz" "$WORK_DIR"
@@ -173,325 +523,9 @@ rm -v $TARGET_ROOTFS/usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes}.la
 
 clean_dir "$WORK_DIR"
 
-# Compile M4
-msg "Compiling M4 ${M4_VERSION}..."
-
-extract_file "$SOURCES_DIR/m4-${M4_VERSION}.tar.xz" "$WORK_DIR"
-
-cd "$WORK_DIR"
-
-run_configure \
-	--host=$LFS_TGT \
-	--prefix=/usr \
-	--build=$(build-aux/config.guess)
-
-make -j$(nproc)
-
-make DESTDIR="${TARGET_ROOTFS}" install
-
-clean_dir "$WORK_DIR"
-
-# Compile Ncurses
-msg "Compiling Ncurses ${NCURSES_VERSION}..."
-
-extract_file "$SOURCES_DIR/ncurses-${NCURSES_VERSION}.tgz" "$WORK_DIR"
-
-cd "$WORK_DIR"
-
-mkdir -p build
-
-ln -s ../configure build/configure
-
-pushd build
-run_configure --prefix=$TOOLCHAIN_DIR AWK=gawk
-make -C include
-make -C progs tic
-install progs/tic $TOOLCHAIN_DIR/bin
-popd
-
-run_configure \
-	--prefix=/usr \
-	--host=$LFS_TGT \
-	--build=$(./config.guess) \
-	--mandir=/usr/share/man \
-	--with-manpage-format=normal \
-	--with-shared \
-	--without-normal \
-	--with-cxx-shared \
-	--without-debug \
-	--without-ada \
-	--disable-stripping \
-	AWK=gawk
-
-make -j$(nproc)
-
-make DESTDIR="${TARGET_ROOTFS}" install
-
-ln -sv libncursesw.so $TARGET_ROOTFS/usr/lib/libncurses.so
-
-sed -e 's/^#if.*XOPEN.*$/#if 1/' -i $TARGET_ROOTFS/usr/include/curses.h
-
-clean_dir "$WORK_DIR"
-
-# Compile Bash
-msg "Compiling Bash ${BASH_VERSION}..."
-
-extract_file "$SOURCES_DIR/bash-${BASH_VERSION}.tar.gz" "$WORK_DIR"
-
-cd "$WORK_DIR"
-
-run_configure \
-	--host=$LFS_TGT \
-	--prefix=/usr \
-	--build=$(sh support/config.guess) \
-	--without-bash-malloc
-
-make -j$(nproc)
-
-make DESTDIR="${TARGET_ROOTFS}" install
-
-ln -sv bash "${TARGET_ROOTFS}/usr/bin/sh"
-
-clean_dir "$WORK_DIR"
-
-# Compile Coreutils
-msg "Compiling Coreutils ${COREUTILS_VERSION}..."
-
-extract_file "$SOURCES_DIR/coreutils-${COREUTILS_VERSION}.tar.xz" "$WORK_DIR"
-
-cd "$WORK_DIR"
-
-run_configure \
-	--prefix=/usr \
-	--host=$LFS_TGT \
-	--build=$(build-aux/config.guess) \
-	--enable-install-program=hostname \
-	--enable-no-install-program=kill,uptime
-
-make -j$(nproc)
-
-make DESTDIR="${TARGET_ROOTFS}" install
-
-mv -v $TARGET_ROOTFS/usr/bin/chroot $TARGET_ROOTFS/usr/sbin
-
-clean_dir "$WORK_DIR"
-
-# Compile Diffutils
-msg "Compiling Diffutils ${DIFFUTILS_VERSION}..."
-
-extract_file "$SOURCES_DIR/diffutils-${DIFFUTILS_VERSION}.tar.xz" "$WORK_DIR"
-
-cd "$WORK_DIR"
-
-run_configure \
-	--prefix=/usr \
-	--host=$LFS_TGT \
-	gl_cv_func_strcasecmp_works=y \
-	--build=$(./build-aux/config.guess)
-
-make -j$(nproc)
-
-make DESTDIR="${TARGET_ROOTFS}" install
-
-clean_dir "$WORK_DIR"
-
-# Compile File
-msg "Compiling File ${FILE_VERSION}..."
-
-extract_file "$SOURCES_DIR/file-${FILE_VERSION}.tar.gz" "$WORK_DIR"
-
-cd "$WORK_DIR"
-
-mkdir build
-
-ln -s ../configure build/configure
-
-pushd build
-../configure \
-	--disable-bzlib \
-	--disable-libseccomp \
-	--disable-xzlib \
-	--disable-zlib
-make
-popd
-
-run_configure --prefix=/usr --host=$LFS_TGT --build=$(./config.guess)
-
-make FILE_COMPILE=$(pwd)/build/src/file -j$(nproc)
-
-make DESTDIR="${TARGET_ROOTFS}" install
-
-rm -v $TARGET_ROOTFS/usr/lib/libmagic.la
-
-clean_dir "$WORK_DIR"
-
-# Compile Findutils
-msg "Compiling Findutils ${FINDUTILS_VERSION}..."
-
-extract_file "$SOURCES_DIR/findutils-${FINDUTILS_VERSION}.tar.xz" "$WORK_DIR"
-
-cd "$WORK_DIR"
-
-run_configure \
-	--prefix=/usr \
-	--localstatedir=/var/lib/locate \
-	--host=$LFS_TGT \
-	--build=$(build-aux/config.guess)
-
-make -j$(nproc)
-
-make DESTDIR="${TARGET_ROOTFS}" install
-
-clean_dir "$WORK_DIR"
-
-# Compile Gawk
-msg "Compiling Gawk ${GAWK_VERSION}..."
-
-extract_file "$SOURCES_DIR/gawk-${GAWK_VERSION}.tar.xz" "$WORK_DIR"
-
-cd "$WORK_DIR"
-
-sed -i 's/extras//' Makefile.in
-
-run_configure \
-	--prefix=/usr \
-	--host=$LFS_TGT \
-	--build=$(build-aux/config.guess)
-
-make -j$(nproc)
-
-make DESTDIR="${TARGET_ROOTFS}" install
-
-clean_dir "$WORK_DIR"
-
-# Compile Grep
-msg "Compiling Grep ${GREP_VERSION}..."
-
-extract_file "$SOURCES_DIR/grep-${GREP_VERSION}.tar.xz" "$WORK_DIR"
-
-cd "$WORK_DIR"
-
-run_configure \
-	--prefix=/usr \
-	--host=$LFS_TGT \
-	--build=$(build-aux/config.guess)
-
-make -j$(nproc)
-
-make DESTDIR="${TARGET_ROOTFS}" install
-
-clean_dir "$WORK_DIR"
-
-# Compile Gzip
-msg "Compiling Gzip ${GZIP_VERSION}..."
-
-extract_file "$SOURCES_DIR/gzip-${GZIP_VERSION}.tar.xz" "$WORK_DIR"
-
-cd "$WORK_DIR"
-
-run_configure --prefix=/usr --host=$LFS_TGT
-
-make -j$(nproc)
-
-make DESTDIR="${TARGET_ROOTFS}" install
-
-clean_dir "$WORK_DIR"
-
-# Compile Make
-msg "Compiling Make ${MAKE_VERSION}..."
-
-extract_file "$SOURCES_DIR/make-${MAKE_VERSION}.tar.gz" "$WORK_DIR"
-
-cd "$WORK_DIR"
-
-run_configure \
-	--prefix=/usr \
-	--host=$LFS_TGT \
-	--build=$(build-aux/config.guess)
-
-make -j$(nproc)
-
-make DESTDIR="${TARGET_ROOTFS}" install
-
-clean_dir "$WORK_DIR"
-
-# Compile Patch
-msg "Compiling Patch ${PATCH_VERSION}..."
-
-extract_file "$SOURCES_DIR/patch-${PATCH_VERSION}.tar.xz" "$WORK_DIR"
-
-cd "$WORK_DIR"
-
-run_configure \
-	--prefix=/usr \
-	--host=$LFS_TGT \
-	--build=$(build-aux/config.guess)
-
-make -j$(nproc)
-
-make DESTDIR="${TARGET_ROOTFS}" install
-
-clean_dir "$WORK_DIR"
-
-# Compile Sed
-msg "Compiling Sed ${SED_VERSION}..."
-
-extract_file "$SOURCES_DIR/sed-${SED_VERSION}.tar.xz" "$WORK_DIR"
-
-cd "$WORK_DIR"
-
-run_configure \
-	--prefix=/usr \
-	--host=$LFS_TGT \
-	--build=$(build-aux/config.guess)
-
-make -j$(nproc)
-
-make DESTDIR="${TARGET_ROOTFS}" install
-
-clean_dir "$WORK_DIR"
-
-# Compile Tar
-msg "Compiling Tar ${TAR_VERSION}..."
-
-extract_file "$SOURCES_DIR/tar-${TAR_VERSION}.tar.xz" "$WORK_DIR"
-
-cd "$WORK_DIR"
-
-run_configure \
-	--prefix=/usr \
-	--host=$LFS_TGT \
-	--build=$(build-aux/config.guess)
-
-make -j$(nproc)
-
-make DESTDIR="${TARGET_ROOTFS}" install
-
-clean_dir "$WORK_DIR"
-
-# Compile Xz
-msg "Compiling Xz ${XZ_VERSION}..."
-
-extract_file "$SOURCES_DIR/xz-${XZ_VERSION}.tar.xz" "$WORK_DIR"
-
-cd "$WORK_DIR"
-
-run_configure \
-	--prefix=/usr \
-	--host=$LFS_TGT \
-	--build=$(build-aux/config.guess) \
-	--disable-static \
-	--docdir=/usr/share/doc/xz-${XZ_VERSION}
-
-make -j$(nproc)
-
-make DESTDIR="${TARGET_ROOTFS}" install
-
-rm -v $TARGET_ROOTFS/usr/lib/liblzma.la
-
-clean_dir "$WORK_DIR"
-
+#
 # Compile GCC
+#
 msg "Compiling GCC ${GCC_VERSION}..."
 
 extract_file "$SOURCES_DIR/gcc-${GCC_VERSION}.tar.xz" "$WORK_DIR"
