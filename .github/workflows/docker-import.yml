@@ -1,0 +1,55 @@
+name: Docker Import Root Filesystem
+
+on:
+  workflow_run:
+    workflows: ["Build on GitHub Hosted Runner"]
+    types:
+      - completed
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: 'Workflow run ID to download the rootfs artifact from'
+        required: true
+        type: string
+      target_cpu_arch:
+        description: 'Target CPU architecture'
+        required: true
+        default: 'x86_64'
+        type: string
+
+jobs:
+  docker-import:
+    name: Import Root Filesystem
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Resolve run ID and architecture
+        id: resolve
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "run_id=${{ github.event.inputs.run_id }}" >> "$GITHUB_OUTPUT"
+            echo "arch=${{ github.event.inputs.target_cpu_arch }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "run_id=${{ github.event.workflow_run.id }}" >> "$GITHUB_OUTPUT"
+            echo "arch=x86_64" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Download rootfs artifact
+        uses: actions/download-artifact@v4
+        with:
+          pattern: rootfs-stage2-${{ steps.resolve.outputs.arch }}-*
+          run-id: ${{ steps.resolve.outputs.run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          merge-multiple: true
+
+      - name: Import rootfs into Docker
+        run: |
+          ARTIFACT=$(find . -maxdepth 1 -name "rootfs-stage2-${{ steps.resolve.outputs.arch }}-*.tar.xz" | head -1)
+          if [ -z "$ARTIFACT" ]; then
+            echo "Error: No rootfs artifact found for arch ${{ steps.resolve.outputs.arch }}"
+            exit 1
+          fi
+          docker import "$ARTIFACT" vibeos:${{ steps.resolve.outputs.arch }}-latest
+          docker images vibeos
