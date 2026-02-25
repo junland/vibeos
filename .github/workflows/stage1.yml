@@ -1,4 +1,4 @@
-name: Build on GitHub Hosted Runner
+name: Build Stage 1
 
 on:
   push:
