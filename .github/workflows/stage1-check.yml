@@ -53,3 +53,7 @@ jobs:
           fi
           docker import "$ARTIFACT" vibeos:${{ steps.resolve.outputs.arch }}-latest
           docker images vibeos
+
+      - name: Check Docker image
+        run: |
+          docker run -t vibeos ls
