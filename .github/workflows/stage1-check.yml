@@ -1,4 +1,4 @@
-name: Docker Import Root Filesystem
+name: Check Stage 1 Output
 
 on:
   workflow_run:
