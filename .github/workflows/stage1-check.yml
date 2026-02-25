@@ -2,7 +2,7 @@ name: Docker Import Root Filesystem
 
 on:
   workflow_run:
-    workflows: ["Build on GitHub Hosted Runner"]
+    workflows: ["Build Stage 1"]
     types:
       - completed
   workflow_dispatch:
