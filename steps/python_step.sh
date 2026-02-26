@@ -24,7 +24,7 @@ step_chroot_python_stage2() {
 
 	make install
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }
 
 step_chroot_python_stage3() {
@@ -67,5 +67,5 @@ root-user-action = ignore
 disable-pip-version-check = true
 EOF
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

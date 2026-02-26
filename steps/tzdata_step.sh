@@ -30,5 +30,5 @@ step_chroot_tzdata() {
 
 	unset ZONE_INFO tz ZONE_DEFAULT ZONES
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

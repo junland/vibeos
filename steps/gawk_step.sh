@@ -28,7 +28,7 @@ step_gawk() {
 
 	make install DESTDIR="${TARGET_ROOTFS_DIR}"
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }
 
 step_chroot_gawk() {
@@ -58,5 +58,5 @@ step_chroot_gawk() {
 
 	make install
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

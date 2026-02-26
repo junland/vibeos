@@ -20,5 +20,5 @@ step_chroot_gettext() {
 
 	cp -v gettext-tools/src/{msgfmt,msgmerge,xgettext} /usr/bin
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

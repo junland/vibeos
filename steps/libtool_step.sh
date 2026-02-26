@@ -26,5 +26,5 @@ step_chroot_libtool() {
 
 	rm -fv /usr/lib/libltdl.a
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

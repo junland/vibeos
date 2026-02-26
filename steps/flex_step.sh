@@ -29,5 +29,5 @@ step_chroot_flex() {
 
 	ln -sv flex /usr/bin/lex
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

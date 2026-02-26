@@ -34,5 +34,5 @@ step_chroot_kmod() {
 
 	ln -sfv kmod /usr/sbin/lsmod
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

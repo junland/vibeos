@@ -70,7 +70,7 @@ step_glibc() {
 
 	rm -v a.out
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }
 
 step_chroot_glibc() {
@@ -146,5 +146,5 @@ EOF
 	msg "Generating and installing locales..."
 	make localedata/install-locales
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

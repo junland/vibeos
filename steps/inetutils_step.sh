@@ -41,5 +41,5 @@ step_chroot_inetutils() {
 
 	mv -v /usr/{,s}bin/ifconfig
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

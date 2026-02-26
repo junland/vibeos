@@ -27,7 +27,7 @@ step_findutils() {
 
 	make install DESTDIR="${TARGET_ROOTFS_DIR}"
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }
 
 step_chroot_findutils() {
@@ -55,5 +55,5 @@ step_chroot_findutils() {
 
 	make install
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

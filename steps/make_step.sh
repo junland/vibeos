@@ -27,7 +27,7 @@ step_make() {
 
 	make install DESTDIR="${TARGET_ROOTFS_DIR}"
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }
 
 step_chroot_make() {
@@ -53,5 +53,5 @@ step_chroot_make() {
 
 	make install
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

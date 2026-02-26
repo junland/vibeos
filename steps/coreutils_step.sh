@@ -38,7 +38,7 @@ step_coreutils() {
 	mv -v "$TARGET_ROOTFS_DIR"/usr/share/man/man1/chroot.1 "$TARGET_ROOTFS_DIR"/usr/share/man/man8/chroot.8
 	sed -i 's/"1"/"8"/' "$TARGET_ROOTFS_DIR"/usr/share/man/man8/chroot.8
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }
 
 step_chroot_coreutils() {
@@ -75,5 +75,5 @@ step_chroot_coreutils() {
 	mv -v /usr/share/man/man1/chroot.1 /usr/share/man/man8/chroot.8
 	sed -i 's/"1"/"8"/' /usr/share/man/man8/chroot.8
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

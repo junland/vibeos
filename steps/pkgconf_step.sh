@@ -25,5 +25,5 @@ step_chroot_pkgconf() {
 
 	ln -sv pkgconf /usr/bin/pkg-config
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

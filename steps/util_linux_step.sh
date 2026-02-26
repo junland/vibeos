@@ -33,7 +33,7 @@ step_chroot_util_linux() {
 
 	make install
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }
 
 step_chroot_util_linux_stage3() {
@@ -77,5 +77,5 @@ step_chroot_util_linux_stage3() {
 
 	make install
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

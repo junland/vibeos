@@ -30,7 +30,7 @@ step_xz() {
 
 	rm -v "${TARGET_ROOTFS_DIR}"/usr/lib/liblzma.la
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }
 
 step_chroot_xz() {
@@ -56,5 +56,5 @@ step_chroot_xz() {
 
 	make install
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

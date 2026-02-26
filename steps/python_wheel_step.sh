@@ -16,5 +16,5 @@ step_chroot_python_wheel() {
 
 	pip3 install --no-index --find-links dist wheel
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

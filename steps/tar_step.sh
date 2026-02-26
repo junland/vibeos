@@ -26,7 +26,7 @@ step_tar() {
 
 	make install DESTDIR="${TARGET_ROOTFS_DIR}"
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }
 
 step_chroot_tar() {
@@ -50,5 +50,5 @@ step_chroot_tar() {
 
 	make install
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

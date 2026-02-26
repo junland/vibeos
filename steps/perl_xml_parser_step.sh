@@ -22,5 +22,5 @@ step_chroot_perl_xml_parser() {
 
 	make install
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

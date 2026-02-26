@@ -24,5 +24,5 @@ step_linux_headers() {
 
 	cp -rv usr/include "${TARGET_ROOTFS_DIR}/usr"
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

@@ -12,5 +12,5 @@ step_chroot_iana_etc() {
 
 	cp -v services protocols "${TARGET_ROOTFS_DIR}/etc/"
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

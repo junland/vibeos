@@ -16,5 +16,5 @@ step_chroot_meson() {
 
 	pip3 install --no-index --find-links dist meson
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

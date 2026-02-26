@@ -26,5 +26,5 @@ step_chroot_zlib() {
 
 	rm -fv /usr/lib/libz.a
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

@@ -37,5 +37,5 @@ step_chroot_shadow() {
 
 	make exec_prefix=/usr install
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

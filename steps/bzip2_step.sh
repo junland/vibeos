@@ -34,5 +34,5 @@ step_chroot_bzip2() {
 
 	rm -fv /usr/lib/libbz2.a
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

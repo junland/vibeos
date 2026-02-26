@@ -28,5 +28,5 @@ step_chroot_libxcrypt() {
 
 	make install
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

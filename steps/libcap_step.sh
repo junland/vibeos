@@ -24,5 +24,5 @@ step_chroot_libcap() {
 
 	make prefix=/usr lib=lib install
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

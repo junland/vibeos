@@ -16,6 +16,6 @@ step_chroot_python_packaging() {
 
 	pip3 install --no-index --find-links dist packaging
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }
 

@@ -38,5 +38,5 @@ step_chroot_gmp() {
 
 	make install
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

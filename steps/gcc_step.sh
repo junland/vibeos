@@ -60,7 +60,7 @@ step_gcc_pass1() {
 
 	cat gcc/limitx.h gcc/glimits.h gcc/limity.h >"$(dirname $("$LFS_TGT"-gcc -print-libgcc-file-name))/include/limits.h"
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }
 
 step_gcc_pass2() {
@@ -114,7 +114,7 @@ step_gcc_pass2() {
 
 	ln -svf gcc "${TARGET_ROOTFS_DIR}"/usr/bin/cc
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }
 
 step_gcc_libstdcxx() {
@@ -154,7 +154,7 @@ step_gcc_libstdcxx() {
 
 	rm -v "${TARGET_ROOTFS_DIR}"/usr/lib/lib{stdc++{,exp,fs},supc++}.la
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }
 
 step_chroot_gcc() {
@@ -225,5 +225,5 @@ step_chroot_gcc() {
 
 	mv -v /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

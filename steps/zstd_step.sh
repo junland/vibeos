@@ -22,5 +22,5 @@ step_chroot_zstd() {
 
 	rm -v /usr/lib/libzstd.a
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

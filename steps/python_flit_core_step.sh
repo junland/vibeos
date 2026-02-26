@@ -16,5 +16,5 @@ step_chroot_python_flit_core() {
 	
 	pip3 install --no-index --find-links dist flit_core
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

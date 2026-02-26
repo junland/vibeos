@@ -52,7 +52,7 @@ step_ncurses() {
 
 	sed -e 's/^#if.*XOPEN.*$/#if 1/' -i "${TARGET_ROOTFS_DIR}"/usr/include/curses.h
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }
 
 step_chroot_ncurses() {
@@ -95,5 +95,5 @@ step_chroot_ncurses() {
 
 	ln -sfv libncursesw.so /usr/lib/libcurses.so
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

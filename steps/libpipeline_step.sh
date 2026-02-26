@@ -24,5 +24,5 @@ step_chroot_libpipeline() {
 
 	make install
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

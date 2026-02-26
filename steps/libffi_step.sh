@@ -31,5 +31,5 @@ step_chroot_libffi() {
 
 	make install
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

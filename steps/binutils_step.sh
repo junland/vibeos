@@ -32,7 +32,7 @@ step_binutils_pass1() {
 
 	make install
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }
 
 step_binutils_pass2() {
@@ -70,7 +70,7 @@ step_binutils_pass2() {
 
 	rm -v "${TARGET_ROOTFS_DIR}"/usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes,sframe}.{a,la}
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }
 
 step_chroot_binutils() {
@@ -116,5 +116,5 @@ step_chroot_binutils() {
 
 	rm -rfv /usr/lib/lib{bfd,ctf,ctf-nobfd,gprofng,opcodes,sframe}.a /usr/share/doc/gprofng/
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

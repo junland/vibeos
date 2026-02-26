@@ -26,7 +26,7 @@ step_sed() {
 
 	make install DESTDIR="${TARGET_ROOTFS_DIR}"
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }
 
 step_chroot_sed() {
@@ -52,5 +52,5 @@ step_chroot_sed() {
 
 	make install
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

@@ -32,5 +32,5 @@ step_chroot_elfutils_lib() {
 
 	rm -v /usr/lib/libelf.a
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

@@ -31,5 +31,5 @@ step_chroot_openssl() {
 
 	make MANSUFFIX=ssl install
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

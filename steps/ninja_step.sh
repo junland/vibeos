@@ -16,5 +16,5 @@ step_chroot_ninja() {
 
 	install -vm755 ninja /usr/bin/
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

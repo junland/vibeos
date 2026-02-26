@@ -43,7 +43,7 @@ step_file() {
 
 	rm -v "${TARGET_ROOTFS_DIR}"/usr/lib/libmagic.la
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }
 
 step_chroot_file() {
@@ -67,5 +67,5 @@ step_chroot_file() {
 
 	make install
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

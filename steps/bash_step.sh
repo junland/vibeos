@@ -26,7 +26,7 @@ step_bash() {
 
 	ln -svf bash "${TARGET_ROOTFS_DIR}"/usr/bin/sh
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }
 
 step_chroot_bash() {
@@ -54,5 +54,5 @@ step_chroot_bash() {
 
 	make install
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

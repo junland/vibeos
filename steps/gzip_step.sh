@@ -25,7 +25,7 @@ step_gzip() {
 
 	make install DESTDIR="${TARGET_ROOTFS_DIR}"
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }
 
 step_chroot_gzip() {
@@ -49,5 +49,5 @@ step_chroot_gzip() {
 
 	make install
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }

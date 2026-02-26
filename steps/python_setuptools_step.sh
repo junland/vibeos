@@ -16,5 +16,5 @@ step_chroot_python_setuptools() {
 
 	pip3 install --no-index --find-links dist setuptools
 
-	clean_work_dir
+	clean_dir ${WORK_DIR}
 }
