@@ -1,7 +1,7 @@
 #!/bin/bash
 # M4 Step - Build and install m4
 
-M4_VER="1.4.20"
+M4_VER="1.4.21"
 
 step_m4() {
 	extract_file "${SOURCES_DIR}/m4-${M4_VER}.tar.xz" "${WORK_DIR}/m4-${M4_VER}"
