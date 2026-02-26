@@ -4,9 +4,9 @@
 PYTHON_FLIT_CORE_VER="3.12.0"
 
 step_chroot_python_flit_core() {
-	extract_file "${SOURCES}/flit_core-${PYTHON_FLIT_CORE_VER}.tar.gz" "${WORK}/flit_core-${PYTHON_FLIT_CORE_VER}"
+	extract_file "${SOURCES_DIR}/flit_core-${PYTHON_FLIT_CORE_VER}.tar.gz" "${WORK_DIR}/flit_core-${PYTHON_FLIT_CORE_VER}"
 
-	cd "${WORK}/flit_core-${PYTHON_FLIT_CORE_VER}"
+	cd "${WORK_DIR}/flit_core-${PYTHON_FLIT_CORE_VER}"
 
 	msg "Building flit-core..."
 

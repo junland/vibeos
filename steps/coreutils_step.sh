@@ -42,14 +42,14 @@ step_coreutils() {
 }
 
 step_chroot_coreutils() {
-	extract_file "${SOURCES}/coreutils-${COREUTILS_VER}.tar.xz" "${WORK}/coreutils-${COREUTILS_VER}"
+	extract_file "${SOURCES_DIR}/coreutils-${COREUTILS_VER}.tar.xz" "${WORK_DIR}/coreutils-${COREUTILS_VER}"
 
-	cd "${WORK}/coreutils-${COREUTILS_VER}"
+	cd "${WORK_DIR}/coreutils-${COREUTILS_VER}"
 
 	msg "Patching coreutils..."
 
-	patch -Np1 -i "${SOURCES}/coreutils-${COREUTILS_VER}-upstream_fix-1.patch"
-	patch -Np1 -i "${SOURCES}/coreutils-${COREUTILS_VER}-i18n-1.patch"
+	patch -Np1 -i "${SOURCES_DIR}/coreutils-${COREUTILS_VER}-upstream_fix-1.patch"
+	patch -Np1 -i "${SOURCES_DIR}/coreutils-${COREUTILS_VER}-i18n-1.patch"
 
 	msg "Configuring coreutils..."
 

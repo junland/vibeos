@@ -34,9 +34,9 @@ step_xz() {
 }
 
 step_chroot_xz() {
-	extract_file "${SOURCES}/xz-${XZ_VER}.tar.xz" "${WORK}/xz-${XZ_VER}"
+	extract_file "${SOURCES_DIR}/xz-${XZ_VER}.tar.xz" "${WORK_DIR}/xz-${XZ_VER}"
 
-	cd "${WORK}/xz-${XZ_VER}"
+	cd "${WORK_DIR}/xz-${XZ_VER}"
 
 	msg "Configuring xz..."
 

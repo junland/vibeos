@@ -4,9 +4,9 @@
 PYTHON_WHEEL_VER="0.46.1"
 
 step_chroot_python_wheel() {
-	extract_file "${SOURCES}/wheel-${PYTHON_WHEEL_VER}.tar.gz" "${WORK}/wheel-${PYTHON_WHEEL_VER}"
+	extract_file "${SOURCES_DIR}/wheel-${PYTHON_WHEEL_VER}.tar.gz" "${WORK_DIR}/wheel-${PYTHON_WHEEL_VER}"
 
-	cd "${WORK}/wheel-${PYTHON_WHEEL_VER}"
+	cd "${WORK_DIR}/wheel-${PYTHON_WHEEL_VER}"
 
 	msg "Building wheel..."
 

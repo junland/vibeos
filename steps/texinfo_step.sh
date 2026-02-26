@@ -4,9 +4,9 @@
 TEXINFO_VER="7.2"
 
 step_chroot_texinfo() {
-	extract_file "${SOURCES}/texinfo-${TEXINFO_VER}.tar.xz" "${WORK}/texinfo-${TEXINFO_VER}"
+	extract_file "${SOURCES_DIR}/texinfo-${TEXINFO_VER}.tar.xz" "${WORK_DIR}/texinfo-${TEXINFO_VER}"
 
-	cd "${WORK}/texinfo-${TEXINFO_VER}"
+	cd "${WORK_DIR}/texinfo-${TEXINFO_VER}"
 
 	msg "Configuring texinfo..."
 
@@ -24,9 +24,9 @@ step_chroot_texinfo() {
 }
 
 step_chroot_texinfo_stage3() {
-	extract_file "${SOURCES}/texinfo-${TEXINFO_VER}.tar.xz" "${WORK}/texinfo-${TEXINFO_VER}"
+	extract_file "${SOURCES_DIR}/texinfo-${TEXINFO_VER}.tar.xz" "${WORK_DIR}/texinfo-${TEXINFO_VER}"
 
-	cd "${WORK}/texinfo-${TEXINFO_VER}"
+	cd "${WORK_DIR}/texinfo-${TEXINFO_VER}"
 
 	msg "Configuring texinfo..."
 

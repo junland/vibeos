@@ -4,9 +4,9 @@
 MPFR_VER="4.2.2"
 
 step_chroot_mpfr() {
-	extract_file "${SOURCES}/mpfr-${MPFR_VER}.tar.xz" "${WORK}/mpfr-${MPFR_VER}"
+	extract_file "${SOURCES_DIR}/mpfr-${MPFR_VER}.tar.xz" "${WORK_DIR}/mpfr-${MPFR_VER}"
 
-	cd "${WORK}/mpfr-${MPFR_VER}"
+	cd "${WORK_DIR}/mpfr-${MPFR_VER}"
 
 	msg "Configuring mpfr..."
 

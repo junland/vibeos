@@ -4,9 +4,9 @@
 EXPAT_VER="2.7.1"
 
 step_chroot_expat() {
-	extract_file "${SOURCES}/expat-${EXPAT_VER}.tar.xz" "${WORK}/expat-${EXPAT_VER}"
+	extract_file "${SOURCES_DIR}/expat-${EXPAT_VER}.tar.xz" "${WORK_DIR}/expat-${EXPAT_VER}"
 
-	cd "${WORK}/expat-${EXPAT_VER}"
+	cd "${WORK_DIR}/expat-${EXPAT_VER}"
 
 	msg "Configuring expat..."
 

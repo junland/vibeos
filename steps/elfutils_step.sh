@@ -4,9 +4,9 @@
 ELFUTILS_VER="0.193"
 
 step_chroot_elfutils_lib() {
-	extract_file "${SOURCES}/elfutils-${ELFUTILS_VER}.tar.bz2" "${WORK}/elfutils-${ELFUTILS_VER}"
+	extract_file "${SOURCES_DIR}/elfutils-${ELFUTILS_VER}.tar.bz2" "${WORK_DIR}/elfutils-${ELFUTILS_VER}"
 
-	cd "${WORK}/elfutils-${ELFUTILS_VER}"
+	cd "${WORK_DIR}/elfutils-${ELFUTILS_VER}"
 
 	msg "Configuring elfutils-lib..."
 

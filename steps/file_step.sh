@@ -47,9 +47,9 @@ step_file() {
 }
 
 step_chroot_file() {
-	extract_file "${SOURCES}/file-${FILE_VER}.tar.gz" "${WORK}/file-${FILE_VER}"
+	extract_file "${SOURCES_DIR}/file-${FILE_VER}.tar.gz" "${WORK_DIR}/file-${FILE_VER}"
 
-	cd "${WORK}/file-${FILE_VER}"
+	cd "${WORK_DIR}/file-${FILE_VER}"
 
 	msg "Configuring file..."
 

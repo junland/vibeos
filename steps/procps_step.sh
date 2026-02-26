@@ -4,9 +4,9 @@
 PROCPS_VER="4.0.5"
 
 step_chroot_procps_ng() {
-	extract_file "${SOURCES}/procps-v${PROCPS_VER}.tar.bz2" "${WORK}/procps-v${PROCPS_VER}"
+	extract_file "${SOURCES_DIR}/procps-v${PROCPS_VER}.tar.bz2" "${WORK_DIR}/procps-v${PROCPS_VER}"
 
-	cd "${WORK}/procps-v${PROCPS_VER}"
+	cd "${WORK_DIR}/procps-v${PROCPS_VER}"
 
 	msg "Configuring procps-ng..."
 

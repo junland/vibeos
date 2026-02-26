@@ -4,9 +4,9 @@
 MESON_VER="1.8.3"
 
 step_chroot_meson() {
-	extract_file "${SOURCES}/meson-${MESON_VER}.tar.gz" "${WORK}/meson-${MESON_VER}"
+	extract_file "${SOURCES_DIR}/meson-${MESON_VER}.tar.gz" "${WORK_DIR}/meson-${MESON_VER}"
 
-	cd "${WORK}/meson-${MESON_VER}"
+	cd "${WORK_DIR}/meson-${MESON_VER}"
 
 	msg "Building meson..."
 

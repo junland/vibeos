@@ -4,9 +4,9 @@
 NINJA_VER="1.13.1"
 
 step_chroot_ninja() {
-	extract_file "${SOURCES}/ninja-${NINJA_VER}.tar.gz" "${WORK}/ninja-${NINJA_VER}"
+	extract_file "${SOURCES_DIR}/ninja-${NINJA_VER}.tar.gz" "${WORK_DIR}/ninja-${NINJA_VER}"
 
-	cd "${WORK}/ninja-${NINJA_VER}"
+	cd "${WORK_DIR}/ninja-${NINJA_VER}"
 
 	msg "Building ninja..."
 

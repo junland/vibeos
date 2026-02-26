@@ -4,9 +4,9 @@
 LIBPIPELINE_VER="1.5.7"
 
 step_chroot_libpipeline() {
-	extract_file "${SOURCES}/libpipeline-${LIBPIPELINE_VER}.tar.gz" "${WORK}/libpipeline-${LIBPIPELINE_VER}"
+	extract_file "${SOURCES_DIR}/libpipeline-${LIBPIPELINE_VER}.tar.gz" "${WORK_DIR}/libpipeline-${LIBPIPELINE_VER}"
 
-	cd "${WORK}/libpipeline-${LIBPIPELINE_VER}"
+	cd "${WORK_DIR}/libpipeline-${LIBPIPELINE_VER}"
 
 	msg "Configuring libpipeline..."
 

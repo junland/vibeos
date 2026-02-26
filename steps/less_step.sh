@@ -4,9 +4,9 @@
 LESS_VER="679"
 
 step_chroot_less() {
-	extract_file "${SOURCES}/less-${LESS_VER}.tar.gz" "${WORK}/less-${LESS_VER}"
+	extract_file "${SOURCES_DIR}/less-${LESS_VER}.tar.gz" "${WORK_DIR}/less-${LESS_VER}"
 
-	cd "${WORK}/less-${LESS_VER}"
+	cd "${WORK_DIR}/less-${LESS_VER}"
 
 	msg "Configuring less..."
 

@@ -4,9 +4,9 @@
 ACL_VER="2.3.2"
 
 step_chroot_acl() {
-	extract_file "${SOURCES}/acl-${ACL_VER}.tar.xz" "${WORK}/acl-${ACL_VER}"
+	extract_file "${SOURCES_DIR}/acl-${ACL_VER}.tar.xz" "${WORK_DIR}/acl-${ACL_VER}"
 
-	cd "${WORK}/acl-${ACL_VER}"
+	cd "${WORK_DIR}/acl-${ACL_VER}"
 
 	msg "Configuring acl..."
 

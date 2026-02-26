@@ -74,13 +74,13 @@ step_glibc() {
 }
 
 step_chroot_glibc() {
-	extract_file "${SOURCES}/glibc-${GLIBC_VER}.tar.gz" "${WORK}/glibc-${GLIBC_VER}"
+	extract_file "${SOURCES_DIR}/glibc-${GLIBC_VER}.tar.gz" "${WORK_DIR}/glibc-${GLIBC_VER}"
 
-	cd "${WORK}/glibc-${GLIBC_VER}"
+	cd "${WORK_DIR}/glibc-${GLIBC_VER}"
 
 	msg "Patching glibc..."
 
-	patch -Np1 -i "${SOURCES}/glibc-${GLIBC_VER}-fhs-1.patch"
+	patch -Np1 -i "${SOURCES_DIR}/glibc-${GLIBC_VER}-fhs-1.patch"
 
 	msg "Configuring glibc..."
 
@@ -105,19 +105,19 @@ step_chroot_glibc() {
 	msg "Checking glibc..."
 
 	# Disable io/tst-lchmod test as its known to fail in a chroot.
-	sed -i "/\btst-lchmod /d" "${WORK}/glibc-${GLIBC_VER}/io/Makefile"
+	sed -i "/\btst-lchmod /d" "${WORK_DIR}/glibc-${GLIBC_VER}/io/Makefile"
 
 	# Disable stdlib/test-cxa_atexit-race2 test as it its known to fail in a chroot.
-	sed -i "/\btest-cxa_atexit-race2 /d" "${WORK}/glibc-${GLIBC_VER}/stdlib/Makefile"
+	sed -i "/\btest-cxa_atexit-race2 /d" "${WORK_DIR}/glibc-${GLIBC_VER}/stdlib/Makefile"
 
 	# Disable sunrpc/tst-udp-timeout test as its known to fail in virtualbox.
-	sed -i "s/ tst-udp-timeout//g" "${WORK}/glibc-${GLIBC_VER}/sunrpc/Makefile"
+	sed -i "s/ tst-udp-timeout//g" "${WORK_DIR}/glibc-${GLIBC_VER}/sunrpc/Makefile"
 
 	# Disable misc/tst-timerfd test as its known to fail in a chroot.
-	sed -i "/\btst-timerfd /d" "${WORK}/glibc-${GLIBC_VER}/sysdeps/unix/sysv/linux/Makefile"
+	sed -i "/\btst-timerfd /d" "${WORK_DIR}/glibc-${GLIBC_VER}/sysdeps/unix/sysv/linux/Makefile"
 
 	# Disable nss/tst-nss-files-hosts-multi test as its known to fail in a chroot.
-	sed -i "/tests += tst-nss-files-hosts-multi/d" "${WORK}/glibc-${GLIBC_VER}/nss/Makefile"
+	sed -i "/tests += tst-nss-files-hosts-multi/d" "${WORK_DIR}/glibc-${GLIBC_VER}/nss/Makefile"
 	
 	TIMEOUTFACTOR=15 make check -j1
 

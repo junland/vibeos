@@ -30,9 +30,9 @@ step_bash() {
 }
 
 step_chroot_bash() {
-	extract_file "${SOURCES}/bash-$BASH_VER.tar.gz" "${WORK}/bash-$BASH_VER"
+	extract_file "${SOURCES_DIR}/bash-$BASH_VER.tar.gz" "${WORK_DIR}/bash-$BASH_VER"
 
-	cd "${WORK}/bash-$BASH_VER"
+	cd "${WORK_DIR}/bash-$BASH_VER"
 
 	msg "Configuring bash..."
 

@@ -29,9 +29,9 @@ step_m4() {
 }
 
 step_chroot_m4() {
-	extract_file "${SOURCES}/m4-${M4_VER}.tar.xz" "${WORK}/m4-${M4_VER}"
+	extract_file "${SOURCES_DIR}/m4-${M4_VER}.tar.xz" "${WORK_DIR}/m4-${M4_VER}"
 
-	cd "${WORK}/m4-${M4_VER}"
+	cd "${WORK_DIR}/m4-${M4_VER}"
 
 	msg "Configuring m4..."
 

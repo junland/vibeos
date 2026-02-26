@@ -31,9 +31,9 @@ step_findutils() {
 }
 
 step_chroot_findutils() {
-	extract_file "${SOURCES}/findutils-${FINDUTILS_VER}.tar.xz" "${WORK}/findutils-${FINDUTILS_VER}"
+	extract_file "${SOURCES_DIR}/findutils-${FINDUTILS_VER}.tar.xz" "${WORK_DIR}/findutils-${FINDUTILS_VER}"
 
-	cd "${WORK}/findutils-${FINDUTILS_VER}"
+	cd "${WORK_DIR}/findutils-${FINDUTILS_VER}"
 
 	msg "Configuring findutils..."
 

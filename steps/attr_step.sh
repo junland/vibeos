@@ -4,9 +4,9 @@
 ATTR_VER="2.5.2"
 
 step_chroot_attr() {
-	extract_file "${SOURCES}/attr-${ATTR_VER}.tar.gz" "${WORK}/attr-${ATTR_VER}"
+	extract_file "${SOURCES_DIR}/attr-${ATTR_VER}.tar.gz" "${WORK_DIR}/attr-${ATTR_VER}"
 
-	cd "${WORK}/attr-${ATTR_VER}"
+	cd "${WORK_DIR}/attr-${ATTR_VER}"
 
 	msg "Configuring attr..."
 

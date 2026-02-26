@@ -4,9 +4,9 @@
 BZIP2_VER="1.0.8"
 
 step_chroot_bzip2() {
-	extract_file "${SOURCES}/bzip2-${BZIP2_VER}.tar.gz" "${WORK}/bzip2-${BZIP2_VER}"
+	extract_file "${SOURCES_DIR}/bzip2-${BZIP2_VER}.tar.gz" "${WORK_DIR}/bzip2-${BZIP2_VER}"
 
-	cd "${WORK}/bzip2-${BZIP2_VER}"
+	cd "${WORK_DIR}/bzip2-${BZIP2_VER}"
 
 	msg "Configuring bzip2..."
 

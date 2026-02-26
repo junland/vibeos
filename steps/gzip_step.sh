@@ -29,9 +29,9 @@ step_gzip() {
 }
 
 step_chroot_gzip() {
-	extract_file "${SOURCES}/gzip-${GZIP_VER}.tar.xz" "${WORK}/gzip-${GZIP_VER}"
+	extract_file "${SOURCES_DIR}/gzip-${GZIP_VER}.tar.xz" "${WORK_DIR}/gzip-${GZIP_VER}"
 
-	cd "${WORK}/gzip-${GZIP_VER}"
+	cd "${WORK_DIR}/gzip-${GZIP_VER}"
 
 	msg "Configuring gzip..."
 

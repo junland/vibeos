@@ -4,9 +4,9 @@
 BISON_VER="3.8.2"
 
 step_chroot_bison() {
-	extract_file "${SOURCES}/bison-${BISON_VER}.tar.xz" "${WORK}/bison-${BISON_VER}"
+	extract_file "${SOURCES_DIR}/bison-${BISON_VER}.tar.xz" "${WORK_DIR}/bison-${BISON_VER}"
 
-	cd "${WORK}/bison-${BISON_VER}"
+	cd "${WORK_DIR}/bison-${BISON_VER}"
 
 	msg "Configuring bison..."
 

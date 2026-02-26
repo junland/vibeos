@@ -30,9 +30,9 @@ step_sed() {
 }
 
 step_chroot_sed() {
-	extract_file "${SOURCES}/sed-${SED_VER}.tar.xz" "${WORK}/sed-${SED_VER}"
+	extract_file "${SOURCES_DIR}/sed-${SED_VER}.tar.xz" "${WORK_DIR}/sed-${SED_VER}"
 
-	cd "${WORK}/sed-${SED_VER}"
+	cd "${WORK_DIR}/sed-${SED_VER}"
 
 	msg "Configuring sed..."
 

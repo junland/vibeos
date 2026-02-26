@@ -4,9 +4,9 @@
 LIBCAP_VER="2.76"
 
 step_chroot_libcap() {
-	extract_file "${SOURCES}/libcap-${LIBCAP_VER}.tar.xz" "${WORK}/libcap-${LIBCAP_VER}"
+	extract_file "${SOURCES_DIR}/libcap-${LIBCAP_VER}.tar.xz" "${WORK_DIR}/libcap-${LIBCAP_VER}"
 
-	cd "${WORK}/libcap-${LIBCAP_VER}"
+	cd "${WORK_DIR}/libcap-${LIBCAP_VER}"
 
 	msg "Configuring libcap..."
 

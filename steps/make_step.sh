@@ -31,9 +31,9 @@ step_make() {
 }
 
 step_chroot_make() {
-	extract_file "${SOURCES}/make-${MAKE_VER}.tar.gz" "${WORK}/make-${MAKE_VER}"
+	extract_file "${SOURCES_DIR}/make-${MAKE_VER}.tar.gz" "${WORK_DIR}/make-${MAKE_VER}"
 
-	cd "${WORK}/make-${MAKE_VER}"
+	cd "${WORK_DIR}/make-${MAKE_VER}"
 
 	msg "Configuring make..."
 

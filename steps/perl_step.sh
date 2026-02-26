@@ -4,9 +4,9 @@
 PERL_VER="5.42.0"
 
 step_chroot_perl_stage2() {
-	extract_file "${SOURCES}/perl-${PERL_VER}.tar.xz" "${WORK}/perl-${PERL_VER}"
+	extract_file "${SOURCES_DIR}/perl-${PERL_VER}.tar.xz" "${WORK_DIR}/perl-${PERL_VER}"
 
-	cd "${WORK}/perl-${PERL_VER}"
+	cd "${WORK_DIR}/perl-${PERL_VER}"
 
 	msg "Configuring Perl..."
 
@@ -33,9 +33,9 @@ step_chroot_perl_stage2() {
 }
 
 step_chroot_perl_stage3() {
-	extract_file "${SOURCES}/perl-${PERL_VER}.tar.xz" "${WORK}/perl-${PERL_VER}"
+	extract_file "${SOURCES_DIR}/perl-${PERL_VER}.tar.xz" "${WORK_DIR}/perl-${PERL_VER}"
 
-	cd "${WORK}/perl-${PERL_VER}"
+	cd "${WORK_DIR}/perl-${PERL_VER}"
 
 	msg "Configuring Perl..."
 

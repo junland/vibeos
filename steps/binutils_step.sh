@@ -74,9 +74,9 @@ step_binutils_pass2() {
 }
 
 step_chroot_binutils() {
-	extract_file "${SOURCES}/binutils-${BINUTILS_VER}.tar.xz" "${WORK}/binutils-${BINUTILS_VER}"
+	extract_file "${SOURCES_DIR}/binutils-${BINUTILS_VER}.tar.xz" "${WORK_DIR}/binutils-${BINUTILS_VER}"
 
-	cd "${WORK}/binutils-${BINUTILS_VER}"
+	cd "${WORK_DIR}/binutils-${BINUTILS_VER}"
 
 	msg "Configuring binutils..."
 

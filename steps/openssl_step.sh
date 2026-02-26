@@ -4,9 +4,9 @@
 OPENSSL_VER="3.5.4"
 
 step_chroot_openssl() {
-	extract_file "${SOURCES}/openssl-${OPENSSL_VER}.tar.gz" "${WORK}/openssl-${OPENSSL_VER}"
+	extract_file "${SOURCES_DIR}/openssl-${OPENSSL_VER}.tar.gz" "${WORK_DIR}/openssl-${OPENSSL_VER}"
 
-	cd "${WORK}/openssl-${OPENSSL_VER}"
+	cd "${WORK_DIR}/openssl-${OPENSSL_VER}"
 
 	msg "Configuring OpenSSL..."
 

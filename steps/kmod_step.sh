@@ -4,9 +4,9 @@
 KMOD_VER="34.2"
 
 step_chroot_kmod() {
-	extract_file "${SOURCES}/kmod-${KMOD_VER}.tar.gz" "${WORK}/kmod-${KMOD_VER}"
+	extract_file "${SOURCES_DIR}/kmod-${KMOD_VER}.tar.gz" "${WORK_DIR}/kmod-${KMOD_VER}"
 
-	cd "${WORK}/kmod-${KMOD_VER}"
+	cd "${WORK_DIR}/kmod-${KMOD_VER}"
 
 	msg "Configuring kmod..."
 

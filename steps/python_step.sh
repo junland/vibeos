@@ -4,9 +4,9 @@
 PYTHON_VER="3.13.7"
 
 step_chroot_python_stage2() {
-	extract_file "${SOURCES}/Python-${PYTHON_VER}.tar.xz" "${WORK}/Python-${PYTHON_VER}"
+	extract_file "${SOURCES_DIR}/Python-${PYTHON_VER}.tar.xz" "${WORK_DIR}/Python-${PYTHON_VER}"
 
-	cd "${WORK}/Python-${PYTHON_VER}"
+	cd "${WORK_DIR}/Python-${PYTHON_VER}"
 
 	msg "Configuring Python..."
 
@@ -28,9 +28,9 @@ step_chroot_python_stage2() {
 }
 
 step_chroot_python_stage3() {
-	extract_file "${SOURCES}/Python-${PYTHON_VER}.tar.xz" "${WORK}/Python-${PYTHON_VER}"
+	extract_file "${SOURCES_DIR}/Python-${PYTHON_VER}.tar.xz" "${WORK_DIR}/Python-${PYTHON_VER}"
 
-	cd "${WORK}/Python-${PYTHON_VER}"
+	cd "${WORK_DIR}/Python-${PYTHON_VER}"
 
 	msg "Debug before configure - TERM = $TERM"
 

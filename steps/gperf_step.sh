@@ -4,9 +4,9 @@
 GPERF_VER="3.3"
 
 step_chroot_gperf() {
-	extract_file "${SOURCES}/gperf-${GPERF_VER}.tar.gz" "${WORK}/gperf-${GPERF_VER}"
+	extract_file "${SOURCES_DIR}/gperf-${GPERF_VER}.tar.gz" "${WORK_DIR}/gperf-${GPERF_VER}"
 
-	cd "${WORK}/gperf-${GPERF_VER}"
+	cd "${WORK_DIR}/gperf-${GPERF_VER}"
 
 	msg "Configuring gperf..."
 

@@ -32,9 +32,9 @@ step_gawk() {
 }
 
 step_chroot_gawk() {
-	extract_file "${SOURCES}/gawk-${GAWK_VER}.tar.xz" "${WORK}/gawk-${GAWK_VER}"
+	extract_file "${SOURCES_DIR}/gawk-${GAWK_VER}.tar.xz" "${WORK_DIR}/gawk-${GAWK_VER}"
 
-	cd "${WORK}/gawk-${GAWK_VER}"
+	cd "${WORK_DIR}/gawk-${GAWK_VER}"
 
 	msg "Configuring gawk..."
 

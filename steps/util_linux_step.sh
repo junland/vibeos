@@ -4,9 +4,9 @@
 UTIL_LINUX_VER="2.41.1"
 
 step_chroot_util_linux() {
-	extract_file "${SOURCES}/util-linux-${UTIL_LINUX_VER}.tar.xz" "${WORK}/util-linux-${UTIL_LINUX_VER}"
+	extract_file "${SOURCES_DIR}/util-linux-${UTIL_LINUX_VER}.tar.xz" "${WORK_DIR}/util-linux-${UTIL_LINUX_VER}"
 
-	cd "${WORK}/util-linux-${UTIL_LINUX_VER}"
+	cd "${WORK_DIR}/util-linux-${UTIL_LINUX_VER}"
 
 	msg "Configuring util-linux..."
 
@@ -37,9 +37,9 @@ step_chroot_util_linux() {
 }
 
 step_chroot_util_linux_stage3() {
-	extract_file "${SOURCES}/util-linux-${UTIL_LINUX_VER}.tar.xz" "${WORK}/util-linux-${UTIL_LINUX_VER}"
+	extract_file "${SOURCES_DIR}/util-linux-${UTIL_LINUX_VER}.tar.xz" "${WORK_DIR}/util-linux-${UTIL_LINUX_VER}"
 
-	cd "${WORK}/util-linux-${UTIL_LINUX_VER}"
+	cd "${WORK_DIR}/util-linux-${UTIL_LINUX_VER}"
 
 	msg "Configuring util-linux..."
 

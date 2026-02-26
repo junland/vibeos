@@ -4,9 +4,9 @@
 AUTOCONF_VER="2.72"
 
 step_chroot_autoconf() {
-	extract_file "${SOURCES}/autoconf-${AUTOCONF_VER}.tar.xz" "${WORK}/autoconf-${AUTOCONF_VER}"
+	extract_file "${SOURCES_DIR}/autoconf-${AUTOCONF_VER}.tar.xz" "${WORK_DIR}/autoconf-${AUTOCONF_VER}"
 
-	cd "${WORK}/autoconf-${AUTOCONF_VER}"
+	cd "${WORK_DIR}/autoconf-${AUTOCONF_VER}"
 
 	msg "Configuring autoconf..."
 

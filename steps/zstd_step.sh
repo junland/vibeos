@@ -4,9 +4,9 @@
 ZSTD_VER="1.5.7"
 
 step_chroot_zstd() {
-	extract_file "${SOURCES}/zstd-${ZSTD_VER}.tar.gz" "${WORK}/zstd-${ZSTD_VER}"
+	extract_file "${SOURCES_DIR}/zstd-${ZSTD_VER}.tar.gz" "${WORK_DIR}/zstd-${ZSTD_VER}"
 
-	cd "${WORK}/zstd-${ZSTD_VER}"
+	cd "${WORK_DIR}/zstd-${ZSTD_VER}"
 
 	msg "Building zstd..."
 

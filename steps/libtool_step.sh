@@ -4,9 +4,9 @@
 LIBTOOL_VER="2.5.4"
 
 step_chroot_libtool() {
-	extract_file "${SOURCES}/libtool-${LIBTOOL_VER}.tar.xz" "${WORK}/libtool-${LIBTOOL_VER}"
+	extract_file "${SOURCES_DIR}/libtool-${LIBTOOL_VER}.tar.xz" "${WORK_DIR}/libtool-${LIBTOOL_VER}"
 
-	cd "${WORK}/libtool-${LIBTOOL_VER}"
+	cd "${WORK_DIR}/libtool-${LIBTOOL_VER}"
 
 	msg "Configuring libtool..."
 

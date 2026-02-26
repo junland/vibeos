@@ -4,9 +4,9 @@
 PYTHON_PACKAGING_VER="25.0"
 
 step_chroot_python_packaging() {
-	extract_file "${SOURCES}/packaging-${PYTHON_PACKAGING_VER}.tar.gz" "${WORK}/packaging-${PYTHON_PACKAGING_VER}"
+	extract_file "${SOURCES_DIR}/packaging-${PYTHON_PACKAGING_VER}.tar.gz" "${WORK_DIR}/packaging-${PYTHON_PACKAGING_VER}"
 
-	cd "${WORK}/packaging-${PYTHON_PACKAGING_VER}"
+	cd "${WORK_DIR}/packaging-${PYTHON_PACKAGING_VER}"
 
 	msg "Building packaging..."
 

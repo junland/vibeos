@@ -4,9 +4,9 @@
 AUTOMAKE_VER="1.18.1"
 
 step_chroot_automake() {
-	extract_file "${SOURCES}/automake-${AUTOMAKE_VER}.tar.xz" "${WORK}/automake-${AUTOMAKE_VER}"
+	extract_file "${SOURCES_DIR}/automake-${AUTOMAKE_VER}.tar.xz" "${WORK_DIR}/automake-${AUTOMAKE_VER}"
 
-	cd "${WORK}/automake-${AUTOMAKE_VER}"
+	cd "${WORK_DIR}/automake-${AUTOMAKE_VER}"
 
 	msg "Configuring automake..."
 

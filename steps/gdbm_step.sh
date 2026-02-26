@@ -4,9 +4,9 @@
 GDBM_VER="1.26"
 
 step_chroot_gdbm() {
-	extract_file "${SOURCES}/gdbm-${GDBM_VER}.tar.gz" "${WORK}/gdbm-${GDBM_VER}"
+	extract_file "${SOURCES_DIR}/gdbm-${GDBM_VER}.tar.gz" "${WORK_DIR}/gdbm-${GDBM_VER}"
 
-	cd "${WORK}/gdbm-${GDBM_VER}"
+	cd "${WORK_DIR}/gdbm-${GDBM_VER}"
 
 	msg "Configuring gdbm..."
 

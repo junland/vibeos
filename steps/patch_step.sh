@@ -30,9 +30,9 @@ step_patch() {
 }
 
 step_chroot_patch() {
-	extract_file "${SOURCES}/patch-${PATCH_VER}.tar.xz" "${WORK}/patch-${PATCH_VER}"
+	extract_file "${SOURCES_DIR}/patch-${PATCH_VER}.tar.xz" "${WORK_DIR}/patch-${PATCH_VER}"
 
-	cd "${WORK}/patch-${PATCH_VER}"
+	cd "${WORK_DIR}/patch-${PATCH_VER}"
 
 	msg "Configuring patch..."
 

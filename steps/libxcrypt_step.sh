@@ -4,9 +4,9 @@
 LIBXCRPT_VER="4.4.38"
 
 step_chroot_libxcrypt() {
-	extract_file "${SOURCES}/libxcrypt-${LIBXCRPT_VER}.tar.xz" "${WORK}/libxcrypt-${LIBXCRPT_VER}"
+	extract_file "${SOURCES_DIR}/libxcrypt-${LIBXCRPT_VER}.tar.xz" "${WORK_DIR}/libxcrypt-${LIBXCRPT_VER}"
 
-	cd "${WORK}/libxcrypt-${LIBXCRPT_VER}"
+	cd "${WORK_DIR}/libxcrypt-${LIBXCRPT_VER}"
 
 	msg "Configuring libxcrypt..."
 

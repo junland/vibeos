@@ -4,9 +4,9 @@
 SHADOW_VER="4.18.0"
 
 step_chroot_shadow() {
-	extract_file "${SOURCES}/shadow-${SHADOW_VER}.tar.xz" "${WORK}/shadow-${SHADOW_VER}"
+	extract_file "${SOURCES_DIR}/shadow-${SHADOW_VER}.tar.xz" "${WORK_DIR}/shadow-${SHADOW_VER}"
 
-	cd "${WORK}/shadow-${SHADOW_VER}"
+	cd "${WORK_DIR}/shadow-${SHADOW_VER}"
 
 	msg "Configuring shadow..."
 

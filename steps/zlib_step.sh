@@ -4,9 +4,9 @@
 ZLIB_VER="1.3.1"
 
 step_chroot_zlib() {
-	extract_file "${SOURCES}/zlib-${ZLIB_VER}.tar.xz" "${WORK}/zlib-${ZLIB_VER}"
+	extract_file "${SOURCES_DIR}/zlib-${ZLIB_VER}.tar.xz" "${WORK_DIR}/zlib-${ZLIB_VER}"
 
-	cd "${WORK}/zlib-${ZLIB_VER}"
+	cd "${WORK_DIR}/zlib-${ZLIB_VER}"
 
 	msg "Configuring zlib..."
 

@@ -32,9 +32,9 @@ step_diffutils() {
 }
 
 step_chroot_diffutils() {
-	extract_file "${SOURCES}/diffutils-${DIFFUTILS_VER}.tar.xz" "${WORK}/diffutils-${DIFFUTILS_VER}"
+	extract_file "${SOURCES_DIR}/diffutils-${DIFFUTILS_VER}.tar.xz" "${WORK_DIR}/diffutils-${DIFFUTILS_VER}"
 
-	cd "${WORK}/diffutils-${DIFFUTILS_VER}"
+	cd "${WORK_DIR}/diffutils-${DIFFUTILS_VER}"
 
 	msg "Configuring diffutils..."
 

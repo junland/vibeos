@@ -158,9 +158,9 @@ step_gcc_libstdcxx() {
 }
 
 step_chroot_gcc() {
-	extract_file "${SOURCES}/gcc-${GCC_VER}.tar.xz" "${WORK}/gcc-${GCC_VER}"
+	extract_file "${SOURCES_DIR}/gcc-${GCC_VER}.tar.xz" "${WORK_DIR}/gcc-${GCC_VER}"
 
-	cd "${WORK}/gcc-${GCC_VER}"
+	cd "${WORK_DIR}/gcc-${GCC_VER}"
 
 	msg "Configuring gcc..."
 

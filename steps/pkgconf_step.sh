@@ -4,9 +4,9 @@
 PKGCONF_VER="2.5.1"
 
 step_chroot_pkgconf() {
-	extract_file "${SOURCES}/pkgconf-${PKGCONF_VER}.tar.xz" "${WORK}/pkgconf-${PKGCONF_VER}"
+	extract_file "${SOURCES_DIR}/pkgconf-${PKGCONF_VER}.tar.xz" "${WORK_DIR}/pkgconf-${PKGCONF_VER}"
 
-	cd "${WORK}/pkgconf-${PKGCONF_VER}"
+	cd "${WORK_DIR}/pkgconf-${PKGCONF_VER}"
 
 	msg "Configuring pkgconf..."
 

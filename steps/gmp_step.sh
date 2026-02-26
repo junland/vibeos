@@ -4,9 +4,9 @@
 GMP_VER="6.3.0"
 
 step_chroot_gmp() {
-	extract_file "${SOURCES}/gmp-${GMP_VER}.tar.xz" "${WORK}/gmp-${GMP_VER}"
+	extract_file "${SOURCES_DIR}/gmp-${GMP_VER}.tar.xz" "${WORK_DIR}/gmp-${GMP_VER}"
 
-	cd "${WORK}/gmp-${GMP_VER}"
+	cd "${WORK_DIR}/gmp-${GMP_VER}"
 
 	msg "Configuring gmp..."
 

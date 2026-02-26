@@ -4,9 +4,9 @@
 TZ_DATA_VER="2025b"
 
 step_chroot_tzdata() {
-	extract_file "${SOURCES}/tzdata${TZ_DATA_VER}.tar.gz" "${WORK}/tzdata${TZ_DATA_VER}"
+	extract_file "${SOURCES_DIR}/tzdata${TZ_DATA_VER}.tar.gz" "${WORK_DIR}/tzdata${TZ_DATA_VER}"
 
-	cd "${WORK}/tzdata${TZ_DATA_VER}"
+	cd "${WORK_DIR}/tzdata${TZ_DATA_VER}"
 
 	msg "Configuring timezone data..."
 

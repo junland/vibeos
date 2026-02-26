@@ -4,9 +4,9 @@
 MPC_VER="1.3.1"
 
 step_chroot_mpc() {
-	extract_file "${SOURCES}/mpc-${MPC_VER}.tar.gz" "${WORK}/mpc-${MPC_VER}"
+	extract_file "${SOURCES_DIR}/mpc-${MPC_VER}.tar.gz" "${WORK_DIR}/mpc-${MPC_VER}"
 
-	cd "${WORK}/mpc-${MPC_VER}"
+	cd "${WORK_DIR}/mpc-${MPC_VER}"
 
 	msg "Configuring mpc..."
 

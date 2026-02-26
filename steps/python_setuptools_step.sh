@@ -4,9 +4,9 @@
 PYTHON_SETUPTOOLS_VER="80.9.0"
 
 step_chroot_python_setuptools() {
-	extract_file "${SOURCES}/setuptools-${PYTHON_SETUPTOOLS_VER}.tar.gz" "${WORK}/setuptools-${PYTHON_SETUPTOOLS_VER}"
+	extract_file "${SOURCES_DIR}/setuptools-${PYTHON_SETUPTOOLS_VER}.tar.gz" "${WORK_DIR}/setuptools-${PYTHON_SETUPTOOLS_VER}"
 
-	cd "${WORK}/setuptools-${PYTHON_SETUPTOOLS_VER}"
+	cd "${WORK_DIR}/setuptools-${PYTHON_SETUPTOOLS_VER}"
 
 	msg "Building setuptools..."
 

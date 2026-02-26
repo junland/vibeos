@@ -4,9 +4,9 @@
 GROFF_VER="1.23.0"
 
 step_chroot_groff() {
-	extract_file "${SOURCES}/groff-${GROFF_VER}.tar.gz" "${WORK}/groff-${GROFF_VER}"
+	extract_file "${SOURCES_DIR}/groff-${GROFF_VER}.tar.gz" "${WORK_DIR}/groff-${GROFF_VER}"
 
-	cd "${WORK}/groff-${GROFF_VER}"
+	cd "${WORK_DIR}/groff-${GROFF_VER}"
 
 	msg "Configuring groff..."
 

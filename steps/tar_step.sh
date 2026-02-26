@@ -30,9 +30,9 @@ step_tar() {
 }
 
 step_chroot_tar() {
-	extract_file "${SOURCES}/tar-${TAR_VER}.tar.xz" "${WORK}/tar-${TAR_VER}"
+	extract_file "${SOURCES_DIR}/tar-${TAR_VER}.tar.xz" "${WORK_DIR}/tar-${TAR_VER}"
 
-	cd "${WORK}/tar-${TAR_VER}"
+	cd "${WORK_DIR}/tar-${TAR_VER}"
 
 	msg "Configuring tar..."
 

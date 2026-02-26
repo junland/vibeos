@@ -4,9 +4,9 @@
 GETTEXT_VER="0.26"
 
 step_chroot_gettext() {
-	extract_file "${SOURCES}/gettext-${GETTEXT_VER}.tar.xz" "${WORK}/gettext-${GETTEXT_VER}"
+	extract_file "${SOURCES_DIR}/gettext-${GETTEXT_VER}.tar.xz" "${WORK_DIR}/gettext-${GETTEXT_VER}"
 
-	cd "${WORK}/gettext-${GETTEXT_VER}"
+	cd "${WORK_DIR}/gettext-${GETTEXT_VER}"
 
 	msg "Configuring gettext..."
 

@@ -4,9 +4,9 @@
 INETUTILS_VER="2.6"
 
 step_chroot_inetutils() {
-	extract_file "${SOURCES}/inetutils-${INETUTILS_VER}.tar.xz" "${WORK}/inetutils-${INETUTILS_VER}"
+	extract_file "${SOURCES_DIR}/inetutils-${INETUTILS_VER}.tar.xz" "${WORK_DIR}/inetutils-${INETUTILS_VER}"
 
-	cd "${WORK}/inetutils-${INETUTILS_VER}"
+	cd "${WORK_DIR}/inetutils-${INETUTILS_VER}"
 
 	msg "Configuring inetutils..."
 
