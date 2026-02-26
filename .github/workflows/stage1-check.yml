@@ -56,4 +56,4 @@ jobs:
 
       - name: Check Docker image
         run: |
-          docker run -t vibeos ls
+          docker run -t vibeos:${{ steps.resolve.outputs.arch }}-latest ls
