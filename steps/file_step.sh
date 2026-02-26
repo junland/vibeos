@@ -4,11 +4,11 @@
 FILE_VER="5.46"
 
 step_file() {
-	extract_file "${TARGET_ROOTFS_SOURCES_PATH}/file-${FILE_VER}.tar.gz" "${TARGET_ROOTFS_WORK_PATH}/file-${FILE_VER}"
+	extract_file "${SOURCES_DIR}/file-${FILE_VER}.tar.gz" "${WORK_DIR}/file-${FILE_VER}"
 
 	msg "Configuring temp file command..."
 
-	cd "${TARGET_ROOTFS_WORK_PATH}/file-${FILE_VER}"
+	cd "${WORK_DIR}/file-${FILE_VER}"
 
 	# Reconfigure to point to our version of automake
 	autoreconf -f

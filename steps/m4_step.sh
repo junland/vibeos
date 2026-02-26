@@ -4,11 +4,11 @@
 M4_VER="1.4.20"
 
 step_m4() {
-	extract_file "${TARGET_ROOTFS_SOURCES_PATH}/m4-${M4_VER}.tar.xz" "${TARGET_ROOTFS_WORK_PATH}/m4-${M4_VER}"
+	extract_file "${SOURCES_DIR}/m4-${M4_VER}.tar.xz" "${WORK_DIR}/m4-${M4_VER}"
 
 	msg "Preparing m4 build environment..."
 
-	cd "${TARGET_ROOTFS_WORK_PATH}/m4-${M4_VER}"
+	cd "${WORK_DIR}/m4-${M4_VER}"
 
 	# Reconfigure to point to our version of automake
 	autoreconf -f

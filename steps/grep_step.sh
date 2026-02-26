@@ -4,11 +4,11 @@
 GREP_VER="3.12"
 
 step_grep() {
-	extract_file "${TARGET_ROOTFS_SOURCES_PATH}/grep-${GREP_VER}.tar.xz" "${TARGET_ROOTFS_WORK_PATH}/grep-${GREP_VER}"
+	extract_file "${SOURCES_DIR}/grep-${GREP_VER}.tar.xz" "${WORK_DIR}/grep-${GREP_VER}"
 
 	msg "Configuring grep..."
 
-	cd "${TARGET_ROOTFS_WORK_PATH}/grep-${GREP_VER}"
+	cd "${WORK_DIR}/grep-${GREP_VER}"
 
 	# Reconfigure to point to our version of automake
 	autoreconf -f

@@ -4,11 +4,11 @@
 GZIP_VER="1.14"
 
 step_gzip() {
-	extract_file "${TARGET_ROOTFS_SOURCES_PATH}/gzip-${GZIP_VER}.tar.xz" "${TARGET_ROOTFS_WORK_PATH}/gzip-${GZIP_VER}"
+	extract_file "${SOURCES_DIR}/gzip-${GZIP_VER}.tar.xz" "${WORK_DIR}/gzip-${GZIP_VER}"
 
 	msg "Configuring gzip..."
 
-	cd "${TARGET_ROOTFS_WORK_PATH}/gzip-${GZIP_VER}"
+	cd "${WORK_DIR}/gzip-${GZIP_VER}"
 
 	# Reconfigure to point to our version of automake
 	autoreconf -f

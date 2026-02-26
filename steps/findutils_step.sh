@@ -4,11 +4,11 @@
 FINDUTILS_VER="4.10.0"
 
 step_findutils() {
-	extract_file "${TARGET_ROOTFS_SOURCES_PATH}/findutils-${FINDUTILS_VER}.tar.xz" "${TARGET_ROOTFS_WORK_PATH}/findutils-${FINDUTILS_VER}"
+	extract_file "${SOURCES_DIR}/findutils-${FINDUTILS_VER}.tar.xz" "${WORK_DIR}/findutils-${FINDUTILS_VER}"
 
 	msg "Configuring findutils..."
 
-	cd "${TARGET_ROOTFS_WORK_PATH}/findutils-${FINDUTILS_VER}"
+	cd "${WORK_DIR}/findutils-${FINDUTILS_VER}"
 
 	# Reconfigure to point to our version of automake
 	autoreconf -f

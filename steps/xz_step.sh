@@ -4,11 +4,11 @@
 XZ_VER="5.8.1"
 
 step_xz() {
-	extract_file "${TARGET_ROOTFS_SOURCES_PATH}/xz-${XZ_VER}.tar.xz" "${TARGET_ROOTFS_WORK_PATH}/xz-${XZ_VER}"
+	extract_file "${SOURCES_DIR}/xz-${XZ_VER}.tar.xz" "${WORK_DIR}/xz-${XZ_VER}"
 
 	msg "Configuring xz..."
 
-	cd "${TARGET_ROOTFS_WORK_PATH}/xz-${XZ_VER}"
+	cd "${WORK_DIR}/xz-${XZ_VER}"
 
 	# Reconfigure to point to our version of automake
 	autoreconf -f

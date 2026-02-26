@@ -4,11 +4,11 @@
 GAWK_VER="5.3.2"
 
 step_gawk() {
-	extract_file "${TARGET_ROOTFS_SOURCES_PATH}/gawk-${GAWK_VER}.tar.xz" "${TARGET_ROOTFS_WORK_PATH}/gawk-${GAWK_VER}"
+	extract_file "${SOURCES_DIR}/gawk-${GAWK_VER}.tar.xz" "${WORK_DIR}/gawk-${GAWK_VER}"
 
 	msg "Configuring gawk..."
 
-	cd "${TARGET_ROOTFS_WORK_PATH}/gawk-${GAWK_VER}"
+	cd "${WORK_DIR}/gawk-${GAWK_VER}"
 
 	# Reconfigure to point to our version of automake
 	autoreconf -f

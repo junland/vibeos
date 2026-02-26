@@ -4,16 +4,16 @@
 COREUTILS_VER="9.7"
 
 step_coreutils() {
-	extract_file "${TARGET_ROOTFS_SOURCES_PATH}/coreutils-${COREUTILS_VER}.tar.xz" "${TARGET_ROOTFS_WORK_PATH}/coreutils-${COREUTILS_VER}"
+	extract_file "${SOURCES_DIR}/coreutils-${COREUTILS_VER}.tar.xz" "${WORK_DIR}/coreutils-${COREUTILS_VER}"
 
 	msg "Configuring coreutils..."
 
-	cd "${TARGET_ROOTFS_WORK_PATH}/coreutils-${COREUTILS_VER}"
+	cd "${WORK_DIR}/coreutils-${COREUTILS_VER}"
 
 	msg "Patching coreutils..."
 
-	patch -Np1 -i "${TARGET_ROOTFS_SOURCES_PATH}/coreutils-${COREUTILS_VER}-upstream_fix-1.patch"
-	patch -Np1 -i "${TARGET_ROOTFS_SOURCES_PATH}/coreutils-${COREUTILS_VER}-i18n-1.patch"
+	patch -Np1 -i "${SOURCES_DIR}/coreutils-${COREUTILS_VER}-upstream_fix-1.patch"
+	patch -Np1 -i "${SOURCES_DIR}/coreutils-${COREUTILS_VER}-i18n-1.patch"
 
 	# Reconfigure to point to our version of automake
 	autoreconf -f

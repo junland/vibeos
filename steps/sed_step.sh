@@ -4,11 +4,11 @@
 SED_VER="4.9"
 
 step_sed() {
-	extract_file "${TARGET_ROOTFS_SOURCES_PATH}/sed-${SED_VER}.tar.xz" "${TARGET_ROOTFS_WORK_PATH}/sed-${SED_VER}"
+	extract_file "${SOURCES_DIR}/sed-${SED_VER}.tar.xz" "${WORK_DIR}/sed-${SED_VER}"
 
 	msg "Configuring sed..."
 
-	cd "${TARGET_ROOTFS_WORK_PATH}/sed-${SED_VER}"
+	cd "${WORK_DIR}/sed-${SED_VER}"
 
 	# Reconfigure to point to our version of automake
 	autoreconf -f

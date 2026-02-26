@@ -4,9 +4,9 @@
 BINUTILS_VER="2.45"
 
 step_binutils_pass1() {
-	extract_file "${TARGET_ROOTFS_SOURCES_PATH}/binutils-${BINUTILS_VER}.tar.xz" "${TARGET_ROOTFS_WORK_PATH}/binutils-${BINUTILS_VER}"
+	extract_file "${SOURCES_DIR}/binutils-${BINUTILS_VER}.tar.xz" "${WORK_DIR}/binutils-${BINUTILS_VER}"
 
-	cd "${TARGET_ROOTFS_WORK_PATH}/binutils-${BINUTILS_VER}"
+	cd "${WORK_DIR}/binutils-${BINUTILS_VER}"
 
 	msg "Configuring binutils..."
 
@@ -36,11 +36,11 @@ step_binutils_pass1() {
 }
 
 step_binutils_pass2() {
-	extract_file "${TARGET_ROOTFS_SOURCES_PATH}/binutils-${BINUTILS_VER}.tar.xz" "${TARGET_ROOTFS_WORK_PATH}/binutils-${BINUTILS_VER}"
+	extract_file "${SOURCES_DIR}/binutils-${BINUTILS_VER}.tar.xz" "${WORK_DIR}/binutils-${BINUTILS_VER}"
 
 	msg "Configuring binutils..."
 
-	cd "${TARGET_ROOTFS_WORK_PATH}/binutils-${BINUTILS_VER}"
+	cd "${WORK_DIR}/binutils-${BINUTILS_VER}"
 
 	sed '6031s/$add_dir//' -i ltmain.sh
 

@@ -4,11 +4,11 @@
 BASH_VER="5.3"
 
 step_bash() {
-	extract_file "${TARGET_ROOTFS_SOURCES_PATH}/bash-${BASH_VER}.tar.gz" "${TARGET_ROOTFS_WORK_PATH}/bash-${BASH_VER}"
+	extract_file "${SOURCES_DIR}/bash-${BASH_VER}.tar.gz" "${WORK_DIR}/bash-${BASH_VER}"
 
 	msg "Configuring bash..."
 
-	cd "${TARGET_ROOTFS_WORK_PATH}/bash-${BASH_VER}"
+	cd "${WORK_DIR}/bash-${BASH_VER}"
 
 	./configure \
 		--prefix=/usr \

@@ -4,11 +4,11 @@
 GLIBC_VER="2.42"
 
 step_glibc() {
-	extract_file "${TARGET_ROOTFS_SOURCES_PATH}/glibc-${GLIBC_VER}.tar.gz" "${TARGET_ROOTFS_WORK_PATH}/glibc-${GLIBC_VER}"
+	extract_file "${SOURCES_DIR}/glibc-${GLIBC_VER}.tar.gz" "${WORK_DIR}/glibc-${GLIBC_VER}"
 
 	msg "Configuring glibc..."
 
-	cd "${TARGET_ROOTFS_WORK_PATH}/glibc-${GLIBC_VER}"
+	cd "${WORK_DIR}/glibc-${GLIBC_VER}"
 
 	case ${TARGET_CPU_ARCH} in
 	i?86)
@@ -32,11 +32,11 @@ step_glibc() {
 		;;
 	esac
 
-	patch -Np1 -i "${TARGET_ROOTFS_SOURCES_PATH}/glibc-${GLIBC_VER}-fhs-1.patch"
+	patch -Np1 -i "${SOURCES_DIR}/glibc-${GLIBC_VER}-fhs-1.patch"
 
-	mkdir -vp "${TARGET_ROOTFS_WORK_PATH}/glibc-${GLIBC_VER}/build"
+	mkdir -vp "${WORK_DIR}/glibc-${GLIBC_VER}/build"
 
-	cd "${TARGET_ROOTFS_WORK_PATH}/glibc-${GLIBC_VER}/build"
+	cd "${WORK_DIR}/glibc-${GLIBC_VER}/build"
 
 	# Make sure bash hashing is disabled for glibc build
 	unset -f hash

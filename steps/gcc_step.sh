@@ -8,12 +8,12 @@ MPFR_VER="4.2.2"
 GLIBC_VER="2.42"
 
 step_gcc_pass1() {
-	extract_file "${TARGET_ROOTFS_SOURCES_PATH}/gcc-${GCC_VER}.tar.xz" "${TARGET_ROOTFS_WORK_PATH}/gcc-${GCC_VER}"
-	extract_file "${TARGET_ROOTFS_SOURCES_PATH}/gmp-${GMP_VER}.tar.xz" "${TARGET_ROOTFS_WORK_PATH}/gcc-${GCC_VER}/gmp"
-	extract_file "${TARGET_ROOTFS_SOURCES_PATH}/mpc-${MPC_VER}.tar.gz" "${TARGET_ROOTFS_WORK_PATH}/gcc-${GCC_VER}/mpc"
-	extract_file "${TARGET_ROOTFS_SOURCES_PATH}/mpfr-${MPFR_VER}.tar.xz" "${TARGET_ROOTFS_WORK_PATH}/gcc-${GCC_VER}/mpfr"
+	extract_file "${SOURCES_DIR}/gcc-${GCC_VER}.tar.xz" "${WORK_DIR}/gcc-${GCC_VER}"
+	extract_file "${SOURCES_DIR}/gmp-${GMP_VER}.tar.xz" "${WORK_DIR}/gcc-${GCC_VER}/gmp"
+	extract_file "${SOURCES_DIR}/mpc-${MPC_VER}.tar.gz" "${WORK_DIR}/gcc-${GCC_VER}/mpc"
+	extract_file "${SOURCES_DIR}/mpfr-${MPFR_VER}.tar.xz" "${WORK_DIR}/gcc-${GCC_VER}/mpfr"
 
-	cd "${TARGET_ROOTFS_WORK_PATH}/gcc-${GCC_VER}"
+	cd "${WORK_DIR}/gcc-${GCC_VER}"
 
 	msg "Configuring gcc..."
 
@@ -56,7 +56,7 @@ step_gcc_pass1() {
 
 	make install
 
-	cd "${TARGET_ROOTFS_WORK_PATH}/gcc-${GCC_VER}"
+	cd "${WORK_DIR}/gcc-${GCC_VER}"
 
 	cat gcc/limitx.h gcc/glimits.h gcc/limity.h >"$(dirname $("$LFS_TGT"-gcc -print-libgcc-file-name))/include/limits.h"
 
@@ -64,14 +64,14 @@ step_gcc_pass1() {
 }
 
 step_gcc_pass2() {
-	extract_file "${TARGET_ROOTFS_SOURCES_PATH}/gcc-${GCC_VER}.tar.xz" "${TARGET_ROOTFS_WORK_PATH}/gcc-${GCC_VER}"
-	extract_file "${TARGET_ROOTFS_SOURCES_PATH}/gmp-${GMP_VER}.tar.xz" "${TARGET_ROOTFS_WORK_PATH}/gcc-${GCC_VER}/gmp"
-	extract_file "${TARGET_ROOTFS_SOURCES_PATH}/mpc-${MPC_VER}.tar.gz" "${TARGET_ROOTFS_WORK_PATH}/gcc-${GCC_VER}/mpc"
-	extract_file "${TARGET_ROOTFS_SOURCES_PATH}/mpfr-${MPFR_VER}.tar.xz" "${TARGET_ROOTFS_WORK_PATH}/gcc-${GCC_VER}/mpfr"
+	extract_file "${SOURCES_DIR}/gcc-${GCC_VER}.tar.xz" "${WORK_DIR}/gcc-${GCC_VER}"
+	extract_file "${SOURCES_DIR}/gmp-${GMP_VER}.tar.xz" "${WORK_DIR}/gcc-${GCC_VER}/gmp"
+	extract_file "${SOURCES_DIR}/mpc-${MPC_VER}.tar.gz" "${WORK_DIR}/gcc-${GCC_VER}/mpc"
+	extract_file "${SOURCES_DIR}/mpfr-${MPFR_VER}.tar.xz" "${WORK_DIR}/gcc-${GCC_VER}/mpfr"
 
 	msg "Configuring gcc..."
 
-	cd "${TARGET_ROOTFS_WORK_PATH}/gcc-${GCC_VER}"
+	cd "${WORK_DIR}/gcc-${GCC_VER}"
 
 	case $(uname -m) in
 	x86_64)
@@ -118,14 +118,14 @@ step_gcc_pass2() {
 }
 
 step_gcc_libstdcxx() {
-	extract_file "${TARGET_ROOTFS_SOURCES_PATH}/gcc-${GCC_VER}.tar.xz" "${TARGET_ROOTFS_WORK_PATH}/gcc-${GCC_VER}"
-	extract_file "${TARGET_ROOTFS_SOURCES_PATH}/gmp-${GMP_VER}.tar.xz" "${TARGET_ROOTFS_WORK_PATH}/gcc-${GCC_VER}/gmp"
-	extract_file "${TARGET_ROOTFS_SOURCES_PATH}/mpc-${MPC_VER}.tar.gz" "${TARGET_ROOTFS_WORK_PATH}/gcc-${GCC_VER}/mpc"
-	extract_file "${TARGET_ROOTFS_SOURCES_PATH}/mpfr-${MPFR_VER}.tar.xz" "${TARGET_ROOTFS_WORK_PATH}/gcc-${GCC_VER}/mpfr"
+	extract_file "${SOURCES_DIR}/gcc-${GCC_VER}.tar.xz" "${WORK_DIR}/gcc-${GCC_VER}"
+	extract_file "${SOURCES_DIR}/gmp-${GMP_VER}.tar.xz" "${WORK_DIR}/gcc-${GCC_VER}/gmp"
+	extract_file "${SOURCES_DIR}/mpc-${MPC_VER}.tar.gz" "${WORK_DIR}/gcc-${GCC_VER}/mpc"
+	extract_file "${SOURCES_DIR}/mpfr-${MPFR_VER}.tar.xz" "${WORK_DIR}/gcc-${GCC_VER}/mpfr"
 
 	msg "Configuring gcc for libstdc++..."
 
-	cd "${TARGET_ROOTFS_WORK_PATH}/gcc-${GCC_VER}"
+	cd "${WORK_DIR}/gcc-${GCC_VER}"
 
 	TOOLCHAIN_BASE_DIR=$(basename "${TOOLCHAIN_PATH}")
 

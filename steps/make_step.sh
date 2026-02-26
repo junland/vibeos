@@ -4,11 +4,11 @@
 MAKE_VER="4.4.1"
 
 step_make() {
-	extract_file "${TARGET_ROOTFS_SOURCES_PATH}/make-${MAKE_VER}.tar.gz" "${TARGET_ROOTFS_WORK_PATH}/make-${MAKE_VER}"
+	extract_file "${SOURCES_DIR}/make-${MAKE_VER}.tar.gz" "${WORK_DIR}/make-${MAKE_VER}"
 
 	msg "Configuring make..."
 
-	cd "${TARGET_ROOTFS_WORK_PATH}/make-${MAKE_VER}"
+	cd "${WORK_DIR}/make-${MAKE_VER}"
 
 	# Reconfigure to point to our version of automake
 	autoreconf -f

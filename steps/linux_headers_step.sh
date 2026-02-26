@@ -4,11 +4,11 @@
 LINUX_VER="6.16.1"
 
 step_linux_headers() {
-	extract_file "${TARGET_ROOTFS_SOURCES_PATH}/linux-${LINUX_VER}.tar.xz" "${TARGET_ROOTFS_WORK_PATH}/linux-${LINUX_VER}"
+	extract_file "${SOURCES_DIR}/linux-${LINUX_VER}.tar.xz" "${WORK_DIR}/linux-${LINUX_VER}"
 
 	msg "Confirming files..."
 
-	cd "${TARGET_ROOTFS_WORK_PATH}/linux-${LINUX_VER}"
+	cd "${WORK_DIR}/linux-${LINUX_VER}"
 
 	make mrproper
 
