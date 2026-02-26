@@ -157,3 +157,21 @@ source "$SCRIPT_DIR/stage2/compile-tar.sh"
 source "$SCRIPT_DIR/stage2/compile-xz.sh"
 source "$SCRIPT_DIR/stage2/compile-binutils.sh"
 source "$SCRIPT_DIR/stage2/compile-gcc.sh"
+
+compile_m4
+compile_ncurses
+compile_bash
+compile_coreutils
+compile_diffutils
+compile_file
+compile_findutils
+compile_gawk
+compile_grep
+compile_gzip
+compile_make
+compile_patch
+compile_sed
+compile_tar
+compile_xz
+compile_binutils
+compile_gcc

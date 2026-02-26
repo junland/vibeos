@@ -1,20 +1,19 @@
-#
-# Compile Findutils
-#
-msg "Compiling Findutils ${FINDUTILS_VERSION}..."
+compile_findutils() {
+	msg "Compiling Findutils ${FINDUTILS_VERSION}..."
 
-extract_file "$SOURCES_DIR/findutils-${FINDUTILS_VERSION}.tar.xz" "$WORK_DIR"
+	extract_file "$SOURCES_DIR/findutils-${FINDUTILS_VERSION}.tar.xz" "$WORK_DIR"
 
-cd "$WORK_DIR"
+	cd "$WORK_DIR"
 
-run_configure \
-	--prefix=/usr \
-	--localstatedir=/var/lib/locate \
-	--host=$LFS_TGT \
-	--build=$(build-aux/config.guess)
+	run_configure \
+		--prefix=/usr \
+		--localstatedir=/var/lib/locate \
+		--host=$LFS_TGT \
+		--build=$(build-aux/config.guess)
 
-make -j$(nproc)
+	make -j$(nproc)
 
-make DESTDIR="${TARGET_ROOTFS}" install
+	make DESTDIR="${TARGET_ROOTFS}" install
 
-clean_dir "$WORK_DIR"
+	clean_dir "$WORK_DIR"
+}

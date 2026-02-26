@@ -1,21 +1,20 @@
-#
-# Compile Gawk
-#
-msg "Compiling Gawk ${GAWK_VERSION}..."
+compile_gawk() {
+	msg "Compiling Gawk ${GAWK_VERSION}..."
 
-extract_file "$SOURCES_DIR/gawk-${GAWK_VERSION}.tar.xz" "$WORK_DIR"
+	extract_file "$SOURCES_DIR/gawk-${GAWK_VERSION}.tar.xz" "$WORK_DIR"
 
-cd "$WORK_DIR"
+	cd "$WORK_DIR"
 
-sed -i 's/extras//' Makefile.in
+	sed -i 's/extras//' Makefile.in
 
-run_configure \
-	--prefix=/usr \
-	--host=$LFS_TGT \
-	--build=$(build-aux/config.guess)
+	run_configure \
+		--prefix=/usr \
+		--host=$LFS_TGT \
+		--build=$(build-aux/config.guess)
 
-make -j$(nproc)
+	make -j$(nproc)
 
-make DESTDIR="${TARGET_ROOTFS}" install
+	make DESTDIR="${TARGET_ROOTFS}" install
 
-clean_dir "$WORK_DIR"
+	clean_dir "$WORK_DIR"
+}
