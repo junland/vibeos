@@ -10,9 +10,6 @@ step_m4() {
 
 	cd "${WORK_DIR}/m4-${M4_VER}"
 
-	# Reconfigure to point to our version of automake
-	autoreconf -f
-
 	msg "Configuring m4..."
 
 	./configure --prefix=/usr --host="${LFS_TGT}" --build="$(build-aux/config.guess)"
