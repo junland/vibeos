@@ -140,23 +140,9 @@ msg "Create compatibility for lib64..."
 ln -sv usr/lib "$TARGET_ROOTFS/lib64"
 ln -sv lib "$TARGET_ROOTFS/usr/lib64"
 
-source "$SCRIPT_DIR/stage2/compile-m4.sh"
-source "$SCRIPT_DIR/stage2/compile-ncurses.sh"
-source "$SCRIPT_DIR/stage2/compile-bash.sh"
-source "$SCRIPT_DIR/stage2/compile-coreutils.sh"
-source "$SCRIPT_DIR/stage2/compile-diffutils.sh"
-source "$SCRIPT_DIR/stage2/compile-file.sh"
-source "$SCRIPT_DIR/stage2/compile-findutils.sh"
-source "$SCRIPT_DIR/stage2/compile-gawk.sh"
-source "$SCRIPT_DIR/stage2/compile-grep.sh"
-source "$SCRIPT_DIR/stage2/compile-gzip.sh"
-source "$SCRIPT_DIR/stage2/compile-make.sh"
-source "$SCRIPT_DIR/stage2/compile-patch.sh"
-source "$SCRIPT_DIR/stage2/compile-sed.sh"
-source "$SCRIPT_DIR/stage2/compile-tar.sh"
-source "$SCRIPT_DIR/stage2/compile-xz.sh"
-source "$SCRIPT_DIR/stage2/compile-binutils.sh"
-source "$SCRIPT_DIR/stage2/compile-gcc.sh"
+for compile_script in "$SCRIPT_DIR"/stage2/compile-*.sh; do
+	source "$compile_script"
+done
 
 compile_m4
 compile_ncurses
