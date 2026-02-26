@@ -11,28 +11,8 @@ TARGET_CPU_ARCH=${2:-x86_64}
 TARGET_ROOTFS=$3
 
 SOURCES_DIR=${SOURCES_DIR:-$(pwd)/sources}
+STEPS_DIR=${STEPS_DIR:-$(pwd)/steps}
 WORK_DIR=${WORK_DIR:-$(pwd)/work}
-
-M4_VERSION=1.4.21
-NCURSES_VERSION=6.5-20250809
-BASH_VERSION=5.3
-COREUTILS_VERSION=9.10
-FILE_VERSION=5.46
-FINDUTILS_VERSION=4.10.0
-DIFFUTILS_VERSION=3.12
-GAWK_VERSION=5.3.2
-GREP_VERSION=3.12
-GZIP_VERSION=1.14
-MAKE_VERSION=4.4.1
-PATCH_VERSION=2.8
-SED_VERSION=4.9
-TAR_VERSION=1.35
-BINUTILS_VERSION=2.46.0
-GMP_VERSION=6.3.0
-MPFR_VERSION=4.2.2
-MPC_VERSION=1.3.1
-GCC_VERSION=15.2.0
-XZ_VERSION=5.8.1
 
 if [ -z "$TOOLCHAIN_DIR" ] || [ -z "$TARGET_ROOTFS" ]; then
 	msg "Usage: $0 <toolchain-directory> [target-cpu-arch] <target-rootfilesystem>" >&2
@@ -140,24 +120,28 @@ msg "Create compatibility for lib64..."
 ln -sv usr/lib "$TARGET_ROOTFS/lib64"
 ln -sv lib "$TARGET_ROOTFS/usr/lib64"
 
-for compile_script in "$SCRIPT_DIR"/stage2/compile-*.sh; do
-	source "$compile_script"
+for step_script in "$STEPS_DIR"/*_step.sh; do
+	source "$step_script"
 done
 
-compile_m4
-compile_ncurses
-compile_bash
-compile_coreutils
-compile_diffutils
-compile_file
-compile_findutils
-compile_gawk
-compile_grep
-compile_gzip
-compile_make
-compile_patch
-compile_sed
-compile_tar
-compile_xz
-compile_binutils
-compile_gcc
+msg "Starting stage 2 build..."
+
+step_m4
+step_ncurses
+step_bash
+step_coreutils
+step_diffutils
+step_file
+step_findutils
+step_gawk
+step_grep
+step_gzip
+step_make
+step_patch
+step_sed
+step_tar
+step_xz
+step_binutils
+step_gcc
+
+msg "Completed stage 2 build..."
