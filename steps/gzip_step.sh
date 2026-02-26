@@ -23,7 +23,7 @@ step_gzip() {
 
 	msg "Installing gzip..."
 
-	make install DESTDIR="${TARGET_ROOTFS_PATH}"
+	make install DESTDIR="${TARGET_ROOTFS_DIR}"
 
 	clean_work_dir
 }

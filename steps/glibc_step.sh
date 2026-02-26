@@ -12,19 +12,19 @@ step_glibc() {
 
 	case ${TARGET_CPU_ARCH} in
 	i?86)
-		ln -sfv ld-linux.so.2 "${TARGET_ROOTFS_PATH}/lib/ld-lsb.so.3"
+		ln -sfv ld-linux.so.2 "${TARGET_ROOTFS_DIR}/lib/ld-lsb.so.3"
 		;;
 	x86_64)
-		ln -sfv ../lib/ld-linux-x86-64.so.2 "${TARGET_ROOTFS_PATH}/lib64"
-		ln -sfv ../lib/ld-linux-x86-64.so.2 "${TARGET_ROOTFS_PATH}/lib64/ld-lsb-x86-64.so.3"
+		ln -sfv ../lib/ld-linux-x86-64.so.2 "${TARGET_ROOTFS_DIR}/lib64"
+		ln -sfv ../lib/ld-linux-x86-64.so.2 "${TARGET_ROOTFS_DIR}/lib64/ld-lsb-x86-64.so.3"
 		;;
 	aarch64)
-		ln -sfv ../lib/ld-linux-aarch64.so.1 "${TARGET_ROOTFS_PATH}/lib64"
-		ln -sfv ../lib/ld-linux-aarch64.so.1 "${TARGET_ROOTFS_PATH}/lib64/ld-lsb-aarch64.so.3"
+		ln -sfv ../lib/ld-linux-aarch64.so.1 "${TARGET_ROOTFS_DIR}/lib64"
+		ln -sfv ../lib/ld-linux-aarch64.so.1 "${TARGET_ROOTFS_DIR}/lib64/ld-lsb-aarch64.so.3"
 		;;
 	riscv64)
-		ln -sfv ../lib/ld-linux-riscv64.so.1 "${TARGET_ROOTFS_PATH}/lib64"
-		ln -sfv ../lib/ld-linux-riscv64.so.1 "${TARGET_ROOTFS_PATH}/lib64/ld-lsb-riscv64.so.3"
+		ln -sfv ../lib/ld-linux-riscv64.so.1 "${TARGET_ROOTFS_DIR}/lib64"
+		ln -sfv ../lib/ld-linux-riscv64.so.1 "${TARGET_ROOTFS_DIR}/lib64/ld-lsb-riscv64.so.3"
 		;;
 	*)
 		echo "Unknown architecture: ${TARGET_CPU_ARCH}"
@@ -47,7 +47,7 @@ step_glibc() {
 		--prefix=/usr \
 		--host="${LFS_TGT}" \
 		--build="$(../scripts/config.guess)" \
-		--with-headers="${TARGET_ROOTFS_PATH}/usr/include" \
+		--with-headers="${TARGET_ROOTFS_DIR}/usr/include" \
 		--enable-kernel=5.4 \
 		--disable-nscd \
 		libc_cv_slibdir=/usr/lib
@@ -58,9 +58,9 @@ step_glibc() {
 
 	msg "Installing glibc..."
 
-	make install DESTDIR="${TARGET_ROOTFS_PATH}"
+	make install DESTDIR="${TARGET_ROOTFS_DIR}"
 
-	sed '/RTLDLIST=/s@/usr@@g' -i "${TARGET_ROOTFS_PATH}/usr/bin/ldd"
+	sed '/RTLDLIST=/s@/usr@@g' -i "${TARGET_ROOTFS_DIR}/usr/bin/ldd"
 
 	msg "Verify that compiling and linking works..."
 

@@ -31,7 +31,7 @@ step_gcc_pass1() {
 		--prefix="${TOOLCHAIN_PATH}" \
 		--target="${LFS_TGT}" \
 		--with-glibc-version="${GLIBC_VER}" \
-		--with-sysroot="${TARGET_ROOTFS_PATH}" \
+		--with-sysroot="${TARGET_ROOTFS_DIR}" \
 		--disable-libatomic \
 		--disable-libgomp \
 		--disable-libquadmath \
@@ -91,7 +91,7 @@ step_gcc_pass2() {
 		--target="${LFS_TGT}" \
 		LDFLAGS_FOR_TARGET=-L"$PWD"/"${LFS_TGT}"/libgcc \
 		--prefix=/usr \
-		--with-build-sysroot="${TARGET_ROOTFS_PATH}" \
+		--with-build-sysroot="${TARGET_ROOTFS_DIR}" \
 		--enable-default-pie \
 		--enable-default-ssp \
 		--disable-nls \
@@ -110,9 +110,9 @@ step_gcc_pass2() {
 
 	msg "Installing gcc..."
 
-	make install DESTDIR="${TARGET_ROOTFS_PATH}"
+	make install DESTDIR="${TARGET_ROOTFS_DIR}"
 
-	ln -svf gcc "${TARGET_ROOTFS_PATH}"/usr/bin/cc
+	ln -svf gcc "${TARGET_ROOTFS_DIR}"/usr/bin/cc
 
 	clean_work_dir
 }
@@ -150,9 +150,9 @@ step_gcc_libstdcxx() {
 
 	msg "Installing gcc for libstdc++..."
 
-	make install DESTDIR="${TARGET_ROOTFS_PATH}"
+	make install DESTDIR="${TARGET_ROOTFS_DIR}"
 
-	rm -v "${TARGET_ROOTFS_PATH}"/usr/lib/lib{stdc++{,exp,fs},supc++}.la
+	rm -v "${TARGET_ROOTFS_DIR}"/usr/lib/lib{stdc++{,exp,fs},supc++}.la
 
 	clean_work_dir
 }

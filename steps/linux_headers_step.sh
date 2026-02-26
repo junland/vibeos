@@ -20,9 +20,9 @@ step_linux_headers() {
 
 	find usr/include -type f ! -name '*.h' -delete
 
-	mkdir -vp "${TARGET_ROOTFS_PATH}/usr"
+	mkdir -vp "${TARGET_ROOTFS_DIR}/usr"
 
-	cp -rv usr/include "${TARGET_ROOTFS_PATH}/usr"
+	cp -rv usr/include "${TARGET_ROOTFS_DIR}/usr"
 
 	clean_work_dir
 }

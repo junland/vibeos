@@ -14,7 +14,7 @@ step_ncurses() {
 
 	pushd build
 
-	../configure --prefix="${TARGET_ROOTFS_PATH}" AWK=gawk
+	../configure --prefix="${TARGET_ROOTFS_DIR}" AWK=gawk
 
 	make -C include
 
@@ -46,11 +46,11 @@ step_ncurses() {
 
 	msg "Installing ncurses..."
 
-	make DESTDIR="${TARGET_ROOTFS_PATH}" install
+	make DESTDIR="${TARGET_ROOTFS_DIR}" install
 
-	ln -svf libncursesw.so "${TARGET_ROOTFS_PATH}"/usr/lib/libncurses.so
+	ln -svf libncursesw.so "${TARGET_ROOTFS_DIR}"/usr/lib/libncurses.so
 
-	sed -e 's/^#if.*XOPEN.*$/#if 1/' -i "${TARGET_ROOTFS_PATH}"/usr/include/curses.h
+	sed -e 's/^#if.*XOPEN.*$/#if 1/' -i "${TARGET_ROOTFS_DIR}"/usr/include/curses.h
 
 	clean_work_dir
 }

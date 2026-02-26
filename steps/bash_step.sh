@@ -22,9 +22,9 @@ step_bash() {
 
 	msg "Installing bash..."
 
-	make install DESTDIR="${TARGET_ROOTFS_PATH}"
+	make install DESTDIR="${TARGET_ROOTFS_DIR}"
 
-	ln -svf bash "${TARGET_ROOTFS_PATH}"/usr/bin/sh
+	ln -svf bash "${TARGET_ROOTFS_DIR}"/usr/bin/sh
 
 	clean_work_dir
 }

@@ -31,12 +31,12 @@ step_coreutils() {
 
 	msg "Installing coreutils..."
 
-	make install DESTDIR="${TARGET_ROOTFS_PATH}"
+	make install DESTDIR="${TARGET_ROOTFS_DIR}"
 
-	mv -v "$TARGET_ROOTFS_PATH"/usr/bin/chroot "$TARGET_ROOTFS_PATH"/usr/sbin
-	mkdir -pv "$TARGET_ROOTFS_PATH"/usr/share/man/man8
-	mv -v "$TARGET_ROOTFS_PATH"/usr/share/man/man1/chroot.1 "$TARGET_ROOTFS_PATH"/usr/share/man/man8/chroot.8
-	sed -i 's/"1"/"8"/' "$TARGET_ROOTFS_PATH"/usr/share/man/man8/chroot.8
+	mv -v "$TARGET_ROOTFS_DIR"/usr/bin/chroot "$TARGET_ROOTFS_DIR"/usr/sbin
+	mkdir -pv "$TARGET_ROOTFS_DIR"/usr/share/man/man8
+	mv -v "$TARGET_ROOTFS_DIR"/usr/share/man/man1/chroot.1 "$TARGET_ROOTFS_DIR"/usr/share/man/man8/chroot.8
+	sed -i 's/"1"/"8"/' "$TARGET_ROOTFS_DIR"/usr/share/man/man8/chroot.8
 
 	clean_work_dir
 }

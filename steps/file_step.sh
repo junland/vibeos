@@ -39,9 +39,9 @@ step_file() {
 
 	msg "Installing file..."
 
-	make install DESTDIR="${TARGET_ROOTFS_PATH}"
+	make install DESTDIR="${TARGET_ROOTFS_DIR}"
 
-	rm -v "${TARGET_ROOTFS_PATH}"/usr/lib/libmagic.la
+	rm -v "${TARGET_ROOTFS_DIR}"/usr/lib/libmagic.la
 
 	clean_work_dir
 }

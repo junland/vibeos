@@ -17,7 +17,7 @@ step_binutils_pass1() {
 	../configure \
 		--prefix="${TOOLCHAIN_PATH}" \
 		--target="${LFS_TGT}" \
-		--with-sysroot="${TARGET_ROOTFS_PATH}" \
+		--with-sysroot="${TARGET_ROOTFS_DIR}" \
 		--disable-nls \
 		--disable-werror \
 		--enable-default-hash-style=gnu \
@@ -66,9 +66,9 @@ step_binutils_pass2() {
 
 	msg "Installing binutils..."
 
-	make install DESTDIR="${TARGET_ROOTFS_PATH}"
+	make install DESTDIR="${TARGET_ROOTFS_DIR}"
 
-	rm -v "${TARGET_ROOTFS_PATH}"/usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes,sframe}.{a,la}
+	rm -v "${TARGET_ROOTFS_DIR}"/usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes,sframe}.{a,la}
 
 	clean_work_dir
 }

@@ -26,9 +26,9 @@ step_xz() {
 
 	msg "Installing xz..."
 
-	make install DESTDIR="${TARGET_ROOTFS_PATH}"
+	make install DESTDIR="${TARGET_ROOTFS_DIR}"
 
-	rm -v "${TARGET_ROOTFS_PATH}"/usr/lib/liblzma.la
+	rm -v "${TARGET_ROOTFS_DIR}"/usr/lib/liblzma.la
 
 	clean_work_dir
 }
