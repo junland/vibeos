@@ -28,7 +28,7 @@ step_gcc_pass1() {
 	cd build
 
 	../configure \
-		--prefix="${TOOLCHAIN_PATH}" \
+		--prefix="${TOOLCHAIN_DIR}" \
 		--target="${LFS_TGT}" \
 		--with-glibc-version="${GLIBC_VER}" \
 		--with-sysroot="${TARGET_ROOTFS_DIR}" \
@@ -127,7 +127,7 @@ step_gcc_libstdcxx() {
 
 	cd "${WORK_DIR}/gcc-${GCC_VER}"
 
-	TOOLCHAIN_BASE_DIR=$(basename "${TOOLCHAIN_PATH}")
+	TOOLCHAIN_BASE_DIR=$(basename "${TOOLCHAIN_DIR}")
 
 	msg "Using toolchain base dir: ${TOOLCHAIN_BASE_DIR}"
 

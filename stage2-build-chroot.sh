@@ -14,7 +14,7 @@ SOURCES_DIR=${SOURCES_DIR:-$(pwd)/sources}
 STEPS_DIR=${STEPS_DIR:-$(pwd)/steps}
 WORK_DIR=${WORK_DIR:-$(pwd)/work}
 
-export WORK_DIR SOURCES_DIR TARGET_ROOTFS_DIR
+export WORK_DIR SOURCES_DIR TARGET_ROOTFS_DIR TOOLCHAIN_DIR
 
 if [ -z "$TOOLCHAIN_DIR" ] || [ -z "$TARGET_ROOTFS_DIR" ]; then
 	msg "Usage: $0 <toolchain-directory> [target-cpu-arch] <target-rootfilesystem>" >&2

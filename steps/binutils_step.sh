@@ -15,7 +15,7 @@ step_binutils_pass1() {
 	cd build
 
 	../configure \
-		--prefix="${TOOLCHAIN_PATH}" \
+		--prefix="${TOOLCHAIN_DIR}" \
 		--target="${LFS_TGT}" \
 		--with-sysroot="${TARGET_ROOTFS_DIR}" \
 		--disable-nls \

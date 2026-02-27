@@ -20,7 +20,7 @@ step_ncurses() {
 
 	make -C progs tic
 
-	install progs/tic "${TOOLCHAIN_PATH}"/bin
+	install progs/tic "${TOOLCHAIN_DIR}"/bin
 
 	popd
 
