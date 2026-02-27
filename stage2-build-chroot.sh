@@ -143,7 +143,7 @@ step_patch
 step_sed
 step_tar
 step_xz
-step_binutils
-step_gcc
+step_binutils_pass2
+step_gcc_pass2
 
 msg "Completed stage 2 build..."
