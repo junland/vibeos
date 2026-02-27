@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    name: Run Build
+    name: Build Stage 1
     runs-on: ubuntu-latest
     strategy:
       matrix:
