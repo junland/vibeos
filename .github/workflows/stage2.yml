@@ -1,4 +1,4 @@
-name: Build Stage 1
+name: Build Stage 2
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    name: Build Stage 1
+    name: Build Stage 2
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -25,7 +25,7 @@ jobs:
           sudo apt-get install -y unzip tree wget curl make m4 rsync gawk autoconf automake libtool pkg-config sudo xz-utils build-essential texinfo
 
       - name: Download files from bootstrap-sources.list
-        run: mkdir -p sources && wget -nv --tries=15 --waitretry=15 -i data/bootstrap-sources.list -P sources
+        run: mkdir -p sources && wget -nv --tries=25 --waitretry=25 -i data/bootstrap-sources.list -P sources
 
       - name: Enable common functions
         run: chmod +x _common.sh
@@ -35,13 +35,13 @@ jobs:
 
       - name: Setup toolchain
         run: |
-          ./stage1-setup-toolchain.sh ${{ matrix.TARGET_CPU_ARCH }}
+          ./stage1-toolchain-setup.sh ${{ matrix.TARGET_CPU_ARCH }}
           ls -la .toolchains/${{ matrix.TARGET_CPU_ARCH }}-tools
 
-      - name: Build chroot
+      - name: Build rootfs
         shell: bash
         run: |
-          ./stage2-build-chroot.sh \
+          ./stage2-rootfs-setup.sh \
             "$GITHUB_WORKSPACE/.toolchains/${{ matrix.TARGET_CPU_ARCH }}-tools" \
             "${{ matrix.TARGET_CPU_ARCH }}" \
             "$GITHUB_WORKSPACE/rootfs"
