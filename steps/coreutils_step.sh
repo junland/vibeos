@@ -1,0 +1,79 @@
+#!/bin/bash
+# Coreutils Step - Build and install coreutils
+
+COREUTILS_VER="9.7"
+
+step_coreutils() {
+	extract_file "${SOURCES_DIR}/coreutils-${COREUTILS_VER}.tar.xz" "${WORK_DIR}/coreutils-${COREUTILS_VER}"
+
+	msg "Configuring coreutils..."
+
+	cd "${WORK_DIR}/coreutils-${COREUTILS_VER}"
+
+	msg "Patching coreutils..."
+
+	patch -Np1 -i "${SOURCES_DIR}/coreutils-${COREUTILS_VER}-upstream_fix-1.patch"
+	patch -Np1 -i "${SOURCES_DIR}/coreutils-${COREUTILS_VER}-i18n-1.patch"
+
+	# Reconfigure to point to our version of automake
+	autoreconf -f
+
+	./configure \
+		--prefix=/usr \
+		--host="${LFS_TGT}" \
+		--build="$(build-aux/config.guess)" \
+		--enable-install-program=hostname \
+		--enable-no-install-program=kill,uptime
+
+	msg "Building coreutils..."
+
+	make
+
+	msg "Installing coreutils..."
+
+	make install DESTDIR="${TARGET_ROOTFS_DIR}"
+
+	mv -v "$TARGET_ROOTFS_DIR"/usr/bin/chroot "$TARGET_ROOTFS_DIR"/usr/sbin
+	mkdir -pv "$TARGET_ROOTFS_DIR"/usr/share/man/man8
+	mv -v "$TARGET_ROOTFS_DIR"/usr/share/man/man1/chroot.1 "$TARGET_ROOTFS_DIR"/usr/share/man/man8/chroot.8
+	sed -i 's/"1"/"8"/' "$TARGET_ROOTFS_DIR"/usr/share/man/man8/chroot.8
+
+	clean_dir ${WORK_DIR}
+}
+
+step_chroot_coreutils() {
+	extract_file "${SOURCES_DIR}/coreutils-${COREUTILS_VER}.tar.xz" "${WORK_DIR}/coreutils-${COREUTILS_VER}"
+
+	cd "${WORK_DIR}/coreutils-${COREUTILS_VER}"
+
+	msg "Patching coreutils..."
+
+	patch -Np1 -i "${SOURCES_DIR}/coreutils-${COREUTILS_VER}-upstream_fix-1.patch"
+	patch -Np1 -i "${SOURCES_DIR}/coreutils-${COREUTILS_VER}-i18n-1.patch"
+
+	msg "Configuring coreutils..."
+
+	./configure \
+		--prefix=/usr \
+		--enable-install-program=hostname \
+		--enable-no-install-program=kill,uptime
+
+	msg "Building coreutils..."
+
+	make
+
+	msg "Checking coreutils..."
+
+	make check
+
+	msg "Installing coreutils..."
+
+	make install
+
+	mv -v /usr/bin/chroot /usr/sbin
+	mkdir -pv /usr/share/man/man8
+	mv -v /usr/share/man/man1/chroot.1 /usr/share/man/man8/chroot.8
+	sed -i 's/"1"/"8"/' /usr/share/man/man8/chroot.8
+
+	clean_dir ${WORK_DIR}
+}

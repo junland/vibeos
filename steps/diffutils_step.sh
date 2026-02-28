@@ -1,0 +1,56 @@
+#!/bin/bash
+# Diffutils Step - Build and install diffutils
+
+DIFFUTILS_VER="3.12"
+
+step_diffutils() {
+	extract_file "${SOURCES_DIR}/diffutils-${DIFFUTILS_VER}.tar.xz" "${WORK_DIR}/diffutils-${DIFFUTILS_VER}"
+
+	msg "Configuring diffutils..."
+
+	cd "${WORK_DIR}/diffutils-${DIFFUTILS_VER}"
+
+	# Reconfigure to point to our version of automake
+	autoreconf -f
+
+	msg "Configuring diffutils..."
+
+	./configure \
+		--prefix=/usr \
+		--host="${LFS_TGT}" \
+		--build="$(./config.guess)"
+
+	msg "Building diffutils..."
+
+	make
+
+	msg "Installing diffutils..."
+
+	make install DESTDIR="${TARGET_ROOTFS_DIR}"
+
+	clean_dir ${WORK_DIR}
+}
+
+step_chroot_diffutils() {
+	extract_file "${SOURCES_DIR}/diffutils-${DIFFUTILS_VER}.tar.xz" "${WORK_DIR}/diffutils-${DIFFUTILS_VER}"
+
+	cd "${WORK_DIR}/diffutils-${DIFFUTILS_VER}"
+
+	msg "Configuring diffutils..."
+
+	./configure --prefix=/usr
+
+	msg "Building diffutils..."
+
+	make
+
+	msg "Checking diffutils..."
+
+	make check
+
+	msg "Installing diffutils..."
+
+	make install
+
+	clean_dir ${WORK_DIR}
+}

@@ -1,0 +1,34 @@
+#!/bin/bash
+# ACL Step - Build and install acl in chroot
+
+ACL_VER="2.3.2"
+
+step_chroot_acl() {
+	extract_file "${SOURCES_DIR}/acl-${ACL_VER}.tar.xz" "${WORK_DIR}/acl-${ACL_VER}"
+
+	cd "${WORK_DIR}/acl-${ACL_VER}"
+
+	msg "Configuring acl..."
+
+	./configure \
+		--prefix=/usr \
+		--disable-static \
+		--docdir=/usr/share/doc/acl-${ACL_VER}
+
+	msg "Building acl..."
+
+	make
+
+	msg "Checking acl..."
+
+	# Disable test/cp.test as it fails in a chroot environment
+	sed -e 's|test/cp.test||' -i test/Makemodule.am Makefile.in Makefile
+
+	make check
+
+	msg "Installing acl..."
+
+	make install
+
+	clean_dir ${WORK_DIR}
+}

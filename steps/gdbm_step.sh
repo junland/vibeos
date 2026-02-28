@@ -1,0 +1,31 @@
+#!/bin/bash
+# GDBM Step - Build and install gdbm in chroot
+
+GDBM_VER="1.26"
+
+step_chroot_gdbm() {
+	extract_file "${SOURCES_DIR}/gdbm-${GDBM_VER}.tar.gz" "${WORK_DIR}/gdbm-${GDBM_VER}"
+
+	cd "${WORK_DIR}/gdbm-${GDBM_VER}"
+
+	msg "Configuring gdbm..."
+
+	./configure \
+		--prefix=/usr \
+		--disable-static \
+		--enable-libgdbm-compat
+
+	msg "Building gdbm..."
+
+	make
+
+	msg "Checking gdbm..."
+
+	make check
+
+	msg "Installing gdbm..."
+
+	make install
+
+	clean_dir ${WORK_DIR}
+}
