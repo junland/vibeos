@@ -4,6 +4,7 @@ set -e
 set +h
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=/dev/null
 source "$SCRIPT_DIR/_common.sh"
 
 TARGET_ROOTFS_DIR=$1
@@ -12,7 +13,12 @@ SOURCES_DIR=${SOURCES_DIR:-/sources}
 WORK_DIR=${WORK_DIR:-/work}
 STEPS_DIR=${STEPS_DIR:-"$SCRIPT_DIR/steps"}
 
-export SOURCES_DIR WORK_DIR
+STEPS_DIR="/tmp/steps"
+SOURCES_DIR="/tmp/sources"
+
+WORK_DIR="/tmp/work"
+
+export SOURCES_DIR WORK_DIR STEPS_DIR SOURCES_DIR WORK_DIR
 
 if [ -n "$TARGET_ROOTFS_DIR" ]; then
 	# Setup mode: validate the target directory then copy the script and its
@@ -25,14 +31,30 @@ if [ -n "$TARGET_ROOTFS_DIR" ]; then
 		exit 1
 	fi
 
+	msg "Creating necessary directories in $TARGET_ROOTFS_DIR..."
+
+	mkdir -p "$TARGET_ROOTFS_DIR/tmp"
+	
+	mkdir -p "$TARGET_ROOTFS_DIR/$STEPS_DIR"
+	
+	mkdir -p "$TARGET_ROOTFS_DIR/$SOURCES_DIR"
+	
+	mkdir -p "$TARGET_ROOTFS_DIR/$WORK_DIR"
+
 	msg "Copying stage3 script and dependencies to $TARGET_ROOTFS_DIR..."
 
-	cp -v "$SCRIPT_DIR/stage3-rootfs-build.sh" "$TARGET_ROOTFS_DIR/stage3-rootfs-build.sh"
-	chmod +x "$TARGET_ROOTFS_DIR/stage3-rootfs-build.sh"
+	cp -v "$SCRIPT_DIR/stage3-rootfs-build.sh" "$TARGET_ROOTFS_DIR/tmp/stage3-rootfs-build.sh"
 
-	cp -v "$SCRIPT_DIR/_common.sh" "$TARGET_ROOTFS_DIR/_common.sh"
+	cp -v "$SCRIPT_DIR/_common.sh" "$TARGET_ROOTFS_DIR/$STEPS_DIR/_common.sh"
 
-	cp -rv "$SCRIPT_DIR/steps" "$TARGET_ROOTFS_DIR/steps"
+	cp -rv "$SCRIPT_DIR/steps" "$TARGET_ROOTFS_DIR/$STEPS_DIR"
+
+	cp -rv "$SOURCES_DIR" "$TARGET_ROOTFS_DIR/$SOURCES_DIR"
+
+	chmod +x "$TARGET_ROOTFS_DIR/tmp/stage3-rootfs-build.sh"
+
+	# Make sure to flag the file system as complete.
+    touch "${TARGET_ROOTFS_DIR}/.is_ready"
 
 	msg "Stage 3 script copied to $TARGET_ROOTFS_DIR. You can now run it inside the chroot."
 else
@@ -49,6 +71,7 @@ else
 	shopt -s nullglob
 	
 	for step_script in "$STEPS_DIR"/*_step.sh; do
+	    # shellcheck source=/dev/null
 		source "$step_script"
 	done
 	
