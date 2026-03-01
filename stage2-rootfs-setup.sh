@@ -146,4 +146,7 @@ step_xz
 step_binutils_pass2
 step_gcc_pass2
 
+# Make sure to flag the file system as complete.
+touch "${TARGET_ROOTFS_DIR}/.is_ready"
+
 msg "Completed stage 2 build..."

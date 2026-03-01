@@ -15,8 +15,11 @@ STEPS_DIR=${STEPS_DIR:-"$SCRIPT_DIR/steps"}
 export SOURCES_DIR WORK_DIR
 
 if [ -n "$TARGET_ROOTFS_DIR" ]; then
-	# Host mode: validate the target directory then copy the script and its
+	# Setup mode: validate the target directory then copy the script and its
 	# dependencies into it so the script can be executed inside the chroot.
+
+    msg "Setup mode executed..."
+
 	if [ ! -d "$TARGET_ROOTFS_DIR" ]; then
 		msg "Error: Target root filesystem directory '$TARGET_ROOTFS_DIR' does not exist." >&2
 		exit 1
@@ -33,11 +36,22 @@ if [ -n "$TARGET_ROOTFS_DIR" ]; then
 
 	msg "Stage 3 script copied to $TARGET_ROOTFS_DIR. You can now run it inside the chroot."
 else
-	# Chroot mode: source all step scripts and run the stage3 chroot build.
+    # Build mode: source all step scripts and run the stage3 build.
+	# Make sure there is file called .is_ready at the root of the filesystem.
+
+	msg "Build mode executed..."
+
+	if [ ! -f /.is_ready ]; then
+		msg "Error: This filesystem can not be used to run in chroot mode." >&2
+		exit 1
+	fi
+
 	shopt -s nullglob
+	
 	for step_script in "$STEPS_DIR"/*_step.sh; do
 		source "$step_script"
 	done
+	
 	shopt -u nullglob
 
 	msg "Starting stage 3 chroot build..."
