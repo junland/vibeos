@@ -51,12 +51,16 @@ if [ -n "$TARGET_ROOTFS_DIR" ]; then
 
 	cp -rv "$SOURCES_DIR" "$TARGET_ROOTFS_DIR/$SOURCES_DIR"
 
+	msg "Setting execute permissions for stage3 script..."
+
 	chmod +x "$TARGET_ROOTFS_DIR/tmp/stage3-rootfs-build.sh"
+
+	msg "Marking $TARGET_ROOTFS_DIR as ready for build..."
 
 	# Make sure to flag the file system as complete.
     touch "${TARGET_ROOTFS_DIR}/.is_ready"
 
-	msg "Stage 3 script copied to $TARGET_ROOTFS_DIR. You can now run it inside the chroot."
+	msg "Stage 3 script copied to $TARGET_ROOTFS_DIR. You can now run it inside the new root filesystem."
 else
     # Build mode: source all step scripts and run the stage3 build.
 	# Make sure there is file called .is_ready at the root of the filesystem.
