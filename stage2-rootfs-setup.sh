@@ -4,6 +4,7 @@ set -e
 set +h
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=/dev/null
 source "$SCRIPT_DIR/_common.sh"
 
 TOOLCHAIN_DIR=$1
@@ -123,6 +124,7 @@ ln -sv usr/lib "$TARGET_ROOTFS_DIR/lib64"
 ln -sv lib "$TARGET_ROOTFS_DIR/usr/lib64"
 
 for step_script in "$STEPS_DIR"/*_step.sh; do
+    # shellcheck source=/dev/null
 	source "$step_script"
 done
 
