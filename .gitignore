@@ -60,6 +60,7 @@ rootfs/
 .toolchains/
 Makefile
 Dockerfile
+Vagrantfile
 *.log
 *.tmp
 *.bak

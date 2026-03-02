@@ -1,10 +1,10 @@
 name: Build Stage 3
 
 on:
-  workflow_run:
-    workflows: ["Build Stage 2"]
-    types:
-      - completed
+  push:
+    branches:
+      - dev
+      - copilot/*
   workflow_dispatch:
     inputs:
       run_id:
