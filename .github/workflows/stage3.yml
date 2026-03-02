@@ -1,10 +1,10 @@
 name: Build Stage 3
 
 on:
-  push:
-    branches:
-      - dev
-      - copilot/*
+  workflow_run:
+    workflows: ["Build Stage 2"]
+    types:
+      - completed
   workflow_dispatch:
     inputs:
       run_id:
@@ -40,7 +40,7 @@ jobs:
           fi
 
       - name: Download rootfs artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           pattern: rootfs-stage2-${{ steps.resolve.outputs.arch }}-*
           run-id: ${{ steps.resolve.outputs.run_id }}
