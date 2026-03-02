@@ -62,7 +62,7 @@ jobs:
       - name: Run stage 3 build script to setup the rootfs
         run: |
           chmod +x stage3-rootfs-build.sh
-          sudo stage3-rootfs-build.sh rootfs-stage2
+          sudo ./stage3-rootfs-build.sh rootfs-stage2
 
       - name: Repack rootfs
         run: |
