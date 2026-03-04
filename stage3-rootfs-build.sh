@@ -9,7 +9,7 @@ source "$SCRIPT_DIR/_common.sh"
 
 TARGET_ROOTFS_DIR=$1
 
-SOURCES_DIR=${SOURCES_DIR:-"$SCRIPT_DIR/sources"}
+LOCAL_SOURCES_DIR=${SOURCES_DIR:-"$SCRIPT_DIR/sources"}
 LOCAL_STEPS_DIR=${STEPS_DIR:-"$SCRIPT_DIR/steps"}
 
 SOURCES_DIR="/tmp/sources"
@@ -43,11 +43,11 @@ if [ -n "$TARGET_ROOTFS_DIR" ]; then
 
 	cp -v "$SCRIPT_DIR/stage3-rootfs-build.sh" "$TARGET_ROOTFS_DIR/tmp/stage3-rootfs-build.sh"
 
-	cp -v "$SCRIPT_DIR/_common.sh" "$TARGET_ROOTFS_DIR/$STEPS_DIR/_common.sh"
+	cp -v "$SCRIPT_DIR/_common.sh" "$TARGET_ROOTFS_DIR/tmp/_common.sh"
 
-	cp -rv "$SCRIPT_DIR/steps" "$TARGET_ROOTFS_DIR/$STEPS_DIR"
+	cp -rv "$LOCAL_STEPS_DIR/." "$TARGET_ROOTFS_DIR/$STEPS_DIR"
 
-	cp -rv "$SOURCES_DIR" "$TARGET_ROOTFS_DIR/$SOURCES_DIR"
+	cp -rv "$LOCAL_SOURCES_DIR/." "$TARGET_ROOTFS_DIR/$SOURCES_DIR"
 
 	msg "Setting execute permissions for stage3 script..."
 
