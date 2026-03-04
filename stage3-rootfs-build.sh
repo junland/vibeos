@@ -9,22 +9,20 @@ source "$SCRIPT_DIR/_common.sh"
 
 TARGET_ROOTFS_DIR=$1
 
-SOURCES_DIR=${SOURCES_DIR:-/sources}
-WORK_DIR=${WORK_DIR:-/work}
-STEPS_DIR=${STEPS_DIR:-"$SCRIPT_DIR/steps"}
+SOURCES_DIR=${SOURCES_DIR:-"$SCRIPT_DIR/sources"}
+LOCAL_STEPS_DIR=${STEPS_DIR:-"$SCRIPT_DIR/steps"}
 
-STEPS_DIR="/tmp/steps"
 SOURCES_DIR="/tmp/sources"
-
+STEPS_DIR="/tmp/steps"
 WORK_DIR="/tmp/work"
 
-export SOURCES_DIR WORK_DIR STEPS_DIR SOURCES_DIR WORK_DIR
+export SOURCES_DIR WORK_DIR STEPS_DIR
 
 if [ -n "$TARGET_ROOTFS_DIR" ]; then
 	# Setup mode: validate the target directory then copy the script and its
 	# dependencies into it so the script can be executed inside the chroot.
 
-    msg "Setup mode executed..."
+	msg "Setup mode executed..."
 
 	if [ ! -d "$TARGET_ROOTFS_DIR" ]; then
 		msg "Error: Target root filesystem directory '$TARGET_ROOTFS_DIR' does not exist." >&2
@@ -34,11 +32,11 @@ if [ -n "$TARGET_ROOTFS_DIR" ]; then
 	msg "Creating necessary directories in $TARGET_ROOTFS_DIR..."
 
 	mkdir -p "$TARGET_ROOTFS_DIR/tmp"
-	
+
 	mkdir -p "$TARGET_ROOTFS_DIR/$STEPS_DIR"
-	
+
 	mkdir -p "$TARGET_ROOTFS_DIR/$SOURCES_DIR"
-	
+
 	mkdir -p "$TARGET_ROOTFS_DIR/$WORK_DIR"
 
 	msg "Copying stage3 script and dependencies to $TARGET_ROOTFS_DIR..."
@@ -58,11 +56,11 @@ if [ -n "$TARGET_ROOTFS_DIR" ]; then
 	msg "Marking $TARGET_ROOTFS_DIR as ready for build..."
 
 	# Make sure to flag the file system as complete.
-    touch "${TARGET_ROOTFS_DIR}/.is_ready"
+	touch "${TARGET_ROOTFS_DIR}/.is_ready"
 
 	msg "Stage 3 script copied to $TARGET_ROOTFS_DIR. You can now run it inside the new root filesystem."
 else
-    # Build mode: source all step scripts and run the stage3 build.
+	# Build mode: source all step scripts and run the stage3 build.
 	# Make sure there is file called .is_ready at the root of the filesystem.
 
 	msg "Build mode executed..."
@@ -73,12 +71,12 @@ else
 	fi
 
 	shopt -s nullglob
-	
+
 	for step_script in "$STEPS_DIR"/*_step.sh; do
-	    # shellcheck source=/dev/null
+		# shellcheck source=/dev/null
 		source "$step_script"
 	done
-	
+
 	shopt -u nullglob
 
 	msg "Starting stage 3 chroot build..."
