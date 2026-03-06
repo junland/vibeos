@@ -79,7 +79,11 @@ jobs:
           docker import "$ARTIFACT" vibeos:${{ steps.resolve.outputs.arch }}-latest
           docker images vibeos
 
+      - name: Remove unneeded files
+        run: |
+          rm -rf sources/ rootfs/ rootfs-stage2/ *.tar.xz
+
       - name: Check Docker image
         run: |
-          docker run -t vibeos:${{ steps.resolve.outputs.arch }}-latest ls
+          docker run -t --rm vibeos:${{ steps.resolve.outputs.arch }}-latest ls
 
