@@ -81,7 +81,7 @@ jobs:
 
       - name: Remove unneeded files
         run: |
-          rm -rf sources/ rootfs/ rootfs-stage2/ *.tar.xz
+          sudo rm -rf sources/ rootfs/ rootfs-stage2/ *.tar.xz
 
       - name: Check Docker image
         run: |
