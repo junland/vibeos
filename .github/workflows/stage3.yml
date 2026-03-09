@@ -87,6 +87,8 @@ jobs:
         run: |
           docker run -t --rm vibeos:${{ steps.resolve.outputs.arch }}-latest ls
 
+          docker run -t --rm vibeos:${{ steps.resolve.outputs.arch }}-latest ls /tmp
+
       - name: Run internal bootstrap script
         run: |
           docker run -t --rm -w /tmp vibeos:${{ steps.resolve.outputs.arch }}-latest /tmp/stage3-rootfs-build.sh
