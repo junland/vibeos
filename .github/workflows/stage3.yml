@@ -25,6 +25,9 @@ jobs:
       actions: read
     if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     steps:
+      - name: Download dos2unix
+        run: sudo apt-get update && sudo apt-get install -y dos2unix
+
       - name: Checkout repository
         uses: actions/checkout@v6
 
@@ -57,7 +60,10 @@ jobs:
           mkdir -p rootfs-stage2 && tar -C rootfs-stage2 -xf "$ARTIFACT"
 
       - name: Download files from bootstrap-sources.list
-        run: mkdir -p sources && wget -nv --tries=25 --waitretry=25 -i data/bootstrap-sources.list -P sources 
+        run: mkdir -p sources && wget -nv --tries=25 --waitretry=25 -i data/bootstrap-sources.list -P sources
+
+      - name: Convert line endings of stage3-rootfs-build.sh to Unix format
+        run: dos2unix stage3-rootfs-build.sh steps/*.sh *.sh
 
       - name: Run stage 3 build script to setup the rootfs
         run: |
