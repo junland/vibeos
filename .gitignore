@@ -57,6 +57,7 @@ dkms.conf
 # Other files
 sources/
 rootfs/
+rootfs-*/
 .toolchains/
 Makefile
 Dockerfile
@@ -64,3 +65,5 @@ Vagrantfile
 *.log
 *.tmp
 *.bak
+*.tar
+*.tar.*

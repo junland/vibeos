@@ -118,6 +118,30 @@ export PKG_CONFIG_LIBDIR="$TARGET_ROOTFS_DIR/usr/lib/pkgconfig:$TARGET_ROOTFS_DI
 # Start building components in the for the chroot environment
 #
 
+# Move any files in sbin and bin to the appropriate locations in the target root filesystem
+msg "Moving files from sbin, bin, and lib to target root filesystem..."
+
+if [ -d "$TARGET_ROOTFS_DIR/sbin" ]; then
+	cp -av "$TARGET_ROOTFS_DIR/sbin/" "$TARGET_ROOTFS_DIR/usr/sbin/"
+	rm -rf "$TARGET_ROOTFS_DIR/sbin"
+fi
+
+if [ -d "$TARGET_ROOTFS_DIR/bin" ]; then
+	cp -av "$TARGET_ROOTFS_DIR/bin/" "$TARGET_ROOTFS_DIR/usr/bin/"
+	rm -rf "$TARGET_ROOTFS_DIR/bin"
+fi
+
+if [ -d "$TARGET_ROOTFS_DIR/lib" ]; then
+	cp -av "$TARGET_ROOTFS_DIR/lib/" "$TARGET_ROOTFS_DIR/usr/lib/"
+	rm -rf "$TARGET_ROOTFS_DIR/lib"
+fi
+
+# Make sure sbin, bin, and lib directories are symlinked to their new locations in the target root filesystem
+msg "Creating symlinks for sbin, bin, and lib in target root filesystem..."
+ln -sv usr/sbin "$TARGET_ROOTFS_DIR/sbin"
+ln -sv usr/bin "$TARGET_ROOTFS_DIR/bin"
+ln -sv usr/lib "$TARGET_ROOTFS_DIR/lib"
+
 msg "Create compatibility for lib64..."
 
 ln -sv usr/lib "$TARGET_ROOTFS_DIR/lib64"

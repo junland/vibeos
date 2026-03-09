@@ -72,8 +72,12 @@ jobs:
 
       - name: Repack rootfs
         run: |
+          sudo chown -R root:root rootfs-stage2
+
           ARTIFACT="rootfs-stage2-${{ steps.resolve.outputs.arch }}-$(date +%Y%m%d%H%M%S).tar.xz"
-          tar -C rootfs-stage2 -cJf "$ARTIFACT" .
+          sudo tar -C rootfs-stage2 -cJf "$ARTIFACT" .
+
+          sudo chown "$USER":"$USER" "$ARTIFACT"
 
       - name: Import rootfs into Docker
         run: |
