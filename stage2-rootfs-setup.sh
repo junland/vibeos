@@ -122,17 +122,20 @@ export PKG_CONFIG_LIBDIR="$TARGET_ROOTFS_DIR/usr/lib/pkgconfig:$TARGET_ROOTFS_DI
 msg "Moving files from sbin, bin, and lib to target root filesystem..."
 
 if [ -d "$TARGET_ROOTFS_DIR/sbin" ]; then
-	cp -av "$TARGET_ROOTFS_DIR/sbin/" "$TARGET_ROOTFS_DIR/usr/sbin/"
+	# Move all files from sbin to usr/sbin in the target root filesystem
+	cp -av "$TARGET_ROOTFS_DIR/sbin/"* "$TARGET_ROOTFS_DIR/usr/sbin/"
 	rm -rf "$TARGET_ROOTFS_DIR/sbin"
 fi
 
 if [ -d "$TARGET_ROOTFS_DIR/bin" ]; then
-	cp -av "$TARGET_ROOTFS_DIR/bin/" "$TARGET_ROOTFS_DIR/usr/bin/"
+	# Move all files from bin to usr/bin in the target root filesystem
+	cp -av "$TARGET_ROOTFS_DIR/bin/"* "$TARGET_ROOTFS_DIR/usr/bin/"
 	rm -rf "$TARGET_ROOTFS_DIR/bin"
 fi
 
 if [ -d "$TARGET_ROOTFS_DIR/lib" ]; then
-	cp -av "$TARGET_ROOTFS_DIR/lib/" "$TARGET_ROOTFS_DIR/usr/lib/"
+	# Move all files from lib to usr/lib in the target root filesystem
+	cp -av "$TARGET_ROOTFS_DIR/lib/"* "$TARGET_ROOTFS_DIR/usr/lib/"
 	rm -rf "$TARGET_ROOTFS_DIR/lib"
 fi
 
