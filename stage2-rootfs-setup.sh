@@ -142,9 +142,7 @@ ln -sv usr/sbin "$TARGET_ROOTFS_DIR/sbin"
 ln -sv usr/bin "$TARGET_ROOTFS_DIR/bin"
 ln -sv usr/lib "$TARGET_ROOTFS_DIR/lib"
 
-msg "Create compatibility for lib64..."
-
-ln -sv lib "$TARGET_ROOTFS_DIR/usr/lib64"
+msg "Copying setup stesp scripts from $STEPS_DIR to target root filesystem..."
 
 for step_script in "$STEPS_DIR"/*_step.sh; do
     # shellcheck source=/dev/null
