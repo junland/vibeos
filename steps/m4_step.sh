@@ -12,7 +12,7 @@ step_m4() {
 
 	msg "Configuring m4..."
 
-	./configure --prefix=/usr --host="${LFS_TGT}" --build="$(build-aux/config.guess)"
+	./configure --prefix=/usr --host="${LFS_TGT}" --build="$(build-aux/config.guess)" || cat config.log
 
 	msg "Building m4..."
 
