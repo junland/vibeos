@@ -144,7 +144,6 @@ ln -sv usr/lib "$TARGET_ROOTFS_DIR/lib"
 
 msg "Create compatibility for lib64..."
 
-ln -sv usr/lib "$TARGET_ROOTFS_DIR/lib64"
 ln -sv lib "$TARGET_ROOTFS_DIR/usr/lib64"
 
 for step_script in "$STEPS_DIR"/*_step.sh; do
