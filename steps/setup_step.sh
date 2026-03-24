@@ -20,12 +20,17 @@ step_chroot_setup() {
 
 	install -dv -m 0750 /root
 	install -dv -m 1777 /tmp /var/tmp
-	install -vdm 755 /{dev,proc,run/{media/{floppy,cdrom},lock},sys}
+	install -vdm 755 /{dev,proc,run/{media/{floppy,cdrom},lock}}
 	install -vdm 755 /{boot,etc/{opt,sysconfig},home,mnt}
 	install -vdm 755 /usr/{,local/}{bin,include,lib,sbin,src}
 	install -vdm 755 /usr/libexec
 	install -vdm 755 /etc/profile.d
 	install -vdm 755 /usr/lib/debug/{lib,bin,sbin,usr}
+
+    # Sometimes docker already creates the directory.
+	if [ ! -d /sys ]; then
+		install -vdm 755 /sys
+	fi
 
 	msg "Creating essential symlinks..."
 
