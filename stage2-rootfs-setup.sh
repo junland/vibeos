@@ -145,6 +145,10 @@ ln -sv usr/sbin "$TARGET_ROOTFS_DIR/sbin"
 ln -sv usr/bin "$TARGET_ROOTFS_DIR/bin"
 ln -sv usr/lib "$TARGET_ROOTFS_DIR/lib"
 
+# Make sure that tmp directory exists
+msg "Creating tmp directory..."
+mkdir -p "$TARGET_ROOTFS_DIR/tmp"
+
 msg "Copying setup stesp scripts from $STEPS_DIR to target root filesystem..."
 
 for step_script in "$STEPS_DIR"/*_step.sh; do
