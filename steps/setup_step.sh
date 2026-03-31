@@ -37,7 +37,7 @@ step_chroot_setup() {
 	ln -sfv /run /var/run
 	ln -sfv /run/lock /var/lock
 	ln -sfv bash /bin/sh
-	ln -sv /proc/self/mounts /etc/mtab
+	ln -sfv /proc/self/mounts /etc/mtab
 
 	msg "Creating essential files..."
 
