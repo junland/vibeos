@@ -12,9 +12,10 @@ TARGET_ROOTFS_DIR=$1
 LOCAL_SOURCES_DIR=${SOURCES_DIR:-"$SCRIPT_DIR/sources"}
 LOCAL_STEPS_DIR=${STEPS_DIR:-"$SCRIPT_DIR/steps"}
 
-SOURCES_DIR="/tmp/sources"
-STEPS_DIR="/tmp/steps"
-WORK_DIR="/tmp/work"
+BASE_DIR="/opt"
+SOURCES_DIR="/${BASE_DIR}/sources"
+STEPS_DIR="/${BASE_DIR}/steps"
+WORK_DIR="/${BASE_DIR}/work"
 
 export SOURCES_DIR WORK_DIR STEPS_DIR
 
@@ -31,7 +32,7 @@ if [ -n "$TARGET_ROOTFS_DIR" ]; then
 
 	msg "Creating necessary directories in $TARGET_ROOTFS_DIR..."
 
-	mkdir -p "$TARGET_ROOTFS_DIR/tmp"
+	mkdir -p "$TARGET_ROOTFS_DIR/$BASE_DIR"
 
 	mkdir -p "$TARGET_ROOTFS_DIR/$STEPS_DIR"
 
@@ -41,9 +42,9 @@ if [ -n "$TARGET_ROOTFS_DIR" ]; then
 
 	msg "Copying stage3 script and dependencies to $TARGET_ROOTFS_DIR..."
 
-	cp -v "$SCRIPT_DIR/stage3-rootfs-build.sh" "$TARGET_ROOTFS_DIR/tmp/stage3-rootfs-build.sh"
+	cp -v "$SCRIPT_DIR/stage3-rootfs-build.sh" "$TARGET_ROOTFS_DIR/$BASE_DIR/stage3-rootfs-build.sh"
 
-	cp -v "$SCRIPT_DIR/_common.sh" "$TARGET_ROOTFS_DIR/tmp/_common.sh"
+	cp -v "$SCRIPT_DIR/_common.sh" "$TARGET_ROOTFS_DIR/$BASE_DIR/_common.sh"
 
 	cp -rv "$LOCAL_STEPS_DIR/." "$TARGET_ROOTFS_DIR/$STEPS_DIR"
 
@@ -51,7 +52,7 @@ if [ -n "$TARGET_ROOTFS_DIR" ]; then
 
 	msg "Setting execute permissions for stage3 script..."
 
-	chmod +x "$TARGET_ROOTFS_DIR/tmp/stage3-rootfs-build.sh"
+	chmod +x "$TARGET_ROOTFS_DIR/$BASE_DIR/stage3-rootfs-build.sh"
 
 	msg "Marking $TARGET_ROOTFS_DIR as ready for build..."
 
