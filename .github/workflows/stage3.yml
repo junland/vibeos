@@ -58,6 +58,7 @@ jobs:
             exit 1
           fi
           mkdir -p rootfs-stage2 && tar -C rootfs-stage2 -xf "$ARTIFACT"
+          rm -f "$ARTIFACT"
 
       - name: Download files from bootstrap-sources.list
         run: mkdir -p sources && wget -nv --tries=25 --waitretry=25 -i data/bootstrap-sources.list -P sources
