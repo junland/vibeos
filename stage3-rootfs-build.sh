@@ -13,9 +13,9 @@ LOCAL_SOURCES_DIR=${SOURCES_DIR:-"$SCRIPT_DIR/sources"}
 LOCAL_STEPS_DIR=${STEPS_DIR:-"$SCRIPT_DIR/steps"}
 
 BASE_DIR="/opt"
-SOURCES_DIR="/${BASE_DIR}/sources"
-STEPS_DIR="/${BASE_DIR}/steps"
-WORK_DIR="/${BASE_DIR}/work"
+SOURCES_DIR="${BASE_DIR}/sources"
+STEPS_DIR="${BASE_DIR}/steps"
+WORK_DIR="${BASE_DIR}/work"
 
 export SOURCES_DIR WORK_DIR STEPS_DIR
 
@@ -81,8 +81,13 @@ else
 	shopt -u nullglob
 
 	msg "Starting stage 3 chroot build..."
-
 	step_chroot_setup
+	step_chroot_gettext
+	step_chroot_bison
+	step_chroot_perl
+	step_chroot_python
+	step_chroot_texinfo
+	step_chroot_util_linux
 	step_chroot_iana_etc
 	step_chroot_glibc
 	step_chroot_zlib
