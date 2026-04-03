@@ -84,7 +84,7 @@ else
 	step_chroot_setup
 	step_chroot_gettext
 	step_chroot_bison
-	step_chroot_perl
+	step_chroot_perl_stage2
 	step_chroot_python
 	step_chroot_texinfo
 	step_chroot_util_linux
@@ -120,9 +120,8 @@ else
 	step_chroot_expat
 	step_chroot_inetutils
 	step_chroot_less
-	step_chroot_perl_stage2
-	step_chroot_perl_xml_parser
 	step_chroot_perl_stage3
+	step_chroot_perl_xml_parser
 	step_chroot_autoconf
 	step_chroot_automake
 	step_chroot_openssl
