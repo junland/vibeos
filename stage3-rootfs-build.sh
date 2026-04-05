@@ -85,7 +85,7 @@ else
 	step_chroot_gettext
 	step_chroot_bison
 	step_chroot_perl_stage2
-	step_chroot_python
+	step_chroot_python_stage2
 	step_chroot_texinfo
 	step_chroot_util_linux
 	step_chroot_iana_etc
@@ -128,12 +128,11 @@ else
 	step_chroot_kmod
 	step_chroot_elfutils_lib
 	step_chroot_libffi
-	step_chroot_python_stage2
-	step_chroot_python_flit_core
-	step_chroot_python_wheel
-	step_chroot_python_packaging
-	step_chroot_python_setuptools
 	step_chroot_python_stage3
+	step_chroot_python_flit_core
+	step_chroot_python_packaging
+	step_chroot_python_wheel
+	step_chroot_python_setuptools
 	step_chroot_ninja
 	step_chroot_meson
 	step_chroot_coreutils
