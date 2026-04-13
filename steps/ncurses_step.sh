@@ -4,7 +4,7 @@
 NCURSES_VER="6.6"
 
 step_ncurses() {
-	extract_file "${SOURCES_DIR}/ncurses-${NCURSES_VER}.tgz" "${WORK_DIR}/ncurses-${NCURSES_VER}"
+	extract_file "${SOURCES_DIR}/ncurses-${NCURSES_VER}.tar.gz" "${WORK_DIR}/ncurses-${NCURSES_VER}"
 
 	msg "Creating tic program in ncurses..."
 
