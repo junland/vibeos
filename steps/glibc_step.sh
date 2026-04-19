@@ -118,6 +118,9 @@ step_chroot_glibc() {
 
 	# Disable nss/tst-nss-files-hosts-multi test as its known to fail in a chroot.
 	sed -i "/tests += tst-nss-files-hosts-multi/d" "${WORK_DIR}/glibc-${GLIBC_VER}/nss/Makefile"
+
+	# Disable support/tst-support_descriptors test as its known to fail in a chroot.
+	sed -i "/\btst-support_descriptors /d" "${WORK_DIR}/glibc-${GLIBC_VER}/support/Makefile"
 	
 	TIMEOUTFACTOR=15 make check -j1
 

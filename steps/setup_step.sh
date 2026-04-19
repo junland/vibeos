@@ -20,7 +20,8 @@ step_chroot_setup() {
 
 	install -dv -m 0750 /root
 	install -dv -m 1777 /tmp /var/tmp
-	install -vdm 755 /{dev,proc,run/{media/{floppy,cdrom},lock}}
+	install -vdm 755 /proc || true
+	install -vdm 755 /{dev,run/{media/{floppy,cdrom},lock}}
 	install -vdm 755 /{boot,etc/{opt,sysconfig},home,mnt}
 	install -vdm 755 /usr/{,local/}{bin,include,lib,sbin,src}
 	install -vdm 755 /usr/libexec
