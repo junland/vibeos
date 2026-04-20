@@ -104,25 +104,36 @@ step_chroot_glibc() {
 
 	msg "Checking glibc..."
 
-	# Disable io/tst-lchmod test as its known to fail in a chroot.
-	sed -i "/\btst-lchmod /d" "${WORK_DIR}/glibc-${GLIBC_VER}/io/Makefile"
+	# Run all tests, continuing past failures (-k). Tests known to fail in
+	# chroot/virtualbox environments are allow-listed below; any failure not
+	# on the list is treated as a real error.
+	TIMEOUTFACTOR=15 make -k check -j1 || true
 
-	# Disable stdlib/test-cxa_atexit-race2 test as it its known to fail in a chroot.
-	sed -i "/\btest-cxa_atexit-race2 /d" "${WORK_DIR}/glibc-${GLIBC_VER}/stdlib/Makefile"
+	# Tests known to fail in chroot/virtualbox environments.
+	EXPECTED_FAILURES=(
+		"c++-types-check"
+		"io/tst-fchownat"
+		"malloc/tst-tcfree2"
+		"nptl/tst-eintr1"
+		"nptl/tst-mutex10"
+		"nptl/tst-setuid3"
+		"stdlib/tst-secure-getenv"
+		"support/tst-support_descriptors"
+	)
 
-	# Disable sunrpc/tst-udp-timeout test as its known to fail in virtualbox.
-	sed -i "s/ tst-udp-timeout//g" "${WORK_DIR}/glibc-${GLIBC_VER}/sunrpc/Makefile"
-
-	# Disable misc/tst-timerfd test as its known to fail in a chroot.
-	sed -i "/\btst-timerfd /d" "${WORK_DIR}/glibc-${GLIBC_VER}/sysdeps/unix/sysv/linux/Makefile"
-
-	# Disable nss/tst-nss-files-hosts-multi test as its known to fail in a chroot.
-	sed -i "/tests += tst-nss-files-hosts-multi/d" "${WORK_DIR}/glibc-${GLIBC_VER}/nss/Makefile"
-
-	# Disable support/tst-support_descriptors test as its known to fail in a chroot.
-	sed -i "/\btst-support_descriptors /d" "${WORK_DIR}/glibc-${GLIBC_VER}/support/Makefile"
+	pattern=$(
+		IFS='|'
+		echo "${EXPECTED_FAILURES[*]}"
+	)
 	
-	TIMEOUTFACTOR=15 make check -j1
+	allowed=$(grep -cE "^FAIL: ($pattern)" tests.sum || :)
+	total=$(grep -c "^FAIL" tests.sum || :)
+
+	if [ "$allowed" -ne "$total" ]; then
+		echo "Error: $((total - allowed)) unexpected test failure(s) out of $total total:"
+		grep -E "^FAIL" tests.sum | grep -vE "^FAIL: ($pattern)"
+		exit 1
+	fi
 
 	# Disable outdated sanity check.
 	sed '/test-installation/s@$(PERL)@echo not running@' -i ../Makefile
@@ -145,7 +156,7 @@ include /etc/ld.so.conf.d/*.conf
 # End /etc/ld.so.conf
 EOF
 
-    # Generate and install locale(s)
+	# Generate and install locale(s)
 	msg "Generating and installing locales..."
 	make localedata/install-locales
 
