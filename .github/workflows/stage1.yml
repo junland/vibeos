@@ -1,0 +1,42 @@
+name: Build Stage 1
+
+on:
+  push:
+    branches:
+      - dev
+      - copilot/*
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Stage 1
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - TARGET_CPU_ARCH: x86_64
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Install dependencies (Ubuntu/Debian)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y unzip tree wget curl make m4 rsync gawk autoconf automake libtool pkg-config sudo xz-utils build-essential texinfo
+
+      - name: Enable staging scripts
+        run: chmod +x stage*.sh
+
+      - name: Setup toolchain
+        run: |
+          ./stage1-toolchain.sh ${{ matrix.TARGET_CPU_ARCH }}
+          ls -la .toolchains/${{ matrix.TARGET_CPU_ARCH }}-tools
+
+      - name: Compress toolchain
+        run: tar -C .toolchains -cvJf toolchain-${{ matrix.TARGET_CPU_ARCH }}-${{ github.run_id }}.tar.xz ${{ matrix.TARGET_CPU_ARCH }}-tools
+
+      - name: Upload toolchain artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: toolchain-${{ matrix.TARGET_CPU_ARCH }}-${{ github.run_id }}.tar.xz
+          path: toolchain-${{ matrix.TARGET_CPU_ARCH }}-${{ github.run_id }}.tar.xz
