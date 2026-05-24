@@ -42,7 +42,7 @@ if [ -n "$TARGET_ROOTFS_DIR" ]; then
 
 	msg "Copying stage3 script and dependencies to $TARGET_ROOTFS_DIR..."
 
-	cp -v "$SCRIPT_DIR/stage3-rootfs-build.sh" "$TARGET_ROOTFS_DIR/$BASE_DIR/stage3-rootfs-build.sh"
+	cp -v "$SCRIPT_DIR/stage3-rootfs.sh" "$TARGET_ROOTFS_DIR/$BASE_DIR/stage3-rootfs.sh"
 
 	cp -v "$SCRIPT_DIR/_common.sh" "$TARGET_ROOTFS_DIR/$BASE_DIR/_common.sh"
 
@@ -52,7 +52,7 @@ if [ -n "$TARGET_ROOTFS_DIR" ]; then
 
 	msg "Setting execute permissions for stage3 script..."
 
-	chmod +x "$TARGET_ROOTFS_DIR/$BASE_DIR/stage3-rootfs-build.sh"
+	chmod +x "$TARGET_ROOTFS_DIR/$BASE_DIR/stage3-rootfs.sh"
 
 	msg "Marking $TARGET_ROOTFS_DIR as ready for build..."
 

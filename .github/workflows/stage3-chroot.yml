@@ -1,4 +1,4 @@
-name: Build Stage 3
+name: Build Stage 3 (Chroot)
 
 on:
   workflow_run:
@@ -19,7 +19,7 @@ on:
 
 jobs:
   build:
-    name: Build Stage 3
+    name: Build Stage 3 (Chroot)
     runs-on: depot-ubuntu-24.04-4
     permissions:
       actions: read
@@ -71,36 +71,43 @@ jobs:
           chmod +x stage3-rootfs.sh
           sudo ./stage3-rootfs.sh rootfs-stage2
 
+      - name: Mount virtual filesystems
+        run: |
+          sudo mkdir -p rootfs-stage2/{proc,sys,dev/pts,run}
+          sudo mount -t proc proc rootfs-stage2/proc
+          sudo mount -t sysfs sysfs rootfs-stage2/sys
+          sudo mount --bind /dev rootfs-stage2/dev
+          sudo mount -t devpts devpts rootfs-stage2/dev/pts
+          sudo mount -t tmpfs tmpfs rootfs-stage2/run
+
+      - name: Check chroot environment
+        run: |
+          sudo chroot rootfs-stage2 ls
+
+          sudo chroot rootfs-stage2 ls /opt
+
+      - name: Run internal bootstrap script in chroot
+        run: |
+          sudo chroot rootfs-stage2 /opt/stage3-rootfs.sh
+
+      - name: Unmount virtual filesystems
+        if: always()
+        run: |
+          sudo umount -lf rootfs-stage2/run || true
+          sudo umount -lf rootfs-stage2/dev/pts || true
+          sudo umount -lf rootfs-stage2/dev || true
+          sudo umount -lf rootfs-stage2/sys || true
+          sudo umount -lf rootfs-stage2/proc || true
+
       - name: Repack rootfs
         run: |
           sudo chown -R root:root rootfs-stage2
 
-          ARTIFACT="rootfs-stage2-${{ steps.resolve.outputs.arch }}-$(date +%Y%m%d%H%M%S).tar.xz"
+          ARTIFACT="rootfs-stage3-${{ steps.resolve.outputs.arch }}-$(date +%Y%m%d%H%M%S).tar.xz"
           sudo tar -C rootfs-stage2 -cJf "$ARTIFACT" .
 
           sudo chown "$USER":"$USER" "$ARTIFACT"
 
-      - name: Import rootfs into Docker
-        run: |
-          ARTIFACT=$(find . -maxdepth 1 -name "rootfs-stage2-${{ steps.resolve.outputs.arch }}-*.tar.xz" | head -1)
-          if [ -z "$ARTIFACT" ]; then
-            echo "Error: No rootfs artifact found for arch ${{ steps.resolve.outputs.arch }}"
-            exit 1
-          fi
-          docker import "$ARTIFACT" vibeos:${{ steps.resolve.outputs.arch }}-latest
-          docker images vibeos
-
       - name: Remove unneeded files
         run: |
-          sudo rm -rf sources/ rootfs/ rootfs-stage2/ *.tar.xz
-
-      - name: Check Docker image
-        run: |
-          docker run -t --rm vibeos:${{ steps.resolve.outputs.arch }}-latest ls
-
-          docker run -t --rm vibeos:${{ steps.resolve.outputs.arch }}-latest ls /opt
-
-      - name: Run internal bootstrap script
-        run: |
-          docker run -t --rm -w /opt vibeos:${{ steps.resolve.outputs.arch }}-latest /opt/stage3-rootfs.sh
-
+          sudo rm -rf sources/ rootfs-stage2/ *.tar.xz

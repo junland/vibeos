@@ -35,13 +35,13 @@ jobs:
 
       - name: Setup toolchain
         run: |
-          ./stage1-toolchain-setup.sh ${{ matrix.TARGET_CPU_ARCH }}
+          ./stage1-toolchain.sh ${{ matrix.TARGET_CPU_ARCH }}
           ls -la .toolchains/${{ matrix.TARGET_CPU_ARCH }}-tools
 
       - name: Build rootfs
         shell: bash
         run: |
-          ./stage2-rootfs-setup.sh \
+          ./stage2-rootfs.sh \
             "$GITHUB_WORKSPACE/.toolchains/${{ matrix.TARGET_CPU_ARCH }}-tools" \
             "${{ matrix.TARGET_CPU_ARCH }}" \
             "$GITHUB_WORKSPACE/rootfs"

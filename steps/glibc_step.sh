@@ -119,6 +119,7 @@ step_chroot_glibc() {
 		"nptl/tst-setuid3"
 		"stdlib/tst-secure-getenv"
 		"support/tst-support_descriptors"
+		"io/tst-lchmod"
 	)
 
 	pattern=$(
