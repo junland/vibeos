@@ -29,6 +29,9 @@ jobs:
       - name: Enable staging scripts
         run: chmod +x stage*.sh
 
+      - name: Download files from bootstrap-sources.list
+        run: mkdir -p sources && wget -nv --tries=25 --waitretry=25 -i data/bootstrap-sources.list -P sources
+
       - name: Setup toolchain
         run: |
           ./stage1-toolchain.sh ${{ matrix.TARGET_CPU_ARCH }}
