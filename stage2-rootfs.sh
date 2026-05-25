@@ -149,12 +149,14 @@ ln -sv usr/lib "$TARGET_ROOTFS_DIR/lib"
 msg "Creating tmp directory..."
 mkdir -p "$TARGET_ROOTFS_DIR/tmp"
 
-msg "Copying setup stesp scripts from $STEPS_DIR to target root filesystem..."
+msg "Loading step scripts from $STEPS_DIR..."
 
+shopt -s nullglob
 for step_script in "$STEPS_DIR"/*_step.sh; do
-    # shellcheck source=/dev/null
+	# shellcheck source=/dev/null
 	source "$step_script"
 done
+shopt -u nullglob
 
 msg "Starting stage 2 build..."
 
