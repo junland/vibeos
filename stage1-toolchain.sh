@@ -34,6 +34,8 @@ export WORK_DIR SOURCES_DIR STEPS_DIR TOOLCHAIN_DIR TARGET_ROOTFS_DIR LFS_TGT
 
 mkdir -p "$TOOLCHAIN_DIR" "$TARGET_ROOTFS_DIR" "$WORK_DIR" "$SOURCES_DIR"
 
+export PATH="${TOOLCHAIN_DIR}/bin:$PATH"
+
 msg "Toolchain will be installed to: $TOOLCHAIN_DIR"
 msg "Target root filesystem directory: $TARGET_ROOTFS_DIR"
 
