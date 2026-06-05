@@ -15,14 +15,17 @@ step_glibc() {
 		ln -sfv ld-linux.so.2 "${TARGET_ROOTFS_DIR}/lib/ld-lsb.so.3"
 		;;
 	x86_64)
+		mkdir -pv "${TARGET_ROOTFS_DIR}/lib64"
 		ln -sfv ../lib/ld-linux-x86-64.so.2 "${TARGET_ROOTFS_DIR}/lib64"
 		ln -sfv ../lib/ld-linux-x86-64.so.2 "${TARGET_ROOTFS_DIR}/lib64/ld-lsb-x86-64.so.3"
 		;;
 	aarch64)
+		mkdir -pv "${TARGET_ROOTFS_DIR}/lib64"
 		ln -sfv ../lib/ld-linux-aarch64.so.1 "${TARGET_ROOTFS_DIR}/lib64"
 		ln -sfv ../lib/ld-linux-aarch64.so.1 "${TARGET_ROOTFS_DIR}/lib64/ld-lsb-aarch64.so.3"
 		;;
 	riscv64)
+		mkdir -pv "${TARGET_ROOTFS_DIR}/lib64"
 		ln -sfv ../lib/ld-linux-riscv64.so.1 "${TARGET_ROOTFS_DIR}/lib64"
 		ln -sfv ../lib/ld-linux-riscv64.so.1 "${TARGET_ROOTFS_DIR}/lib64/ld-lsb-riscv64.so.3"
 		;;
