@@ -1,9 +1,16 @@
 #!/bin/bash
-# Setup Step - Create standard directory tree and essential files in chroot
+# Setup Step - Create directory tree(s).
+
+step_toolchain_setup() {
+    msg "Creating toolchain directory tree..."
+	mkdir -pv $TARGET_ROOTFS_DIR/{etc,var} $TARGET_ROOTFS_DIR/usr/{bin,lib,lib64,sbin}
+	
+	for i in bin lib lib64 sbin; do
+	  ln -sv usr/$i $TARGET_ROOTFS_DIR/$i
+	done
+}
 
 step_chroot_setup() {
-	msg "Starting chroot bootstrap stage 2..."
-
 	msg "Creating standard directory tree in chroot..."
 
 	mkdir -pv /{boot,home,mnt,opt,srv}

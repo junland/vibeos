@@ -49,8 +49,9 @@ done
 shopt -u nullglob
 
 msg "Starting stage 1 build..."
-step_binutils_pass1
 
+step_toolchain_setup
+step_binutils_pass1
 step_gcc_pass1
 step_linux_headers
 step_glibc
