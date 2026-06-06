@@ -30,7 +30,7 @@ jobs:
         run: chmod +x stage*.sh
 
       - name: Download files from bootstrap-sources.list
-        run: mkdir -p sources && wget -nv --tries=25 --waitretry=25 -i data/bootstrap-sources.list -P sources
+        run: mkdir -p sources && wget -nv --tries=10 --waitretry=25 -i data/bootstrap-sources.list -P sources
 
       - name: Setup toolchain
         run: |
