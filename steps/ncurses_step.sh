@@ -33,6 +33,7 @@ step_ncurses() {
 		--mandir=/usr/share/man \
 		--with-manpage-format=normal \
 		--with-shared \
+		--without-cxx-binding \
 		--without-normal \
 		--without-debug \
 		--without-ada \
