@@ -34,7 +34,6 @@ step_ncurses() {
 		--with-manpage-format=normal \
 		--with-shared \
 		--without-normal \
-		--with-cxx-shared \
 		--without-debug \
 		--without-ada \
 		--disable-stripping \
