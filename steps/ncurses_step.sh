@@ -30,13 +30,14 @@ step_ncurses() {
 		--prefix=/usr \
 		--host="${LFS_TGT}" \
 		--build="$(./config.guess)" \
-		--mandir=/usr/share/man \
+		--mandir=/usr/share/man      \
 		--with-manpage-format=normal \
-		--with-shared \
-		--without-normal \
-		--without-debug \
-		--without-ada \
-		--disable-stripping \
+		--with-shared                \
+		--without-normal             \
+		--with-cxx-shared            \
+		--without-debug              \
+		--without-ada                \
+		--disable-stripping          \
 		AWK=gawk
 
 	msg "Building ncurses..."
