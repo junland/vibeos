@@ -14,7 +14,7 @@ step_ncurses() {
 
 	pushd build
 
-	../configure --prefix="${TARGET_ROOTFS_DIR}" AWK=gawk
+	../configure --prefix="${TOOLCHAIN_DIR}" AWK=gawk
 
 	make -C include
 
