@@ -152,6 +152,11 @@ step_gcc_libstdcxx() {
 
 	make install DESTDIR="${TARGET_ROOTFS_DIR}"
 
+	mkdir -pv "${TOOLCHAIN_DIR}/${LFS_TGT}/include/c++"
+	rm -rf "${TOOLCHAIN_DIR}/${LFS_TGT}/include/c++/${GCC_VER}"
+	ln -svfn "${TARGET_ROOTFS_DIR}/${TOOLCHAIN_BASE_DIR}/${LFS_TGT}/include/c++/${GCC_VER}" \
+		"${TOOLCHAIN_DIR}/${LFS_TGT}/include/c++/${GCC_VER}"
+
 	rm -v "${TARGET_ROOTFS_DIR}"/usr/lib/lib{stdc++{,exp,fs},supc++}.la
 
 	clean_dir ${WORK_DIR}
