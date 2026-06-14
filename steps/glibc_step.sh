@@ -11,9 +11,6 @@ step_glibc() {
 	cd "${WORK_DIR}/glibc-${GLIBC_VER}"
 
 	case ${TARGET_CPU_ARCH} in
-	i?86)
-		ln -sfv ld-linux.so.2 "${TARGET_ROOTFS_DIR}/lib/ld-lsb.so.3"
-		;;
 	x86_64)
 		ln -sfv ../lib/ld-linux-x86-64.so.2 "${TARGET_ROOTFS_DIR}/lib64"
 		ln -sfv ../lib/ld-linux-x86-64.so.2 "${TARGET_ROOTFS_DIR}/lib64/ld-lsb-x86-64.so.3"
@@ -23,8 +20,8 @@ step_glibc() {
 		ln -sfv ../lib/ld-linux-aarch64.so.1 "${TARGET_ROOTFS_DIR}/lib64/ld-lsb-aarch64.so.3"
 		;;
 	riscv64)
-		ln -sfv ../lib/ld-linux-riscv64.so.1 "${TARGET_ROOTFS_DIR}/lib64"
-		ln -sfv ../lib/ld-linux-riscv64.so.1 "${TARGET_ROOTFS_DIR}/lib64/ld-lsb-riscv64.so.3"
+		ln -sfv ../lib/ld-linux-riscv64-lp64d.so.1 "${TARGET_ROOTFS_DIR}/lib64"
+		ln -sfv ../lib/ld-linux-riscv64-lp64d.so.1 "${TARGET_ROOTFS_DIR}/lib64/ld-lsb-riscv64.so.3"
 		;;
 	*)
 		echo "Unknown architecture: ${TARGET_CPU_ARCH}"
@@ -37,9 +34,6 @@ step_glibc() {
 	mkdir -vp "${WORK_DIR}/glibc-${GLIBC_VER}/build"
 
 	cd "${WORK_DIR}/glibc-${GLIBC_VER}/build"
-
-	# Make sure bash hashing is disabled for glibc build
-	unset -f hash
 
 	echo "rootsbindir=/usr/sbin" >configparms
 
@@ -70,7 +64,7 @@ step_glibc() {
 
 	rm -v a.out
 
-	clean_dir ${WORK_DIR}
+	clean_dir "${WORK_DIR}"
 }
 
 step_chroot_glibc() {
@@ -161,5 +155,5 @@ EOF
 	msg "Generating and installing locales..."
 	make localedata/install-locales
 
-	clean_dir ${WORK_DIR}
+	clean_dir "${WORK_DIR}"
 }
