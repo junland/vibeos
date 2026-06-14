@@ -152,17 +152,19 @@ step_gcc_libstdcxx() {
 
 	make install DESTDIR="${TARGET_ROOTFS_DIR}"
 
-	LIBSTDCXX_HEADERS_DIR="${TARGET_ROOTFS_DIR}/${TOOLCHAIN_BASE_DIR}/${LFS_TGT}/include/c++/${GCC_VER}"
-	TOOLCHAIN_HEADERS_LINK="${TOOLCHAIN_DIR}/${LFS_TGT}/include/c++/${GCC_VER}"
+	LIBSTDCXX_INCLUDE_SUBDIR="${LFS_TGT}/include/c++/${GCC_VER}"
+	TOOLCHAIN_HEADERS_PARENT="${TOOLCHAIN_DIR}/${LFS_TGT}/include/c++"
+	LIBSTDCXX_HEADERS_DIR="${TARGET_ROOTFS_DIR}/${TOOLCHAIN_BASE_DIR}/${LIBSTDCXX_INCLUDE_SUBDIR}"
+	TOOLCHAIN_HEADERS_LINK="${TOOLCHAIN_DIR}/${LIBSTDCXX_INCLUDE_SUBDIR}"
 
 	if [ ! -d "${LIBSTDCXX_HEADERS_DIR}" ]; then
-		msg "Error: expected libstdc++ headers at ${LIBSTDCXX_HEADERS_DIR}" >&2
+		msg "[gcc_step] Error: expected libstdc++ headers at ${LIBSTDCXX_HEADERS_DIR}" >&2
 		exit 1
 	fi
 
-	mkdir -pv "${TOOLCHAIN_DIR}/${LFS_TGT}/include/c++"
+	mkdir -pv "${TOOLCHAIN_HEADERS_PARENT}"
 	if [ -e "${TOOLCHAIN_HEADERS_LINK}" ] && [ ! -L "${TOOLCHAIN_HEADERS_LINK}" ]; then
-		msg "Error: refusing to replace non-symlink ${TOOLCHAIN_HEADERS_LINK}" >&2
+		msg "[gcc_step] Error: refusing to replace non-symlink ${TOOLCHAIN_HEADERS_LINK}" >&2
 		exit 1
 	fi
 
