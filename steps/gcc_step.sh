@@ -152,10 +152,22 @@ step_gcc_libstdcxx() {
 
 	make install DESTDIR="${TARGET_ROOTFS_DIR}"
 
+	LIBSTDCXX_HEADERS_DIR="${TARGET_ROOTFS_DIR}/${TOOLCHAIN_BASE_DIR}/${LFS_TGT}/include/c++/${GCC_VER}"
+	TOOLCHAIN_HEADERS_LINK="${TOOLCHAIN_DIR}/${LFS_TGT}/include/c++/${GCC_VER}"
+
+	if [ ! -d "${LIBSTDCXX_HEADERS_DIR}" ]; then
+		msg "Error: expected libstdc++ headers at ${LIBSTDCXX_HEADERS_DIR}" >&2
+		exit 1
+	fi
+
 	mkdir -pv "${TOOLCHAIN_DIR}/${LFS_TGT}/include/c++"
-	rm -rf "${TOOLCHAIN_DIR}/${LFS_TGT}/include/c++/${GCC_VER}"
-	ln -svfn "${TARGET_ROOTFS_DIR}/${TOOLCHAIN_BASE_DIR}/${LFS_TGT}/include/c++/${GCC_VER}" \
-		"${TOOLCHAIN_DIR}/${LFS_TGT}/include/c++/${GCC_VER}"
+	if [ -e "${TOOLCHAIN_HEADERS_LINK}" ] && [ ! -L "${TOOLCHAIN_HEADERS_LINK}" ]; then
+		msg "Error: refusing to replace non-symlink ${TOOLCHAIN_HEADERS_LINK}" >&2
+		exit 1
+	fi
+
+	rm -f "${TOOLCHAIN_HEADERS_LINK}"
+	ln -sv "${LIBSTDCXX_HEADERS_DIR}" "${TOOLCHAIN_HEADERS_LINK}"
 
 	rm -v "${TARGET_ROOTFS_DIR}"/usr/lib/lib{stdc++{,exp,fs},supc++}.la
 
