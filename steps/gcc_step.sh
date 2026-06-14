@@ -119,17 +119,10 @@ step_gcc_pass2() {
 
 step_gcc_libstdcxx() {
 	extract_file "${SOURCES_DIR}/gcc-${GCC_VER}.tar.xz" "${WORK_DIR}/gcc-${GCC_VER}"
-	extract_file "${SOURCES_DIR}/gmp-${GMP_VER}.tar.xz" "${WORK_DIR}/gcc-${GCC_VER}/gmp"
-	extract_file "${SOURCES_DIR}/mpc-${MPC_VER}.tar.gz" "${WORK_DIR}/gcc-${GCC_VER}/mpc"
-	extract_file "${SOURCES_DIR}/mpfr-${MPFR_VER}.tar.xz" "${WORK_DIR}/gcc-${GCC_VER}/mpfr"
 
 	msg "Configuring gcc for libstdc++..."
 
 	cd "${WORK_DIR}/gcc-${GCC_VER}"
-
-	TOOLCHAIN_BASE_DIR=$(basename "${TOOLCHAIN_DIR}")
-
-	msg "Using toolchain base dir: ${TOOLCHAIN_BASE_DIR}"
 
 	mkdir -vp build
 
@@ -142,7 +135,7 @@ step_gcc_libstdcxx() {
 		--disable-multilib \
 		--disable-nls \
 		--disable-libstdcxx-pch \
-		--with-gxx-include-dir="/${TOOLCHAIN_BASE_DIR}/${LFS_TGT}/include/c++/${GCC_VER}"
+		--with-gxx-include-dir="${TOOLCHAIN_DIR}/${LFS_TGT}/include/c++/${GCC_VER}"
 
 	msg "Building gcc for libstdc++..."
 
@@ -152,7 +145,7 @@ step_gcc_libstdcxx() {
 
 	make install DESTDIR="${TARGET_ROOTFS_DIR}"
 
-	rm -v "${TARGET_ROOTFS_DIR}"/usr/lib/lib{stdc++{,exp,fs},supc++}.la
+	rm -fv "${TARGET_ROOTFS_DIR}"/usr/lib/lib{stdc++{,exp,fs},supc++}.la
 
 	clean_dir ${WORK_DIR}
 }
