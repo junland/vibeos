@@ -12,8 +12,8 @@ step_coreutils() {
 
 	msg "Patching coreutils..."
 
-	patch -Np1 -i "${SOURCES_DIR}/coreutils-${COREUTILS_VER}-upstream_fix-1.patch"
-	patch -Np1 -i "${SOURCES_DIR}/coreutils-${COREUTILS_VER}-i18n-1.patch"
+	apply_patch "${SOURCES_DIR}/coreutils-${COREUTILS_VER}-upstream_fix-1.patch"
+	apply_patch "${SOURCES_DIR}/coreutils-${COREUTILS_VER}-i18n-1.patch"
 
 	# Reconfigure to point to our version of automake
 	autoreconf -f
@@ -48,8 +48,8 @@ step_chroot_coreutils() {
 
 	msg "Patching coreutils..."
 
-	patch -Np1 -i "${SOURCES_DIR}/coreutils-${COREUTILS_VER}-upstream_fix-1.patch"
-	patch -Np1 -i "${SOURCES_DIR}/coreutils-${COREUTILS_VER}-i18n-1.patch"
+	apply_patch "${SOURCES_DIR}/coreutils-${COREUTILS_VER}-upstream_fix-1.patch"
+	apply_patch "${SOURCES_DIR}/coreutils-${COREUTILS_VER}-i18n-1.patch"
 
 	msg "Configuring coreutils..."
 

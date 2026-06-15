@@ -35,10 +35,10 @@ jobs:
       - name: Setup toolchain
         run: |
           ./stage1-toolchain.sh ${{ matrix.TARGET_CPU_ARCH }}
-          ls -la .toolchains/${{ matrix.TARGET_CPU_ARCH }}-tools
+          ls -la rootfs/opt/${{ matrix.TARGET_CPU_ARCH }}-tools
 
       - name: Compress toolchain
-        run: tar -C .toolchains -cvJf toolchain-${{ matrix.TARGET_CPU_ARCH }}-${{ github.run_id }}.tar.xz ${{ matrix.TARGET_CPU_ARCH }}-tools
+        run: tar -C rootfs/opt -cvJf toolchain-${{ matrix.TARGET_CPU_ARCH }}-${{ github.run_id }}.tar.xz ${{ matrix.TARGET_CPU_ARCH }}-tools
 
       - name: Upload toolchain artifact
         uses: actions/upload-artifact@v6
