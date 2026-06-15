@@ -118,3 +118,14 @@ ensure_symlink() {
 	rm -rf "$link_path"
 	ln -sv "$target" "$link_path"
 }
+
+apply_patch() {
+	local patch_file="$1"
+	if [ ! -f "$patch_file" ]; then
+		msg "Error: Patch file '$patch_file' does not exist."
+		exit 1
+	fi
+
+	msg "Applying patch: $patch_file"
+	apply_patch "$patch_file"
+}

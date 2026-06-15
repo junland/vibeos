@@ -138,7 +138,7 @@ step_gcc_libstdcxx() {
 		--disable-multilib \
 		--disable-nls \
 		--disable-libstdcxx-pch \
-		--with-gxx-include-dir="${TOOLCHAIN_DIR}/${LFS_TGT}/include/c++/${GCC_VER}"
+		--with-gxx-include-dir="/opt/${TARGET_CPU_ARCH}-tools/${LFS_TGT}/include/c++/${GCC_VER}"
 
 	msg "Building gcc for libstdc++..."
 

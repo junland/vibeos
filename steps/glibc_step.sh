@@ -32,7 +32,7 @@ step_glibc() {
 		;;
 	esac
 
-	patch -Np1 -i "${SOURCES_DIR}/glibc-${GLIBC_VER}-fhs-1.patch"
+	apply_patch "${SOURCES_DIR}/glibc-${GLIBC_VER}-fhs-1.patch"
 
 	mkdir -vp "${WORK_DIR}/glibc-${GLIBC_VER}/build"
 
@@ -79,7 +79,7 @@ step_chroot_glibc() {
 
 	msg "Patching glibc..."
 
-	patch -Np1 -i "${SOURCES_DIR}/glibc-${GLIBC_VER}-fhs-1.patch"
+	apply_patch "${SOURCES_DIR}/glibc-${GLIBC_VER}-fhs-1.patch"
 
 	msg "Configuring glibc..."
 

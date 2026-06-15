@@ -7,32 +7,33 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=/dev/null
 source "$SCRIPT_DIR/_common.sh"
 
-TOOLCHAIN_DIR="${1:-}"
-TARGET_CPU_ARCH="${2:-x86_64}"
-TARGET_ROOTFS_DIR="${3:-}"
+TARGET_CPU_ARCH="${1:-x86_64}"
+TARGET_ROOTFS_DIR="${2:-}"
+
+case "$TARGET_CPU_ARCH" in
+	x86_64 | x86-64 | amd64 | x64)
+		LFS_TGT="x86_64-buildroot-linux-gnu"
+		;;
+	arm64 | aarch64)
+		LFS_TGT="aarch64-buildroot-linux-gnu"
+		;;
+	*)
+		msg "Unsupported target architecture: $TARGET_CPU_ARCH" >&2
+		exit 1
+		;;
+esac
 
 SOURCES_DIR="${SOURCES_DIR:-$(pwd)/sources}"
 STEPS_DIR="${STEPS_DIR:-$(pwd)/steps}"
+TOOLCHAIN_DIR=${TOOLCHAIN_DIR:-${TARGET_ROOTFS_DIR}/opt/${TARGET_CPU_ARCH}-tools}
 WORK_DIR="${WORK_DIR:-$(pwd)/work}"
-LFS_TGT="${TARGET_CPU_ARCH}-buildroot-linux-gnu"
 PATH="$TOOLCHAIN_DIR/bin:$PATH"
 
-export WORK_DIR SOURCES_DIR TARGET_ROOTFS_DIR TOOLCHAIN_DIR LFS_TGT PATH
-
-if [ -z "$TOOLCHAIN_DIR" ] || [ -z "$TARGET_ROOTFS_DIR" ]; then
-	msg "Usage: $0 <toolchain-directory> [target-cpu-arch] <target-rootfilesystem>" >&2
-	exit 1
-fi
-
-if [ ! -d "$TOOLCHAIN_DIR" ]; then
-	msg "Error: Toolchain directory '$TOOLCHAIN_DIR' does not exist." >&2
-	exit 1
-fi
+export WORK_DIR SOURCES_DIR STEPS_DIR TOOLCHAIN_DIR TARGET_ROOTFS_DIR LFS_TGT PATH
 
 msg "PATH set to: $PATH"
 
-# Setup required directories
-msg "Preparing rootfs, work, and sources directories..."
+# Ensure required directories exist
 ensure_dir "$SOURCES_DIR"
 ensure_dir "$TARGET_ROOTFS_DIR"
 ensure_dir "$TARGET_ROOTFS_DIR/tmp"
@@ -43,6 +44,9 @@ msg "Creating rootfs compatibility symlinks..."
 ensure_symlink "usr/sbin" "$TARGET_ROOTFS_DIR/sbin"
 ensure_symlink "usr/bin" "$TARGET_ROOTFS_DIR/bin"
 ensure_symlink "usr/lib" "$TARGET_ROOTFS_DIR/lib"
+
+msg "Toolchain will be installed to: $TOOLCHAIN_DIR"
+msg "Target root filesystem directory: $TARGET_ROOTFS_DIR"
 
 #
 # Start building components for the chroot environment
