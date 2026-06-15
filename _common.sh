@@ -127,5 +127,5 @@ apply_patch() {
 	fi
 
 	msg "Applying patch: $patch_file"
-	apply_patch "$patch_file"
+	patch -Np1 -i "$patch_file"
 }
