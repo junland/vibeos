@@ -119,12 +119,15 @@ step_gcc_pass2() {
 
 step_gcc_libstdcxx() {
 	extract_file "${SOURCES_DIR}/gcc-${GCC_VER}.tar.xz" "${WORK_DIR}/gcc-${GCC_VER}"
+	extract_file "${SOURCES_DIR}/gmp-${GMP_VER}.tar.xz" "${WORK_DIR}/gcc-${GCC_VER}/gmp"
+	extract_file "${SOURCES_DIR}/mpc-${MPC_VER}.tar.gz" "${WORK_DIR}/gcc-${GCC_VER}/mpc"
+	extract_file "${SOURCES_DIR}/mpfr-${MPFR_VER}.tar.xz" "${WORK_DIR}/gcc-${GCC_VER}/mpfr"
 
 	msg "Configuring gcc for libstdc++..."
 
 	cd "${WORK_DIR}/gcc-${GCC_VER}"
 
-	mkdir -vp build
+	mkdir -v build
 
 	cd build
 
