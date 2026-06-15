@@ -3,7 +3,6 @@
 set -e
 set +h
 
-
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=/dev/null
 source "$SCRIPT_DIR/_common.sh"
@@ -29,12 +28,11 @@ esac
 INSTALL_DIR=${INSTALL_DIR:-$(pwd)/.toolchains}
 TOOLCHAIN_DIR="${INSTALL_DIR}/${TARGET_CPU_ARCH}-tools"
 TARGET_ROOTFS_DIR=${TARGET_ROOTFS_DIR:-$(pwd)/rootfs}
+PATH="${TOOLCHAIN_DIR}/bin:$PATH"
 
-export WORK_DIR SOURCES_DIR STEPS_DIR TOOLCHAIN_DIR TARGET_ROOTFS_DIR LFS_TGT
+export WORK_DIR SOURCES_DIR STEPS_DIR TOOLCHAIN_DIR TARGET_ROOTFS_DIR LFS_TGT PATH
 
 mkdir -p "$TOOLCHAIN_DIR" "$TARGET_ROOTFS_DIR" "$WORK_DIR" "$SOURCES_DIR"
-
-export PATH="${TOOLCHAIN_DIR}/bin:$PATH"
 
 msg "Toolchain will be installed to: $TOOLCHAIN_DIR"
 msg "Target root filesystem directory: $TARGET_ROOTFS_DIR"

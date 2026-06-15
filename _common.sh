@@ -1,19 +1,19 @@
 #!/bin/bash
 # Common utility functions for bootstrap steps
 
-# msg function that will make echo's pretty.
+# msg is a helper function that prints messages with a consistent format.
 msg() {
 	echo " ==> $*"
 }
 
-# Clean directory function
+# #clean_dir is a helper function that cleans up a directory by removing all of its contents, while ensuring that the directory itself exists.
 clean_dir() {
 	cd "${1}" || return 1
 	msg "Cleaning up directory at ${1}..."
 	rm -rf "${1:?}"/*
 }
 
-# Extracts an archive file to a destination directory
+# extract_file is a helper function that extracts various archive formats to a specified destination directory, with optional stripping of leading path components and verbose output.
 extract_file() {
 	local archive_file=$1
 	local dest_dir=$2
@@ -86,7 +86,7 @@ extract_file() {
 	esac
 }
 
-# Universal function to configure a package with common flags
+# run_copnfigure is a helper function that runs the configure script with the provided arguments and checks for success.
 run_configure() {
 	# Verify that the current directory contains a configure script or a link to one
 	if [ ! -f "configure" ] && [ ! -L "configure" ]; then
@@ -103,4 +103,18 @@ run_configure() {
 		cat config.log
 		exit 1
 	fi
+}
+
+# ensure_dir is a function that checks if a directory exists and creates it if it doesn't.
+ensure_dir() {
+	local dir="$1"
+	[ -d "$dir" ] || mkdir -p "$dir"
+}
+
+# ensure_symlink is a function that creates a symbolic link, removing any existing file or link at the destination.
+ensure_symlink() {
+	local target="$1"
+	local link_path="$2"
+	rm -rf "$link_path"
+	ln -sv "$target" "$link_path"
 }
