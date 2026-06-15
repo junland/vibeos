@@ -17,8 +17,8 @@
 #   make stage2 ARCH=aarch64
 # ---------------------------------------------------------------------------
 ARCH            ?= x86_64
-TOOLCHAIN_DIR   ?= $(CURDIR)/.toolchains/$(ARCH)-tools
 ROOTFS_DIR      ?= $(CURDIR)/rootfs
+TOOLCHAIN_DIR   ?= $(ROOTFS_DIR)/opt/$(ARCH)-tools
 SOURCES_DIR     ?= $(CURDIR)/sources
 WORK_DIR        ?= $(CURDIR)/work
 STEPS_DIR       ?= $(CURDIR)/steps
@@ -79,7 +79,7 @@ sources:
 # ---------------------------------------------------------------------------
 stage1:
 	chmod +x stage1-toolchain.sh
-	INSTALL_DIR="$(CURDIR)/.toolchains" \
+	TOOLCHAIN_DIR="$(TOOLCHAIN_DIR)" \
 	    ./stage1-toolchain.sh "$(ARCH)"
 	@echo "Toolchain contents:"
 	ls -la "$(TOOLCHAIN_DIR)"
@@ -88,12 +88,12 @@ stage1:
 # stage2 — cross-compile and assemble the stage-2 root filesystem
 # ---------------------------------------------------------------------------
 stage2:
-	chmod +x _common.sh stage2-rootfs-setup.sh
+	chmod +x _common.sh stage2-rootfs.sh
 	SOURCES_DIR="$(SOURCES_DIR)" \
 	STEPS_DIR="$(STEPS_DIR)" \
 	WORK_DIR="$(WORK_DIR)" \
-	    ./stage2-rootfs-setup.sh \
-	        "$(TOOLCHAIN_DIR)" \
+	TOOLCHAIN_DIR="$(TOOLCHAIN_DIR)" \
+	    ./stage2-rootfs.sh \
 	        "$(ARCH)" \
 	        "$(ROOTFS_DIR)"
 
@@ -116,8 +116,8 @@ stage3-mount:
 	sudo mount --bind     /dev    "$(ROOTFS_DIR)/dev"
 	sudo mount -t devpts  devpts  "$(ROOTFS_DIR)/dev/pts"
 	sudo mount -t tmpfs   tmpfs   "$(ROOTFS_DIR)/run"
-    sudo mknod -m 600 "$(ROOTFS_DIR)/dev/console" c 5 1
-    sudo mknod -m 666 "$(ROOTFS_DIR)/dev/null" c 1 3
+	sudo mknod -m 600 "$(ROOTFS_DIR)/dev/console" c 5 1
+	sudo mknod -m 666 "$(ROOTFS_DIR)/dev/null" c 1 3
 
 stage3-umount:
 	-sudo umount -lf "$(ROOTFS_DIR)/run"     2>/dev/null || true
@@ -154,5 +154,5 @@ stage3-docker:
 # ---------------------------------------------------------------------------
 clean:
 	@echo "Removing generated build artifacts..."
-	sudo rm -rf "$(ROOTFS_DIR)" "$(WORK_DIR)" .toolchains *.tar.xz
+	sudo rm -rf "$(ROOTFS_DIR)" "$(WORK_DIR)" *.tar.xz
 	@echo "Leaving $(SOURCES_DIR) intact. Remove it manually if needed."
