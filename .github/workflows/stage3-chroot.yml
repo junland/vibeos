@@ -104,7 +104,7 @@ jobs:
         run: |
           sudo chown -R root:root rootfs-stage2
 
-          ARTIFACT="rootfs-stage3-${{ steps.resolve.outputs.arch }}-$(date +%Y%m%d%H%M%S).tar.xz"
+          ARTIFACT="rootfs-stage3-${{ steps.resolve.outputs.arch }}-${{ github.run_id }}.tar.xz"
           sudo tar -C rootfs-stage2 -cJf "$ARTIFACT" .
 
           sudo chown "$USER":"$USER" "$ARTIFACT"
@@ -113,7 +113,7 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: rootfs-stage3-${{ steps.resolve.outputs.arch }}-${{ github.run_id }}.tar.xz
-          path: rootfs-stage3-${{ steps.resolve.outputs.arch }}-*.tar.xz
+          path: rootfs-stage3-${{ steps.resolve.outputs.arch }}-${{ github.run_id }}.tar.xz
 
       - name: Remove unneeded files
         run: |
