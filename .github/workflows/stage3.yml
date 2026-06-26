@@ -20,7 +20,7 @@ on:
 jobs:
   build:
     name: Build Stage 3
-    runs-on: depot-ubuntu-24.04-4
+    runs-on: ubuntu-latest
     permissions:
       actions: read
     if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
@@ -75,14 +75,14 @@ jobs:
         run: |
           sudo chown -R root:root rootfs-stage2
 
-          ARTIFACT="rootfs-stage2-${{ steps.resolve.outputs.arch }}-$(date +%Y%m%d%H%M%S).tar.xz"
+          ARTIFACT="rootfs-stage3-${{ steps.resolve.outputs.arch }}-${{ github.run_id }}.tar.xz"
           sudo tar -C rootfs-stage2 -cJf "$ARTIFACT" .
 
           sudo chown "$USER":"$USER" "$ARTIFACT"
 
       - name: Import rootfs into Docker
         run: |
-          ARTIFACT=$(find . -maxdepth 1 -name "rootfs-stage2-${{ steps.resolve.outputs.arch }}-*.tar.xz" | head -1)
+          ARTIFACT=$(find . -maxdepth 1 -name "rootfs-stage3-${{ steps.resolve.outputs.arch }}-*.tar.xz" | head -1)
           if [ -z "$ARTIFACT" ]; then
             echo "Error: No rootfs artifact found for arch ${{ steps.resolve.outputs.arch }}"
             exit 1

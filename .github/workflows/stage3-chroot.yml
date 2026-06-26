@@ -20,9 +20,10 @@ on:
 jobs:
   build:
     name: Build Stage 3 (Chroot)
-    runs-on: depot-ubuntu-24.04-4
+    runs-on: ubuntu-latest
     permissions:
       actions: read
+      contents: write
     if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Download dos2unix
@@ -103,10 +104,16 @@ jobs:
         run: |
           sudo chown -R root:root rootfs-stage2
 
-          ARTIFACT="rootfs-stage3-${{ steps.resolve.outputs.arch }}-$(date +%Y%m%d%H%M%S).tar.xz"
+          ARTIFACT="rootfs-stage3-${{ steps.resolve.outputs.arch }}-${{ github.run_id }}.tar.xz"
           sudo tar -C rootfs-stage2 -cJf "$ARTIFACT" .
 
           sudo chown "$USER":"$USER" "$ARTIFACT"
+
+      - name: Upload rootfs artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: rootfs-stage3-${{ steps.resolve.outputs.arch }}-${{ github.run_id }}.tar.xz
+          path: rootfs-stage3-${{ steps.resolve.outputs.arch }}-${{ github.run_id }}.tar.xz
 
       - name: Remove unneeded files
         run: |
