@@ -6,7 +6,7 @@ msg() {
 	echo " ==> $*"
 }
 
-# #clean_dir is a helper function that cleans up a directory by removing all of its contents, while ensuring that the directory itself exists.
+# clean_dir is a helper function that cleans up a directory by removing all of its contents, while ensuring that the directory itself exists.
 clean_dir() {
 	cd "${1}" || return 1
 	msg "Cleaning up directory at ${1}..."
@@ -25,7 +25,7 @@ extract_file() {
 	# Make sure the archive file exists, if not find another archive file with a different extension.
 	if [ ! -f "${archive_file}" ]; then
 		msg "Archive file ${archive_file} does not exist, searching for alternative..."
-		archive_file=$(find "${SOURCES}" -name "$(basename "${archive_file}" | sed 's/\.[^.]*$//').*" | head -1)
+		archive_file=$(find "${SOURCES_DIR}" -name "$(basename "${archive_file}" | sed 's/\.[^.]*$//').*" | head -1)
 		if [ ! -f "${archive_file}" ]; then
 			msg "Error: Archive file ${archive_file} does not exist."
 			exit 1
@@ -86,7 +86,7 @@ extract_file() {
 	esac
 }
 
-# run_copnfigure is a helper function that runs the configure script with the provided arguments and checks for success.
+# run_configure is a helper function that runs the configure script with the provided arguments and checks for success.
 run_configure() {
 	# Verify that the current directory contains a configure script or a link to one
 	if [ ! -f "configure" ] && [ ! -L "configure" ]; then

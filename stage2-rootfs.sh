@@ -8,7 +8,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/_common.sh"
 
 TARGET_CPU_ARCH="${1:-x86_64}"
-TARGET_ROOTFS_DIR="${2:-}"
+TARGET_ROOTFS_DIR="${2:-${TARGET_ROOTFS_DIR:-$(pwd)/rootfs}}"
 
 case "$TARGET_CPU_ARCH" in
 	x86_64 | x86-64 | amd64 | x64)
@@ -25,7 +25,7 @@ esac
 
 SOURCES_DIR="${SOURCES_DIR:-$(pwd)/sources}"
 STEPS_DIR="${STEPS_DIR:-$(pwd)/steps}"
-TOOLCHAIN_DIR=${TOOLCHAIN_DIR:-${TARGET_ROOTFS_DIR}/opt/${TARGET_CPU_ARCH}-tools}
+TOOLCHAIN_DIR="${TOOLCHAIN_DIR:-${TARGET_ROOTFS_DIR}/opt/${TARGET_CPU_ARCH}-tools}"
 WORK_DIR="${WORK_DIR:-$(pwd)/work}"
 PATH="$TOOLCHAIN_DIR/bin:$PATH"
 

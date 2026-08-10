@@ -1,4 +1,4 @@
-# Makefile for local debugging of the VibEOS bootstrap build pipeline.
+# Makefile for local debugging of the VibeOS bootstrap build pipeline.
 # Mirrors the steps in .github/workflows/stage2.yml, stage3.yml, and stage3-chroot.yml.
 #
 # Usage:
@@ -36,7 +36,7 @@ DOCKER_REPO      = $(word 1,$(subst :, ,$(DOCKER_IMAGE)))
 # ---------------------------------------------------------------------------
 help:
 	@echo ""
-	@echo "VibEOS bootstrap build — local debugging targets"
+	@echo "VibeOS bootstrap build — local debugging targets"
 	@echo ""
 	@echo "  make deps             Install build dependencies (requires sudo)"
 	@echo "  make sources          Download source tarballs"
@@ -79,6 +79,7 @@ sources:
 # ---------------------------------------------------------------------------
 stage1:
 	chmod +x stage1-toolchain.sh
+	TARGET_ROOTFS_DIR="$(ROOTFS_DIR)" \
 	TOOLCHAIN_DIR="$(TOOLCHAIN_DIR)" \
 	    ./stage1-toolchain.sh "$(ARCH)"
 	@echo "Toolchain contents:"
