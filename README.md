@@ -10,8 +10,8 @@ VibeOS provides a three-stage bootstrap build system for creating a minimal, pro
 
 ### Supported Architectures
 
-- **x86_64** ✓
-- **aarch64** (ARM64) ✓
+- **x86_64**
+- **aarch64** (ARM64) 
 - Additional architectures can be added by extending the build pipeline
 
 ## Quick Start
