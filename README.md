@@ -54,7 +54,7 @@ See `make help` for all available options.
 
 ## Build Stages Explained
 
-VibEOS uses a three-stage bootstrap approach:
+VibeOS uses a three-stage bootstrap approach:
 
 ### Stage 1: Cross-Compilation Toolchain
 Prepares the cross-compilation toolchain needed to build binaries for the target architecture on the host machine.
