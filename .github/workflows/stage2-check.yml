@@ -37,8 +37,10 @@ jobs:
           fi
 
       - name: Validate run ID
+        env:
+          RUN_ID: ${{ steps.resolve.outputs.run_id }}
         run: |
-          RUN_ID="${{ steps.resolve.outputs.run_id }}"
+          # GitHub run IDs are large integers (10+ digits); anything shorter is likely a run number.
           if [ "${#RUN_ID}" -lt 9 ]; then
             echo "Error: run_id '${RUN_ID}' looks like a run number, not a run ID."
             echo "Please provide the full numeric run ID from the Actions URL (e.g. 31392254079), not the run number."
