@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       run_id:
-        description: 'Workflow run ID to download the stage2 rootfs artifact from'
+        description: 'Full workflow run ID (not run number) to download the stage2 rootfs artifact from. Find it in the URL: github.com/.../actions/runs/<RUN_ID>'
         required: true
         type: string
       target_cpu_arch:
@@ -40,6 +40,15 @@ jobs:
           else
             echo "run_id=${{ github.event.workflow_run.id }}" >> "$GITHUB_OUTPUT"
             echo "arch=x86_64" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Validate run ID
+        run: |
+          RUN_ID="${{ steps.resolve.outputs.run_id }}"
+          if [ "${#RUN_ID}" -lt 9 ]; then
+            echo "Error: run_id '${RUN_ID}' looks like a run number, not a run ID."
+            echo "Please provide the full numeric run ID from the Actions URL (e.g. 31392254079), not the run number."
+            exit 1
           fi
 
       - name: Download rootfs artifact
