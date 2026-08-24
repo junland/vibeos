@@ -26,12 +26,6 @@ jobs:
       contents: write
     if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - name: Download dos2unix
-        run: sudo apt-get update && sudo apt-get install -y dos2unix
-
-      - name: Checkout repository
-        uses: actions/checkout@v6
-
       - name: Resolve run ID and architecture
         id: resolve
         run: |
@@ -42,6 +36,12 @@ jobs:
             echo "run_id=${{ github.event.workflow_run.id }}" >> "$GITHUB_OUTPUT"
             echo "arch=x86_64" >> "$GITHUB_OUTPUT"
           fi
+    
+      - name: Download dos2unix
+        run: sudo apt-get update && sudo apt-get install -y dos2unix
+
+      - name: Checkout repository
+        uses: actions/checkout@v6
 
       - name: Download rootfs artifact
         uses: actions/download-artifact@v8
