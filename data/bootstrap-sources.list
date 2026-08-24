@@ -1,5 +1,4 @@
 https://astron.com/pub/file/file-5.46.tar.gz
-https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.16.1.tar.xz
 https://cpan.metacpan.org/authors/id/T/TO/TODDR/XML-Parser-2.47.tar.gz
 https://github.com/pkgconf/pkgconf/archive/refs/tags/pkgconf-2.5.1.tar.gz
 https://download.savannah.gnu.org/releases/acl/acl-2.3.2.tar.xz
@@ -60,6 +59,7 @@ https://sourceware.org/ftp/elfutils/0.193/elfutils-0.193.tar.bz2
 https://sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz
 https://www.cpan.org/src/5.0/perl-5.42.0.tar.xz
 https://www.iana.org/time-zones/repository/releases/tzdata2025b.tar.gz
+https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.16.1.tar.xz
 https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.76.tar.xz
 https://www.kernel.org/pub/linux/utils/util-linux/v2.41/util-linux-2.41.1.tar.xz
 https://www.linuxfromscratch.org/patches/lfs/12.4/coreutils-9.7-i18n-1.patch
